@@ -1,0 +1,155 @@
+/* Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+
+
+
+header h1 {
+    font-size: 1.1rem;
+}
+header nav {
+
+}
+
+.product-info {
+
+}
+.product-info  div {
+    display: flex;
+}
+.product-info > div > span:first-child {
+    text-align: left;
+    flex-basis: 150px;
+}
+.product-info > div > span:last-child {
+    text-align: left;
+    flex-grow: 4;
+}
+
+.product-photos {
+    display: flex;
+    overflow: auto;
+}
+.product-photos img {
+    padding: 0 10px;
+    flex-shrink: 0;
+    width: 25%;
+    height: 100%;
+}
+@media screen and (max-width: 600px) {
+    .product-photos img {
+        padding: 0 1px;
+        flex-shrink: 0;
+        width: 50%;
+        height: 100%;
+    }
+}
+
+.category-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    flex-direction: row;
+}
+.category {
+    flex: 0 0 auto;
+    margin: 10px;
+}
+
+
+.grid-header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #F9FAFC;
+
+}
+.grid-footer {
+    grid-area: footer;
+
+    background-color: #8492A6;
+    color: #fff;
+    font-size: 1.1rem;
+    font-style: italic;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-main { grid-area: main; }
+.grid-right { grid-area: ads; }
+
+.grid-right {
+    background-color: #F9FAFC;
+    text-align: center;
+}
+
+.grid-header,
+.grid-right,
+.grid-main {
+    padding: 15px;
+}
+
+
+.grid {
+    max-width: 1170px;
+    padding: 0 30px;
+    margin: 0 auto;
+
+    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+
+    display: grid;
+    grid-template-areas: "header header"
+    "main ads"
+    "footer footer";
+    grid-template-columns: 1fr 150px;
+    grid-template-rows: 80px
+    1fr
+    50px;
+    min-height: 100vh;
+}
+
+@media screen and (max-width: 600px) {
+    .grid {
+        grid-template-areas: "header"
+        "main"
+        "ads"
+        "footer";
+        grid-template-columns: 100%;
+        grid-template-rows: 100px
+        1fr
+        50px
+        30px;
+    }
+}

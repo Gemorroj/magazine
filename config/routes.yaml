@@ -1,0 +1,48 @@
+user_refresh:
+    path: /api/private/user/refresh
+    defaults: { _controller: 'App\Controller\PrivateController::userRefreshAction', _format: json }
+
+user:
+    path: /api/private/user
+    defaults: { _controller: 'App\Controller\PrivateController::userAction', _format: json }
+
+add_category:
+    path: /api/private/categories/add
+    defaults: { _controller: 'App\Controller\PrivateController::addCategoryAction', _format: json }
+    methods: [POST]
+
+delete_product:
+    path: /api/private/products/delete
+    defaults: { _controller: 'App\Controller\PrivateController::deleteProductAction', _format: json }
+    methods: [POST, DELETE]
+
+delete_category:
+    path: /api/private/categories/delete
+    defaults: { _controller: 'App\Controller\PrivateController::deleteCategoryAction', _format: json }
+    methods: [POST, DELETE]
+
+update_category:
+    path: /api/private/categories/update
+    defaults: { _controller: 'App\Controller\PrivateController::updateCategoryAction', _format: json }
+    methods: [POST, PUT]
+
+
+login:
+    path: /api/public/login
+    defaults: { _controller: 'App\Controller\PublicController::loginAction', _format: json }
+    methods: [POST]
+
+categories:
+    path: /api/public/categories
+    defaults: { _controller: 'App\Controller\PublicController::getCategoriesAction', _format: json }
+    methods: [GET]
+
+categories_products:
+    path: /api/public/categories/{categoryId}/products
+    defaults: { _controller: 'App\Controller\PublicController::getCategoryProductsAction', _format: json }
+    methods: [GET]
+
+product:
+    path: /api/public/products/{productId}
+    defaults: { _controller: 'App\Controller\PublicController::getProductAction', _format: json }
+    methods: [GET]
