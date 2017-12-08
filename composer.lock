@@ -606,16 +606,16 @@
         },
         {
             "name": "doctrine/mongodb-odm",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "8d8ff7745073aa29aeef479d6ee514a2193cf416"
+                "reference": "41ad7d98c3e74152b2b11d7743f9c05bea58be5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/8d8ff7745073aa29aeef479d6ee514a2193cf416",
-                "reference": "8d8ff7745073aa29aeef479d6ee514a2193cf416",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/41ad7d98c3e74152b2b11d7743f9c05bea58be5b",
+                "reference": "41ad7d98c3e74152b2b11d7743f9c05bea58be5b",
                 "shasum": ""
             },
             "require": {
@@ -630,7 +630,7 @@
                 "symfony/console": "~2.3|~3.0|^4.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "~5.4",
+                "phpunit/phpunit": "^5.7.21|^6.4",
                 "symfony/yaml": "~2.3|~3.0|^4.0"
             },
             "suggest": {
@@ -686,7 +686,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2017-10-24T05:39:55+00:00"
+            "time": "2017-12-08T12:11:21+00:00"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1711,16 +1711,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.46",
+            "version": "v1.0.48",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "d511e9d81301ecb1fe533cbba2c40809c58c6b62"
+                "reference": "73436bc5c0e3b63f5655552d580b48ad0e17543f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/d511e9d81301ecb1fe533cbba2c40809c58c6b62",
-                "reference": "d511e9d81301ecb1fe533cbba2c40809c58c6b62",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/73436bc5c0e3b63f5655552d580b48ad0e17543f",
+                "reference": "73436bc5c0e3b63f5655552d580b48ad0e17543f",
                 "shasum": ""
             },
             "require": {
@@ -1753,7 +1753,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2017-12-06T21:01:41+00:00"
+            "time": "2017-12-07T20:09:46+00:00"
         },
         {
             "name": "symfony/framework-bundle",
