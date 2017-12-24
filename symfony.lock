@@ -44,11 +44,47 @@
             "ref": "e1ee362a520ff9e3e7c38fb5399499427ed91314"
         }
     },
+    "jean85/pretty-package-versions": {
+        "version": "1.0.3"
+    },
     "mongodb/mongodb": {
         "version": "1.1.2"
     },
     "monolog/monolog": {
         "version": "1.23.0"
+    },
+    "nette/bootstrap": {
+        "version": "v2.4.5"
+    },
+    "nette/di": {
+        "version": "v2.4.10"
+    },
+    "nette/finder": {
+        "version": "v2.4.1"
+    },
+    "nette/neon": {
+        "version": "v2.4.2"
+    },
+    "nette/php-generator": {
+        "version": "v3.0.1"
+    },
+    "nette/robot-loader": {
+        "version": "v3.0.2"
+    },
+    "nette/utils": {
+        "version": "v2.4.8"
+    },
+    "nikic/php-parser": {
+        "version": "v3.1.2"
+    },
+    "ocramius/package-versions": {
+        "version": "1.2.0"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.1"
+    },
+    "phpstan/phpstan": {
+        "version": "0.9.1"
     },
     "psr/cache": {
         "version": "1.0.1"

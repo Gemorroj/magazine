@@ -16,6 +16,7 @@
         "symfony/dotenv": "^4.0"
     },
     "require-dev": {
+        "phpstan/phpstan": "^0.9"
     },
     "config": {
         "preferred-install": {
