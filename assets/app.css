@@ -153,3 +153,9 @@ header nav {
         30px;
     }
 }
+
+
+.ymap-body {
+    width: 100%;
+    height: 100%;
+}
