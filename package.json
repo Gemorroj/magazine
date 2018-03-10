@@ -7,34 +7,34 @@
     "main": "assets/app.js",
     "dependencies": {
         "@websanova/vue-auth": "^2.21.3-beta",
-        "element-ui": "^2.2.0",
-        "vue": "^2.5.13",
+        "element-ui": "^2.2.1",
+        "vue": "2.5.13",
         "vue-image-lightbox": "^5.5.3",
-        "vue-lazyload": "^1.2.1",
-        "vue-resource": "^1.3.6",
+        "vue-lazyload": "^1.2.2",
+        "vue-resource": "^1.5.0",
         "vue-router": "^3.0.1",
         "vue-touch": "^2.0.0-beta.4",
-        "vue-yandex-maps": "^0.7.7",
+        "vue-yandex-maps": "^0.7.8",
         "vuex": "^3.0.1"
     },
     "devDependencies": {
         "@babel/core": "^7.0.0-beta.40",
         "@babel/preset-env": "^7.0.0-beta.40",
-        "babel-loader": "^8.0.0-beta.0",
-        "css-loader": "^0.28.9",
-        "extract-text-webpack-plugin": "^3.0.2",
-        "file-loader": "^1.1.6",
-        "html-webpack-plugin": "^2.30.1",
-        "style-loader": "^0.20.2",
-        "uglifyjs-webpack-plugin": "^1.2.0",
-        "vue-loader": "^14.1.1",
-        "vue-template-compiler": "^2.5.13",
-        "webpack": "^3.11.0"
+        "babel-loader": "^8.0.0-beta.2",
+        "css-loader": "^0.28.10",
+        "extract-text-webpack-plugin": "^4.0.0-beta.0",
+        "file-loader": "^1.1.11",
+        "html-webpack-plugin": "^3.0.6",
+        "style-loader": "^0.20.3",
+        "vue-loader": "^14.2.1",
+        "vue-template-compiler": "2.5.13",
+        "webpack": "^4.1.1",
+        "webpack-cli": "^2.0.11"
     },
     "scripts": {
-        "build": "webpack",
-        "start": "webpack --config webpack.config.js",
-        "build:watch": "webpack --config webpack.config.js --watch",
+        "dev-build": "webpack --mode development --config webpack.config.js",
+        "prod-build": "webpack --mode production --config webpack.config.js",
+        "dev-build:watch": "webpack --mode development --config webpack.config.js --watch",
         "test": "echo \"Error: no test specified\" && exit 1"
     }
 }
