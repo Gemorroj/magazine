@@ -695,12 +695,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "53610faf48c1bf68750bc6c24c9278f43b1c2d4d"
+                "reference": "f8ef8595e51313911e5116bc6d0b9d24653d2382"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/53610faf48c1bf68750bc6c24c9278f43b1c2d4d",
-                "reference": "53610faf48c1bf68750bc6c24c9278f43b1c2d4d",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/f8ef8595e51313911e5116bc6d0b9d24653d2382",
+                "reference": "f8ef8595e51313911e5116bc6d0b9d24653d2382",
                 "shasum": ""
             },
             "require": {
@@ -761,7 +761,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2018-01-04T09:03:09+00:00"
+            "time": "2018-03-22T13:47:28+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -1714,16 +1714,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.71",
+            "version": "v1.0.75",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "51d7ddce85ca8b73a1fc16771f607b7d56692dbd"
+                "reference": "3da0134564f59ffbd060db8f3406e9f3e78df64e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/51d7ddce85ca8b73a1fc16771f607b7d56692dbd",
-                "reference": "51d7ddce85ca8b73a1fc16771f607b7d56692dbd",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/3da0134564f59ffbd060db8f3406e9f3e78df64e",
+                "reference": "3da0134564f59ffbd060db8f3406e9f3e78df64e",
                 "shasum": ""
             },
             "require": {
@@ -1756,7 +1756,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-03-10T21:15:53+00:00"
+            "time": "2018-03-20T07:32:02+00:00"
         },
         {
             "name": "symfony/framework-bundle",
