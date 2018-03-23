@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5130eefa04c61f85aa5f59d42a57fbc",
+    "content-hash": "e130bed1c261bd6244f27b9a126c66d3",
     "packages": [
         {
             "name": "alcaeus/mongo-php-adapter",
@@ -691,16 +691,16 @@
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
-            "version": "dev-master",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineMongoDBBundle.git",
-                "reference": "f8ef8595e51313911e5116bc6d0b9d24653d2382"
+                "reference": "2e1790760942ee41d9f3d81f494fa80c8f0712a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/f8ef8595e51313911e5116bc6d0b9d24653d2382",
-                "reference": "f8ef8595e51313911e5116bc6d0b9d24653d2382",
+                "url": "https://api.github.com/repos/doctrine/DoctrineMongoDBBundle/zipball/2e1790760942ee41d9f3d81f494fa80c8f0712a6",
+                "reference": "2e1790760942ee41d9f3d81f494fa80c8f0712a6",
                 "shasum": ""
             },
             "require": {
@@ -761,7 +761,7 @@
                 "persistence",
                 "symfony"
             ],
-            "time": "2018-03-22T13:47:28+00:00"
+            "time": "2018-03-22T17:49:16+00:00"
         },
         {
             "name": "mongodb/mongodb",
@@ -1714,16 +1714,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.75",
+            "version": "v1.0.76",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "3da0134564f59ffbd060db8f3406e9f3e78df64e"
+                "reference": "202c981673b255a41bac4076cb82629a0b8481cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/3da0134564f59ffbd060db8f3406e9f3e78df64e",
-                "reference": "3da0134564f59ffbd060db8f3406e9f3e78df64e",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/202c981673b255a41bac4076cb82629a0b8481cb",
+                "reference": "202c981673b255a41bac4076cb82629a0b8481cb",
                 "shasum": ""
             },
             "require": {
@@ -1756,7 +1756,7 @@
                     "email": "fabien.potencier@gmail.com"
                 }
             ],
-            "time": "2018-03-20T07:32:02+00:00"
+            "time": "2018-03-23T16:30:50+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -3288,7 +3288,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "doctrine/mongodb-odm-bundle": 20,
         "symfony/lts": 20
     },
     "prefer-stable": false,
