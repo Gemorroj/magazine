@@ -7,7 +7,9 @@ framework:
     # Enables session support. Note that the session will ONLY be started if you read or write from it.
     # Remove or comment this section to explicitly disable session support.
     session:
-        handler_id: ~
+        name: 'magazine'
+        cookie_httponly: true
+        cookie_secure: true
 
     #esi: true
     #fragments: true
@@ -27,4 +29,4 @@ framework:
         #default_redis_provider: redis://localhost
 
         # APCu (not recommended with heavy random-write workloads as memory fragmentation can cause perf issues)
-        #app: cache.adapter.apcu
+        app: cache.adapter.apcu
