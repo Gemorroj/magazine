@@ -7,10 +7,10 @@
     "main": "assets/app.js",
     "dependencies": {
         "@websanova/vue-auth": "^2.21.6-beta",
-        "element-ui": "^2.3.3",
+        "element-ui": "^2.3.4",
         "vue": "^2.5.16",
         "vue-image-lightbox": "^5.6.0",
-        "vue-lazyload": "^1.2.2",
+        "vue-lazyload": "^1.2.3",
         "vue-resource": "^1.5.0",
         "vue-router": "^3.0.1",
         "vue-touch": "^2.0.0-beta.4",
