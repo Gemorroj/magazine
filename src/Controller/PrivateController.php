@@ -5,16 +5,16 @@ namespace App\Controller;
 use App\Document\Category;
 use App\Document\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PrivateController extends Controller
 {
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function userRefreshAction(Request $request)
+    public function userRefreshAction(): JsonResponse
     {
         return $this->json([
             'status' => 'success'
@@ -22,10 +22,9 @@ class PrivateController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function userAction(Request $request)
+    public function userAction(): JsonResponse
     {
         return $this->json([
             'status' => 'success',
@@ -40,7 +39,7 @@ class PrivateController extends Controller
      * @param Request $request
      * @return bool
      */
-    protected function isAuthenticated(Request $request)
+    protected function isAuthenticated(Request $request): bool
     {
         return $request->headers->get('PHP_AUTH_USER') === $this->getParameter('login') &&
             $request->headers->get('PHP_AUTH_PW') === $this->getParameter('password');
@@ -49,9 +48,9 @@ class PrivateController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function addCategoryAction(Request $request)
+    public function addCategoryAction(Request $request): JsonResponse
     {
         $categoryName = $request->request->get('categoryName');
         if (null === $categoryName || '' === $categoryName) {
@@ -71,9 +70,9 @@ class PrivateController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function deleteProductAction(Request $request)
+    public function deleteProductAction(Request $request): JsonResponse
     {
         $productId = $request->request->get('productId');
         if (null === $productId || '' === $productId) {
@@ -97,9 +96,9 @@ class PrivateController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function deleteCategoryAction(Request $request)
+    public function deleteCategoryAction(Request $request): JsonResponse
     {
         $categoryId = $request->request->get('categoryId');
         if (null === $categoryId || '' === $categoryId) {
@@ -124,9 +123,9 @@ class PrivateController extends Controller
 
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function updateCategoryAction(Request $request)
+    public function updateCategoryAction(Request $request): JsonResponse
     {
         $categoryId = $request->request->get('categoryId');
         if (null === $categoryId || '' === $categoryId) {
@@ -158,10 +157,10 @@ class PrivateController extends Controller
     /**
      * @param string $method
      * @param array $arguments
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse|mixed
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
      */
-    public function __call($method, array $arguments)
+    public function __call(string $method, array $arguments)
     {
         $request = $arguments[0];
 

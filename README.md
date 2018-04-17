@@ -12,6 +12,11 @@
 - БД `mongo` находится на стороннем сервие https://mlab.com/databases/magazine
 
 
+### Установка прав доступа на запись:
+- `var/log`
+- `var/cache`
+
+
 ### Конфигурация nginx:
 ```nginx
 user  nginx;
@@ -47,39 +52,42 @@ http {
     gzip  on;
     gzip_comp_level 2;
     gzip_min_length 40;
-    gzip_types      text/css application/json application/javascript text/html application/xhtml+xml application/xml text/xml application/rss+xml text/plain;
+    gzip_types      text/css application/json application/javascript application/xhtml+xml application/xml text/xml application/rss+xml text/plain;
 
     client_max_body_size 55m;
     server_tokens off;
     proxy_read_timeout 90;
     proxy_connect_timeout 90;
 
-    upstream phpfcgi {
-        # server 127.0.0.1:9000;
-        # server unix:/run/php5-fpm.sock; #for PHP-FPM running on UNIX socket
-        server unix:/run/php-fpm.sock;
-    }
-
     include /etc/nginx/conf.d/*.conf;
 }
 
 server {
+    location ~ /\.well-known\/acme-challenge {
+        allow all;
+    }
     location ~ /\. {
         deny all;
     }
-    location ~ \.php$ {
-        return 404;
-    }
+
+    ssl on;
+    ssl_protocols TLSv1.1 TLSv1.2;
+    ssl_certificate /path_to_fullchain.pem;
+    ssl_certificate_key /path_to_key.pem;
+    ssl_trusted_certificate /path_to_chain.pem;
 
     charset utf-8;
-    listen 80;
+    listen 443 ssl http2;
 
     server_name magazine.wapinet.ru;
-    root /var/www/magazine/web;
+    root /var/www/magazine/public;
 
     error_log /var/log/nginx/magazine.error.log;
     access_log /var/log/nginx/magazine.access.log;
 
+    # todo: Content-Security-Policy
+    add_header Strict-Transport-Security "max-age=31536000";
+    add_header X-Frame-Options "DENY";
 
     # Кэширование
     location = /favicon.ico {
@@ -101,7 +109,7 @@ server {
 
     # JSON api
     location ~ ^/api/(public|private)/ {
-        fastcgi_pass phpfcgi;
+        fastcgi_pass unix:/run/php-fpm.sock;
         include fastcgi_params;
 
         fastcgi_param SCRIPT_FILENAME $realpath_root/api.php;

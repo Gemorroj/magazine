@@ -5,15 +5,16 @@ namespace App\Controller;
 use App\Document\Category;
 use App\Document\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class PublicController extends Controller
 {
     /**
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function loginAction(Request $request)
+    public function loginAction(Request $request): JsonResponse
     {
         $jsonRequest = \json_decode($request->getContent());
         $login = $jsonRequest->login;
@@ -25,9 +26,9 @@ class PublicController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function getCategoriesAction()
+    public function getCategoriesAction(): JsonResponse
     {
         $manager = $this->get('doctrine_mongodb')->getManager();
         $repository = $manager->getRepository(Category::class);
@@ -38,12 +39,13 @@ class PublicController extends Controller
 
     /**
      * @param string $categoryId
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function getCategoryProductsAction($categoryId)
+    public function getCategoryProductsAction(string $categoryId): JsonResponse
     {
         $manager = $this->get('doctrine_mongodb')->getManager();
         $repository = $manager->getRepository(Category::class);
+        /** @var Category $category */
         $category = $repository->find($categoryId);
         $products = $category->getProducts();
 
@@ -52,9 +54,9 @@ class PublicController extends Controller
 
     /**
      * @param string $productId
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @return JsonResponse
      */
-    public function getProductAction($productId)
+    public function getProductAction(string $productId): JsonResponse
     {
         $manager = $this->get('doctrine_mongodb')->getManager();
         $repository = $manager->getRepository(Product::class);
