@@ -18,6 +18,11 @@ update_category:
     defaults: { _controller: App\Controller\PrivateController::updateCategoryAction, _format: json }
     methods: [POST, PUT]
 
+user:
+    path: /api/private/user
+    defaults: { _controller: App\Controller\PrivateController::userAction, _format: json }
+    methods: [GET]
+
 login:
     path: /api/private/login
     defaults: { _controller: App\Controller\PrivateController::loginAction, _format: json }

@@ -7,9 +7,25 @@ use App\Document\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PrivateController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function userAction(Request $request): JsonResponse
+    {
+        $this->checkAuth($request);
+        return $this->json([
+            'status' => 'success',
+            'data' => [
+                'login' => $this->getParameter('login'),
+            ]
+        ]);
+    }
+
     /**
      * @param Request $request
      * @return JsonResponse
@@ -23,7 +39,7 @@ class PrivateController extends Controller
         if ($login === $this->getParameter('login') && $password === $this->getParameter('password')) {
             return $this->json([
                 'status' => 'success',
-            ], 200, ['Authorization' => \base64_encode($login.':'.$password)]);
+            ], 200, ['Authorization' => 'Bearer ' . \hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
         }
 
         return $this->json([
@@ -37,9 +53,11 @@ class PrivateController extends Controller
      */
     private function checkAuth(Request $request): void
     {
-        if ($request->headers->get('PHP_AUTH_USER') !== $this->getParameter('login') ||
-            $request->headers->get('PHP_AUTH_PW') !== $this->getParameter('password')) {
-            $this->createAccessDeniedException('Ны не авторизованы');
+        $expectedHash = \hash_hmac('sha256', $this->getParameter('login').':'.$this->getParameter('password'), $this->getParameter('kernel.secret'));
+        \preg_match('/Bearer\s+(?P<token>\S+)/', $request->headers->get('Authorization'), $matches);
+
+        if ($matches['token'] !== $expectedHash) {
+            throw new HttpException(403, 'Ны не авторизованы');
         }
     }
 

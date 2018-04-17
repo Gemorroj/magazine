@@ -30,11 +30,12 @@ Vue.http.interceptors.push(function (request, next) {
 });
 
 Vue.use(require('@websanova/vue-auth'), {
-    auth: require('@websanova/vue-auth/drivers/auth/basic.js'),
+    auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
     http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+    authRedirect: {path: '/login'},
     loginData: {url: 'private/login', method: 'POST', redirect: '/admin', fetchUser: false},
-    fetchData: {enabled: false},
+    fetchData: {url: 'private/user', enabled: false}, // не смотря на то, что отключено, эта хрень шлет запросы
     refreshData: {enabled: false},
 });
 
