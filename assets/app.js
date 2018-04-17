@@ -26,6 +26,13 @@ Vue.http.interceptors.push(function (request, next) {
                 message: 'Не удалось авторизоваться'
             });
         }
+        if (res.status === 500) {
+            console.log(res);
+            ElementUI.Notification.error({
+                title: 'Ошибка',
+                message: 'Ошибка сервера, пожалуйста, сообщите о ней администрации'
+            });
+        }
     });
 });
 
