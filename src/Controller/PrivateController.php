@@ -7,42 +7,40 @@ use App\Document\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class PrivateController extends Controller
 {
     /**
+     * @param Request $request
      * @return JsonResponse
      */
-    public function userRefreshAction(): JsonResponse
+    public function loginAction(Request $request): JsonResponse
     {
-        return $this->json([
-            'status' => 'success'
-        ]);
-    }
+        $jsonRequest = \json_decode($request->getContent());
+        $login = $jsonRequest->login;
+        $password = $jsonRequest->password;
 
-    /**
-     * @return JsonResponse
-     */
-    public function userAction(): JsonResponse
-    {
+        if ($login === $this->getParameter('login') && $password === $this->getParameter('password')) {
+            return $this->json([
+                'status' => 'success',
+            ], 200, ['Authorization' => \base64_encode($login.':'.$password)]);
+        }
+
         return $this->json([
-            'status' => 'success',
-            'data' => [
-                'login' => $this->getParameter('login')
-            ]
-        ]);
+            'status' => 'error',
+        ], 401);
     }
 
 
     /**
      * @param Request $request
-     * @return bool
      */
-    protected function isAuthenticated(Request $request): bool
+    private function checkAuth(Request $request): void
     {
-        return $request->headers->get('PHP_AUTH_USER') === $this->getParameter('login') &&
-            $request->headers->get('PHP_AUTH_PW') === $this->getParameter('password');
+        if ($request->headers->get('PHP_AUTH_USER') !== $this->getParameter('login') ||
+            $request->headers->get('PHP_AUTH_PW') !== $this->getParameter('password')) {
+            $this->createAccessDeniedException('Ны не авторизованы');
+        }
     }
 
 
@@ -52,6 +50,8 @@ class PrivateController extends Controller
      */
     public function addCategoryAction(Request $request): JsonResponse
     {
+        $this->checkAuth($request);
+
         $categoryName = $request->request->get('categoryName');
         if (null === $categoryName || '' === $categoryName) {
             throw new \InvalidArgumentException('Не указано название категории');
@@ -74,6 +74,8 @@ class PrivateController extends Controller
      */
     public function deleteProductAction(Request $request): JsonResponse
     {
+        $this->checkAuth($request);
+
         $productId = $request->request->get('productId');
         if (null === $productId || '' === $productId) {
             throw new \InvalidArgumentException('Не указан идентификатор товара');
@@ -100,6 +102,8 @@ class PrivateController extends Controller
      */
     public function deleteCategoryAction(Request $request): JsonResponse
     {
+        $this->checkAuth($request);
+
         $categoryId = $request->request->get('categoryId');
         if (null === $categoryId || '' === $categoryId) {
             throw new \InvalidArgumentException('Не указан идентификатор категории');
@@ -127,6 +131,8 @@ class PrivateController extends Controller
      */
     public function updateCategoryAction(Request $request): JsonResponse
     {
+        $this->checkAuth($request);
+
         $categoryId = $request->request->get('categoryId');
         if (null === $categoryId || '' === $categoryId) {
             throw new \InvalidArgumentException('Не указан идентификатор категории');
@@ -152,31 +158,5 @@ class PrivateController extends Controller
         $manager->flush();
 
         return $this->json($category, 200, [], ['groups' => ['categories']]);
-    }
-
-    /**
-     * @param string $method
-     * @param array $arguments
-     * @return JsonResponse|mixed
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     */
-    public function __call(string $method, array $arguments)
-    {
-        $request = $arguments[0];
-
-        if (!$this->isAuthenticated($request)) {
-            $this->get('logger')->error('Попытка войти в админку с некорректным токеном.', [$request]);
-
-            return $this->json([
-                'status' => 'error',
-                'msg' => 'Invalid Credentials'
-            ], Response::HTTP_UNAUTHORIZED, ['WWW-Authenticate' => 'Basic realm="Authorization"']);
-        }
-
-        if (\method_exists($this, $method)) {
-            return \call_user_func_array([$this, $method], $arguments);
-        }
-
-        throw $this->createNotFoundException();
     }
 }

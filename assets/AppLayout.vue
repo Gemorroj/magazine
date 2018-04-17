@@ -11,12 +11,6 @@
 
         <router-view class="grid-main"></router-view>
 
-        <aside class="grid-right">
-            Всякая фигня,
-            вконтактик,
-            и др.
-        </aside>
-
         <footer class="grid-footer">
             Магазин одежды Umberto Imperial
         </footer>

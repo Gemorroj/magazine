@@ -8,7 +8,7 @@ module.exports = {
     entry: path.resolve(__dirname + '/assets/app.js'),
     output: {
         publicPath: '/build/',
-        filename: "app.[hash].js",
+        filename: "app.js",
         path: path.resolve(__dirname, "./public/build")
     },
     module: {
@@ -23,7 +23,7 @@ module.exports = {
                         presets: [
                             ["@babel/preset-env", {
                                 "targets": {
-                                    "browsers": ["last 1 versions"]
+                                    "browsers": ["last 2 versions"]
                                 }
                             }]
                         ]
@@ -63,7 +63,7 @@ module.exports = {
             template: path.resolve(__dirname, "./assets/index.html")
         }),
         new ExtractTextPlugin({
-            filename: "app.[hash].css"
+            filename: "app.css?[hash]"
         })
     ]
 };

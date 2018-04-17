@@ -1,37 +1,4 @@
-/* Reset */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font: inherit;
-    font-size: 100%;
-    vertical-align: baseline;
-}
-article, aside, details, figcaption, figure,
-footer, header, hgroup, menu, nav, section {
-    display: block;
-}
-html {
-    box-sizing: border-box;
-}
-*, *:before, *:after {
-    box-sizing: inherit;
-}
-
-
-
+@import "~reset-css";
 
 header h1 {
     font-size: 1.1rem;
@@ -91,13 +58,22 @@ header nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #F9FAFC;
-
+    background-color: #24292e;
+    justify-self: center;
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+}
+.grid-header a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+}
+.grid-header a:hover {
+    color: #fff;
 }
 .grid-footer {
     grid-area: footer;
 
-    background-color: #8492A6;
+    background-color: #24292e;
     color: #fff;
     font-size: 1.1rem;
     font-style: italic;
@@ -107,51 +83,34 @@ header nav {
     align-items: center;
 }
 
-.grid-main { grid-area: main; }
-.grid-right { grid-area: ads; }
-
-.grid-right {
-    background-color: #F9FAFC;
-    text-align: center;
+.grid-main {
+    justify-self: center;
+    width: 100%;
+    grid-area: main;
 }
 
+
 .grid-header,
-.grid-right,
 .grid-main {
+    max-width: 1170px;
     padding: 15px;
 }
 
 
 .grid {
-    max-width: 1170px;
-    padding: 0 30px;
     margin: 0 auto;
 
     font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
 
     display: grid;
-    grid-template-areas: "header header"
-    "main ads"
-    "footer footer";
-    grid-template-columns: 1fr 150px;
+    grid-template-areas: "header"
+    "main"
+    "footer";
+    grid-template-columns: 1fr;
     grid-template-rows: 80px
     1fr
     50px;
     min-height: 100vh;
-}
-
-@media screen and (max-width: 600px) {
-    .grid {
-        grid-template-areas: "header"
-        "main"
-        "ads"
-        "footer";
-        grid-template-columns: 100%;
-        grid-template-rows: 100px
-        1fr
-        50px
-        30px;
-    }
 }
 
 

@@ -11,21 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 class PublicController extends Controller
 {
     /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function loginAction(Request $request): JsonResponse
-    {
-        $jsonRequest = \json_decode($request->getContent());
-        $login = $jsonRequest->login;
-        $password = $jsonRequest->password;
-
-        return $this->json([
-            'status' => 'success',
-        ], 200, ['Authorization' => \base64_encode($login.':'.$password)]);
-    }
-
-    /**
      * @return JsonResponse
      */
     public function getCategoriesAction(): JsonResponse

@@ -8,6 +8,7 @@
     "dependencies": {
         "@websanova/vue-auth": "^2.21.6-beta",
         "element-ui": "^2.3.4",
+        "reset-css": "^3.0.0",
         "vue": "^2.5.16",
         "vue-image-lightbox": "^5.6.0",
         "vue-lazyload": "^1.2.3",
@@ -28,7 +29,7 @@
         "style-loader": "^0.20.3",
         "vue-loader": "^14.2.2",
         "vue-template-compiler": "^2.5.16",
-        "webpack": "^4.5.0",
+        "webpack": "^4.6.0",
         "webpack-cli": "^2.0.14"
     },
     "scripts": {
