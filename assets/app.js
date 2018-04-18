@@ -42,14 +42,12 @@ Vue.use(require('@websanova/vue-auth'), {
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     authRedirect: {path: '/login'},
     loginData: {url: 'private/login', method: 'POST', redirect: '/admin', fetchUser: false},
-    fetchData: {url: 'private/user', enabled: false}, // не смотря на то, что отключено, эта хрень шлет запросы
+    fetchData: {enabled: false},
     refreshData: {enabled: false},
 });
 
 new Vue({
     router,
     store,
-    render(h) {
-        return h(AppLayout);
-    }
+    render: h => h(AppLayout)
 }).$mount('#app');

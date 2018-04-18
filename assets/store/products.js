@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-const products = {
+export default {
     //namespaced: true,
     state: {
         products: [],
@@ -39,13 +39,7 @@ const products = {
         }
     },
     getters: {
-        products(state) {
-            return state.products;
-        },
-        activeProduct(state) {
-            return state.activeProduct;
-        }
+        products: state => state.products,
+        activeProduct: state => state.activeProduct
     }
 };
-
-export default products;

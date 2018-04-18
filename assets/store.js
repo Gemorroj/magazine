@@ -7,7 +7,7 @@ import products from './store/products';
 
 Vue.use(Vuex);
 
-const store = new Vuex.Store({
+export default new Vuex.Store({
     strict: true,
     modules: {
         categories,
@@ -15,5 +15,3 @@ const store = new Vuex.Store({
         products
     }
 });
-
-export default store;

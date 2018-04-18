@@ -1,35 +1,39 @@
 <template>
     <main>
-        <p>Login page</p>
-        <form v-on:submit.prevent="userLogin()">
-            <input placeholder="Логин" v-model="login" />
-            <input placeholder="Пароль" type="password" v-model="password" />
-            <input type="submit" value="Войти" />
-        </form>
+        <h1>Авторизация</h1>
+
+        <el-form :inline="true" :model="form" style="margin: 6px 0 0">
+            <el-form-item required="true">
+                <el-input placeholder="Логинн" v-model="form.login" style="width: 250px"></el-input>
+            </el-form-item>
+            <el-form-item required="true">
+                <el-input placeholder="Пароль" v-model="form.password" type="password" style="width: 250px"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="userLogin">Войти</el-button>
+            </el-form-item>
+        </el-form>
     </main>
 </template>
 
 <script>
-    import Vue from 'vue';
-
     export default {
         data() {
             return {
-                login: '',
-                password: ''
+                form: {
+                    login: '',
+                    password: ''
+                }
             };
         },
         methods: {
             userLogin() {
                 this.$auth.login({
                     body: {
-                        login: this.login,
-                        password: this.password
+                        login: this.form.login,
+                        password: this.form.password
                     },
-                    success: function () {},
-                    error: function () {},
-                    rememberMe: true,
-                    fetchUser: true
+                    rememberMe: true
                 });
             }
         }

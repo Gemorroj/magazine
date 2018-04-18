@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-const categories = {
+export default {
     //namespaced: true,
     state: {
         categories: [],
@@ -69,13 +69,7 @@ const categories = {
         }
     },
     getters: {
-        categories(state) {
-            return state.categories;
-        },
-        activeCategory(state) {
-            return state.activeCategory;
-        }
+        categories: state => state.categories,
+        activeCategory: state => state.activeCategory
     }
 };
-
-export default categories;

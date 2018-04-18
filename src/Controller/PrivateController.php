@@ -15,21 +15,6 @@ class PrivateController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function userAction(Request $request): JsonResponse
-    {
-        $this->checkAuth($request);
-        return $this->json([
-            'status' => 'success',
-            'data' => [
-                'login' => $this->getParameter('login'),
-            ]
-        ]);
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function loginAction(Request $request): JsonResponse
     {
         $jsonRequest = \json_decode($request->getContent());

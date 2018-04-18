@@ -33,6 +33,7 @@
 
 <script>
     import Vue from 'vue';
+    import { mapGetters } from 'vuex';
     import VueLazyLoad from 'vue-lazyload';
     import VueTouch from 'vue-touch';
     import Lightbox from 'vue-image-lightbox';
@@ -45,11 +46,9 @@
         components: {
             Lightbox
         },
-        computed: {
-            product() {
-                return this.$store.getters.product;
-            }
-        },
+        computed: mapGetters({
+            product: 'product'
+        }),
         methods: {
             openGallery(index) {
                 this.$refs.lightbox.showImage(index);

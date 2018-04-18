@@ -49,6 +49,8 @@
 
 <script>
     import AdminNavMenu from '../AdminNavMenu.vue';
+    import { mapGetters } from 'vuex';
+
     export default {
         data() {
             return {
@@ -76,17 +78,11 @@
                 }
             };
         },
-        computed: {
-            categories() {
-                return this.$store.getters.categories;
-            },
-            activeCategory() {
-                return this.$store.getters.activeCategory;
-            },
-            products() {
-                return this.$store.getters.products;
-            }
-        },
+        computed: mapGetters({
+            categories: 'categories',
+            activeCategory: 'activeCategory',
+            products: 'products',
+        }),
         mounted() {
             if (!this.categories.length) {
                 this.$store.dispatch('FETCH_CATEGORIES');

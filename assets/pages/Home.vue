@@ -25,18 +25,14 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex';
+
     export default {
-        computed: {
-            categories() {
-                return this.$store.getters.categories;
-            },
-            activeCategory() {
-                return this.$store.getters.activeCategory;
-            },
-            products() {
-                return this.$store.getters.products;
-            }
-        },
+        computed: mapGetters({
+            categories: 'categories',
+            activeCategory: 'activeCategory',
+            products: 'products'
+        }),
         mounted() {
             if (this.categories.length && this.products.length) {
                 return;

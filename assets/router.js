@@ -12,7 +12,7 @@ import AdminMisc from './pages/Admin/Misc.vue';
 
 Vue.use(VueRouter);
 
-const router = new VueRouter({
+export default new VueRouter({
     mode: 'history',
     base: __dirname,
     routes: [
@@ -26,5 +26,3 @@ const router = new VueRouter({
         { path: '/admin/misc', name: 'admin-misc', component: AdminMisc, meta: {auth: true} }
     ]
 });
-
-export default router;
