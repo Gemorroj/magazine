@@ -1,6 +1,7 @@
 # Магазин
 
 - Использует php 7 как бэкенд (Symfony 4)
+- БД Mysql (или Mariadb)
 - И Vue.js + element-ui как фронтенд
 
 
@@ -9,7 +10,6 @@
 
 - Фотографии хранятся на серввере https://apidocs.imgur.com/ (php прослойка https://github.com/j0k3r/php-imgur-api-client)
 - Превью фото делается через сервис https://rethumb.com/api
-- БД `mongo` находится на стороннем сервие https://mlab.com/databases/magazine
 
 
 ### Установка прав доступа на запись:
