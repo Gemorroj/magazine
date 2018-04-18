@@ -1,43 +1,48 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @MongoDB\Document(collection="categories")
+ * @ORM\Table(name="category")
+ * @ORM\Entity
  */
 class Category
 {
     /**
      * @Groups({"categories"})
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;
     /**
      * @Groups({"categories"})
-     * @MongoDB\Field(type="date")
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     /**
      * @Groups({"categories"})
-     * @MongoDB\Field(type="date")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
     /**
      * @Groups({"categories"})
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
-
     /**
-     * @MongoDB\ReferenceMany(targetDocument="Product", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
+     * @ORM\JoinColumn(name="id", referencedColumnName="category_id", nullable=true)
      */
-    private $products = [];
+    private $products;
 
     public function __construct()
     {
+        $this->setProducts(new ArrayCollection());
         $this->setDateCreate(new \DateTime());
     }
 
@@ -78,7 +83,7 @@ class Category
     }
 
     /**
-     * @return Product[]
+     * @return ArrayCollection
      */
     public function getProducts()
     {
@@ -86,10 +91,10 @@ class Category
     }
 
     /**
-     * @param Product[] $products
+     * @param ArrayCollection $products
      * @return $this
      */
-    public function setProducts(array $products)
+    public function setProducts(ArrayCollection $products)
     {
         $this->products = $products;
         return $this;

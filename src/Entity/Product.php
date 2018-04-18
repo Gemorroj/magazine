@@ -1,84 +1,85 @@
 <?php
 
-namespace App\Document;
+namespace App\Entity;
 
-use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @MongoDB\Document(collection="products")
+ * @ORM\Table(name="product")
+ * @ORM\Entity
  */
 class Product
 {
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Id
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="date")
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="date")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=5000, nullable=false)
      */
     private $description;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="float")
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false, options={"unsigned": true})
      */
     private $price;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $size;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $composition;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $manufacturer;
     /**
      * @Groups({"products", "product"})
-     * @MongoDB\Field(type="string")
+     * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
+     * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
      * @see https://github.com/j0k3r/php-imgur-api-client
      */
-    private $preview;
+    private $photos;
     /**
-     * @Groups({"product"})
-     * @MongoDB\Field(type="collection")
-     * @see @see https://github.com/j0k3r/php-imgur-api-client
-     */
-    private $photos = [];
-    /**
-     * @MongoDB\ReferenceOne(targetDocument="Category", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
     private $category;
 
     public function __construct()
     {
         $this->setDateCreate(new \DateTime());
+        $this->setPhotos(new ArrayCollection());
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getId()
     {
@@ -86,7 +87,7 @@ class Product
     }
 
     /**
-     * @param string $id
+     * @param int $id
      * @return $this
      */
     public function setId($id)
@@ -222,7 +223,7 @@ class Product
     }
 
     /**
-     * @return string[]
+     * @return ArrayCollection
      */
     public function getPhotos()
     {
@@ -230,24 +231,15 @@ class Product
     }
 
     /**
-     * @param string[] $photos
+     * @param ArrayCollection $photos
      * @return $this
      */
-    public function setPhotos(array $photos)
+    public function setPhotos(ArrayCollection $photos)
     {
         $this->photos = $photos;
         return $this;
     }
 
-    /**
-     * @param string $photo
-     * @return $this
-     */
-    public function addPhoto($photo)
-    {
-        $this->photos[] = $photo;
-        return $this;
-    }
 
     /**
      * @return Category

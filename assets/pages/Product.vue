@@ -24,7 +24,7 @@
 
         <div>
             <div class="product-photos">
-                <img  v-for="(photo, index) in product.photos" :src="'https://api.rethumb.com/v1/width/200/' + photo" @click="openGallery(index)" />
+                <img v-for="(photo, index) in product.photos" :src="'https://api.rethumb.com/v1/width/200/' + photo.path" @click="openGallery(index)" />
             </div>
             <lightbox :images="prepareLightbox()" ref="lightbox" :show-light-box="false"></lightbox>
         </div>
@@ -55,10 +55,10 @@
                 this.$refs.lightbox.showImage(index);
             },
             prepareLightbox() {
-                return this.product.photos.map(function (photo) {
+                return this.product.photos.map(photo => {
                     return {
-                        thumb: 'https://api.rethumb.com/v1/width/200/' + photo,
-                        src: photo,
+                        thumb: 'https://api.rethumb.com/v1/width/200/' + photo.path,
+                        src: photo.path,
                     };
                 });
             }

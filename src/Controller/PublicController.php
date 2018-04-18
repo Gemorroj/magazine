@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Document\Category;
-use App\Document\Product;
+use App\Entity\Category;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -14,7 +14,7 @@ class PublicController extends Controller
      */
     public function getCategoriesAction(): JsonResponse
     {
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Category::class);
         $categories = $repository->findAll();
 
@@ -27,7 +27,7 @@ class PublicController extends Controller
      */
     public function getCategoryProductsAction(string $categoryId): JsonResponse
     {
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Category::class);
         /** @var Category $category */
         $category = $repository->find($categoryId);
@@ -42,7 +42,7 @@ class PublicController extends Controller
      */
     public function getProductAction(string $productId): JsonResponse
     {
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Product::class);
         $product = $repository->find($productId);
 

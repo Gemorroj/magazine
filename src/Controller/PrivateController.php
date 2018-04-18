@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Document\Category;
-use App\Document\Product;
+use App\Entity\Category;
+use App\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -75,7 +75,7 @@ class PrivateController extends Controller
             throw new \InvalidArgumentException('Не указано название категории');
         }
 
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
 
         $category = new Category();
         $category->setName($categoryName);
@@ -99,7 +99,7 @@ class PrivateController extends Controller
             throw new \InvalidArgumentException('Не указан идентификатор товара');
         }
 
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Product::class);
 
         /** @var Product $product */
@@ -127,7 +127,7 @@ class PrivateController extends Controller
             throw new \InvalidArgumentException('Не указан идентификатор категории');
         }
 
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Category::class);
 
         /** @var Category $category */
@@ -160,7 +160,7 @@ class PrivateController extends Controller
             throw new \InvalidArgumentException('Не указано название категории');
         }
 
-        $manager = $this->get('doctrine_mongodb')->getManager();
+        $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Category::class);
 
         /** @var Category $category */
