@@ -16,7 +16,6 @@
         "symfony/dotenv": "^4.0"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.0",
         "phpstan/phpstan": "^0.9"
     },
     "config": {
