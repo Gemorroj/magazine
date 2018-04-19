@@ -29,23 +29,23 @@
 
     export default {
         computed: mapGetters({
-            categories: 'categories',
-            activeCategory: 'activeCategory',
-            products: 'products'
+            categories: 'public/categories',
+            activeCategory: 'public/activeCategory',
+            products: 'public/products'
         }),
         mounted() {
             if (this.categories.length && this.products.length) {
                 return;
             }
 
-            this.$store.dispatch('FETCH_CATEGORIES').then(() => {
+            this.$store.dispatch('public/FETCH_CATEGORIES').then(() => {
                 this.clickCategory(this.categories[0]);
             });
         },
         methods: {
             clickCategory(category) {
-                this.$store.dispatch('SET_ACTIVE_CATEGORY', category);
-                this.$store.dispatch('FETCH_PRODUCTS', category);
+                this.$store.dispatch('public/SET_ACTIVE_CATEGORY', category);
+                this.$store.dispatch('public/FETCH_PRODUCTS', category);
             }
         }
     };

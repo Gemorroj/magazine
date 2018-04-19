@@ -1,17 +1,36 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import categories from './store/categories';
-import product from './store/product';
-import products from './store/products';
+import actions from './store/actions';
+import mutations from './store/mutations';
+import getters from './store/getters';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-    strict: true,
+    strict: process.env.NODE_ENV !== 'production',
     modules: {
-        categories,
-        product,
-        products
+        'public': {
+            namespaced: true,
+            state: {
+                categories: [],
+                activeCategory: null,
+                products: [],
+                activeProduct: null
+            },
+            actions,
+            mutations,
+            getters
+        },
+        'private': {
+            namespaced: true,
+            state: {
+                categories: [],
+                products: [],
+            },
+            actions,
+            mutations,
+            getters
+        }
     }
 });

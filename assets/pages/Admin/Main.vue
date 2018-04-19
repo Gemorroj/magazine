@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import AdminNavMenu from '../AdminNavMenu.vue';
+    import AdminNavMenu from './AdminNavMenu.vue';
     import { mapGetters } from 'vuex';
 
     export default {
@@ -57,12 +57,14 @@
                 category: null,
                 categoryName: '',
                 productFormVisible: false,
+
                 product: {
                     id: null,
                     name: '',
                     description: '',
                     price: ''
                 },
+
                 productRules: {
                     name: [
                         { required: true, message: 'Навазние товара обязательно', trigger: 'blur' },
@@ -79,13 +81,13 @@
             };
         },
         computed: mapGetters({
-            categories: 'categories',
-            activeCategory: 'activeCategory',
-            products: 'products',
+            categories: 'private/categories',
+            activeCategory: 'private/activeCategory',
+            products: 'private/products',
         }),
         mounted() {
             if (!this.categories.length) {
-                this.$store.dispatch('FETCH_CATEGORIES');
+                this.$store.dispatch('private/FETCH_CATEGORIES');
             }
         },
         components: {
@@ -96,43 +98,43 @@
                 this.categoryName = '';
 
                 if (!this.category) {
-                    this.$store.dispatch('SET_ACTIVE_CATEGORY', null);
+                    this.$store.dispatch('private/SET_ACTIVE_CATEGORY', null);
                     return;
                 }
 
                 if (!this.category.id) {
-                    return this.$store.dispatch('ADD_CATEGORY', {categoryName: this.category, fn: category => {
+                    return this.$store.dispatch('private/ADD_CATEGORY', {categoryName: this.category, fn: category => {
                         this.$notify({
                             title: 'Success',
                             message: '"' + category.name + '" создана',
                             type: 'success'
                         });
 
-                        this.$store.dispatch('SET_ACTIVE_CATEGORY', category);
-                        this.$store.dispatch('FETCH_PRODUCTS', category);
+                        this.$store.dispatch('private/SET_ACTIVE_CATEGORY', category);
+                        this.$store.dispatch('private/FETCH_PRODUCTS', category);
                         this.category = category;
                         this.categoryName = category.name;
                     }});
                 }
 
-                this.$store.dispatch('SET_ACTIVE_CATEGORY', this.category);
-                this.$store.dispatch('FETCH_PRODUCTS', this.category);
+                this.$store.dispatch('private/SET_ACTIVE_CATEGORY', this.category);
+                this.$store.dispatch('private/FETCH_PRODUCTS', this.category);
                 this.categoryName = this.category.name;
             },
             categoryEdit(category, categoryName) {
-                this.$store.dispatch('UPDATE_CATEGORY', {category: {id: category.id, name: categoryName}, fn: category => {
+                this.$store.dispatch('private/UPDATE_CATEGORY', {category: {id: category.id, name: categoryName}, fn: category => {
                     this.$notify({
                         title: 'Success',
                         message: '"' + this.category.name + '" переименована в "' + category.name + '"',
                         type: 'success'
                     });
 
-                    this.$store.dispatch('SET_ACTIVE_CATEGORY', category);
+                    this.$store.dispatch('private/SET_ACTIVE_CATEGORY', category);
                     this.category = category;
                 }});
             },
             categoryDelete(category) {
-                this.$store.dispatch('DELETE_CATEGORY', {category: category, fn: () => {
+                this.$store.dispatch('private/DELETE_CATEGORY', {category: category, fn: () => {
                     this.$notify({
                         title: 'Success',
                         message: '"' + category.name + '" удалена',
@@ -155,7 +157,7 @@
                 this.productFormVisible = true;
             },
             productDelete(product) {
-                this.$store.dispatch('DELETE_PRODUCT', {product: product, fn: () => {
+                this.$store.dispatch('private/DELETE_PRODUCT', {product: product, fn: () => {
                     this.$notify({
                         title: 'Success',
                         message: '"' + product.name + '" удален',

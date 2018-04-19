@@ -28,6 +28,7 @@ class Version20180418090000 extends AbstractMigration
 
         $this->addSql("INSERT INTO photo (product_id, date_create, path) VALUES (1, NOW(), 'https://lorempixel.com/800/800/?1')");
         $this->addSql("INSERT INTO photo (product_id, date_create, path) VALUES (2, NOW(), 'https://lorempixel.com/800/800/?2')");
+        $this->addSql("INSERT INTO photo (product_id, date_create, path) VALUES (2, NOW(), 'https://lorempixel.com/800/800/?3')");
     }
 
     public function down(Schema $schema)
