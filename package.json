@@ -1,7 +1,7 @@
 {
     "name": "magazine",
-    "version": "0.0.2",
-    "description": "Страничка магазина",
+    "version": "0.0.3",
+    "description": "Небольшой магазинчик",
     "author": "Gemorroj",
     "license": "MIT",
     "main": "assets/app.js",

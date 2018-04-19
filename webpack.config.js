@@ -23,7 +23,15 @@ module.exports = {
                         presets: [
                             ["@babel/preset-env", {
                                 "targets": {
-                                    "browsers": ["last 2 versions"]
+                                    "browsers": [
+                                        "last 2 versions",
+                                        "> 1%",
+                                        "ie >= 11",
+                                        "safari >= 11",
+                                        "not dead",
+                                        "Firefox ESR",
+                                        "last 1 OperaMini versions"
+                                    ]
                                 }
                             }]
                         ]
@@ -47,7 +55,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [{
-                        loader: "css-loader",
+                        loader: 'css-loader',
                         options: {
                             minimize: true,
                             sourceMap: true
