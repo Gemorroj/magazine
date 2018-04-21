@@ -9,8 +9,8 @@ export default {
     SET_ACTIVE_CATEGORY({commit}, category) {
         commit('SET_ACTIVE_CATEGORY', category);
     },
-    FETCH_PRODUCTS({commit}, category) {
-        return Vue.resource('public/categories/{id}/products').get({id: category.id}).then(response => {
+    FETCH_PRODUCTS({commit}, categoryId) {
+        return Vue.resource('public/categories/{id}/products').get({id: categoryId}).then(response => {
             commit('SET_PRODUCTS', response.body);
         });
     },

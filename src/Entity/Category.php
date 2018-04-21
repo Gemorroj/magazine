@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 class Category
 {
     /**
-     * @Groups({"categories"})
+     * @Groups({"categories", "product", "products"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})

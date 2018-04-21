@@ -1,10 +1,6 @@
 <template>
     <main>
-        <div class="category-wrapper">
-            <span v-for="category in categories" class="category">
-                <el-button @click="clickCategory(category)" type="text" :disabled="category === activeCategory">{{ category.name }}</el-button>
-            </span>
-        </div>
+        <Categories :activateCategoryCallback="activateCategoryCallback" :categoryId="$route.params.categoryId"/>
 
         <el-row v-if="products">
             <el-col :xs="24" :sm="8" :md="8" :lg="8" v-for="product in products" :key="product.id">
@@ -16,7 +12,7 @@
                         <div>{{ product.composition }}</div>
                     </div>
                     <div>
-                        <router-link :to="{ name: 'product', params: { id: product.id }}">Подробнее</router-link>
+                        <router-link :to="{ name: 'product', params: {categoryId: product.category.id, productId: product.id }}">Подробнее</router-link>
                     </div>
                 </el-card>
             </el-col>
@@ -26,26 +22,18 @@
 
 <script>
     import { mapGetters } from 'vuex';
+    import Categories from './Categories.vue';
 
     export default {
+        components: {
+            Categories
+        },
         computed: mapGetters({
-            categories: 'public/categories',
-            activeCategory: 'public/activeCategory',
             products: 'public/products'
         }),
-        mounted() {
-            if (this.categories.length && this.products.length) {
-                return;
-            }
-
-            this.$store.dispatch('public/FETCH_CATEGORIES').then(() => {
-                this.clickCategory(this.categories[0]);
-            });
-        },
         methods: {
-            clickCategory(category) {
-                this.$store.dispatch('public/SET_ACTIVE_CATEGORY', category);
-                this.$store.dispatch('public/FETCH_PRODUCTS', category);
+            activateCategoryCallback(category) {
+                this.$store.dispatch('public/FETCH_PRODUCTS', category.id);
             }
         }
     };

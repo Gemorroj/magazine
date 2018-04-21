@@ -67,6 +67,7 @@ class Product
      */
     private $photos;
     /**
+     * @Groups({"products", "product"})
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
@@ -201,24 +202,6 @@ class Product
     public function setManufacturer($manufacturer)
     {
         $this->manufacturer = $manufacturer;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPreview()
-    {
-        return $this->preview;
-    }
-
-    /**
-     * @param string $preview
-     * @return $this
-     */
-    public function setPreview($preview)
-    {
-        $this->preview = $preview;
         return $this;
     }
 

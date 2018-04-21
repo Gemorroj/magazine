@@ -111,14 +111,14 @@
                         });
 
                         this.$store.dispatch('private/SET_ACTIVE_CATEGORY', category);
-                        this.$store.dispatch('private/FETCH_PRODUCTS', category);
+                        this.$store.dispatch('private/FETCH_PRODUCTS', category.id);
                         this.category = category;
                         this.categoryName = category.name;
                     }});
                 }
 
                 this.$store.dispatch('private/SET_ACTIVE_CATEGORY', this.category);
-                this.$store.dispatch('private/FETCH_PRODUCTS', this.category);
+                this.$store.dispatch('private/FETCH_PRODUCTS', this.category.id);
                 this.categoryName = this.category.name;
             },
             categoryEdit(category, categoryName) {

@@ -17,7 +17,8 @@ export default new VueRouter({
     base: __dirname,
     routes: [
         { path: '/', name: 'home', component: Home },
-        { path: '/product/:id', name: 'product', component: Product },
+        { path: '/category/:categoryId', name: 'category', component: Home },
+        { path: '/product/:categoryId/:productId', name: 'product', component: Product },
         { path: '/about', name: 'about', component: About },
         { path: '/contact', name: 'contact', component: Contact },
         { path: '/login', name: 'login', component: Login },
