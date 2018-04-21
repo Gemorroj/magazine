@@ -7,7 +7,7 @@
     "main": "assets/app.js",
     "dependencies": {
         "@websanova/vue-auth": "^2.21.8-beta",
-        "element-ui": "^2.3.5",
+        "element-ui": "^2.3.6",
         "reset-css": "^3.0.0",
         "vue": "^2.5.16",
         "vue-image-lightbox": "^5.6.0",
