@@ -42,7 +42,7 @@
     import VueTouch from 'vue-touch';
     import Lightbox from 'vue-image-lightbox';
     import 'vue-image-lightbox/dist/vue-image-lightbox.min.css';
-    import Categories from './Categories.vue';
+    import Categories from './Components/Categories.vue';
 
     Vue.use(VueLazyLoad);
     Vue.use(VueTouch, { name: 'v-touch' });

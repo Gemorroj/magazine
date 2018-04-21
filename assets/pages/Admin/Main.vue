@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import AdminNavMenu from './AdminNavMenu.vue';
+    import AdminNavMenu from '../Components/AdminNavMenu.vue';
     import { mapGetters } from 'vuex';
 
     export default {
