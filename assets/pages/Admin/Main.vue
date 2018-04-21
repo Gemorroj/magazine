@@ -189,8 +189,6 @@
                     if (valid) {
                         alert('submit!');
                         this.productFormVisible = false;
-                    } else {
-                        alert('error validate!');
                     }
                 });
             },
@@ -208,8 +206,6 @@
                             this.category = categoryResp;
                             this.selectCategory(this.category);
                         });
-                    } else {
-                        alert('error validate!');
                     }
                 });
             },
@@ -227,8 +223,6 @@
                             this.category = categoryResp;
                             this.selectCategory(this.category);
                         });
-                    } else {
-                        alert('error validate!');
                     }
                 });
             }

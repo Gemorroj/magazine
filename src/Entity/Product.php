@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Table(name="product")
@@ -30,16 +31,22 @@ class Product
      */
     private $dateUpdate;
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @Groups({"products", "product"})
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(min=3)
      * @Groups({"products", "product"})
      * @ORM\Column(type="string", length=5000, nullable=false)
      */
     private $description;
     /**
+     * @Assert\NotBlank()
+     * @Assert\Type(type="numeric")
      * @Groups({"products", "product"})
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false, options={"unsigned": true})
      */

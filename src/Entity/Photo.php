@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @see https://github.com/j0k3r/php-imgur-api-client
@@ -30,6 +31,8 @@ class Photo
      */
     private $dateUpdate;
     /**
+     * @Assert\NotBlank()
+     * @Assert\Url()
      * @Groups({"products", "product"})
      * @ORM\Column(type="string", length=255, nullable=false)
      */

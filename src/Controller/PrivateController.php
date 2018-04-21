@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PrivateController extends Controller
 {
@@ -49,27 +50,74 @@ class PrivateController extends Controller
 
     /**
      * @param Request $request
+     * @param ValidatorInterface $validator
      * @return JsonResponse
      */
-    public function addCategoryAction(Request $request): JsonResponse
+    public function addCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
         $this->checkAuth($request);
 
-        $categoryName = $request->request->get('categoryName');
-        if (null === $categoryName || '' === $categoryName) {
-            throw new \InvalidArgumentException('Не указано название категории');
+        $category = new Category();
+        $category->setName($request->request->get('categoryName'));
+
+        // валидация
+        $errors = $validator->validate($category);
+        if ($errors->count() > 0) {
+            return $this->json([
+                'status' => 'error',
+                'message' => (string)$errors,
+            ], 400);
         }
 
         $manager = $this->getDoctrine()->getManager();
+        $manager->persist($category);
+        $manager->flush();
 
-        $category = new Category();
-        $category->setName($categoryName);
+        return $this->json($category, 200, [], ['groups' => ['categories']]);
+    }
+
+
+    /**
+     * @param Request $request
+     * @param ValidatorInterface $validator
+     * @return JsonResponse
+     */
+    public function updateCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $this->checkAuth($request);
+
+        $categoryId = $request->request->get('categoryId');
+        if (null === $categoryId || '' === $categoryId) {
+            throw new \InvalidArgumentException('Не указан идентификатор категории');
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $repository = $manager->getRepository(Category::class);
+
+        /** @var Category $category */
+        $category = $repository->find($categoryId);
+        if (null === $category) {
+            $this->createNotFoundException('Категория не найдена');
+        }
+
+        $category->setDateUpdate(new \DateTime());
+        $category->setName($request->request->get('categoryName'));
+
+        // валидация
+        $errors = $validator->validate($category);
+        if ($errors->count() > 0) {
+            return $this->json([
+                'status' => 'error',
+                'message' => (string)$errors,
+            ], 400);
+        }
 
         $manager->persist($category);
         $manager->flush();
 
         return $this->json($category, 200, [], ['groups' => ['categories']]);
     }
+
 
     /**
      * @param Request $request
@@ -125,41 +173,5 @@ class PrivateController extends Controller
         $manager->flush();
 
         return $this->json(null);
-    }
-
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function updateCategoryAction(Request $request): JsonResponse
-    {
-        $this->checkAuth($request);
-
-        $categoryId = $request->request->get('categoryId');
-        if (null === $categoryId || '' === $categoryId) {
-            throw new \InvalidArgumentException('Не указан идентификатор категории');
-        }
-        $categoryName = $request->request->get('categoryName');
-        if (null === $categoryName || '' === $categoryName) {
-            throw new \InvalidArgumentException('Не указано название категории');
-        }
-
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Category::class);
-
-        /** @var Category $category */
-        $category = $repository->find($categoryId);
-        if (null === $category) {
-            $this->createNotFoundException('Категория не найдена');
-        }
-
-        $category->setDateUpdate(new \DateTime());
-        $category->setName($categoryName);
-
-        $manager->persist($category);
-        $manager->flush();
-
-        return $this->json($category, 200, [], ['groups' => ['categories']]);
     }
 }

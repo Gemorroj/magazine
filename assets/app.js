@@ -27,10 +27,15 @@ Vue.http.interceptors.push(function (request, next) {
             });
         }
         if (res.status === 500) {
-            console.log(res);
             ElementUI.Notification.error({
                 title: 'Ошибка',
                 message: 'Ошибка сервера, пожалуйста, сообщите о ней администрации'
+            });
+        }
+        if (res.body && res.body.status === 'error') { // обработка наших собственных ошибок (валидация, например)
+            ElementUI.Notification.error({
+                title: 'Ошибка',
+                message: res.body.message
             });
         }
     });

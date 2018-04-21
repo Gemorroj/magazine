@@ -11,6 +11,7 @@ framework:
     #    cookie_httponly: true
     #    cookie_secure: true
 
+    validation: { enable_annotations: true }
     #esi: true
     #fragments: true
     php_errors:
