@@ -1,33 +1,32 @@
 <template>
     <main>
-        <admin-nav-menu active-item="main"></admin-nav-menu>
+        <admin-nav-menu activeItem="main" />
 
-        <el-select placeholder="Категория" value-key="id" v-model="category" @change="selectCategory" filterable allowCreate>
+        <el-select placeholder="Категория" value-key="id" v-model="category" @change="selectCategory">
             <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item"></el-option>
         </el-select>
 
-        <span v-if="category">
+        <el-button-group>
+            <el-button size="small" @click="categoryEditForm = Object.assign({}, category); categoryEditFormVisible = true">Изменить</el-button>
+            <el-button size="small" @click="categoryAddForm = {id: null, name: ''}; categoryAddFormVisible = true">Добавить</el-button>
             <el-button size="small" type="danger" @click="categoryDelete(category)">Удалить</el-button>
-            <el-input style="width: auto" placeholder="Категория" v-model="categoryName" :value="category.name">
-                <el-button slot="append" icon="el-icon-edit" @click="categoryEdit(category, categoryName)"></el-button>
-            </el-input>
-        </span>
-        <span v-if="category">
-            <el-button size="small" @click.prevent="productAdd()">Добавить товар</el-button>
-        </span>
+        </el-button-group>
+        <el-button-group>
+            <el-button size="small" @click="productFormVisible = true">Добавить товар</el-button>
+        </el-button-group>
 
-        <el-table :data="products" v-if="category">
+        <el-table :data="products">
             <el-table-column prop="name" label="Название"></el-table-column>
             <el-table-column label="Действия">
                 <template slot-scope="scope">
-                    <el-button  size="small" @click="productEdit(scope.row)">Редактировать</el-button>
+                    <el-button size="small" @click="productEdit(scope.row)">Редактировать</el-button>
                     <el-button size="small" type="danger" @click="productDelete(scope.row)">Удалить</el-button>
                 </template>
             </el-table-column>
         </el-table>
 
 
-        <el-dialog :title="product.id ? 'Редактирование товара' : 'Добавление товара'" :visible.sync="productFormVisible" @close="resetProductForm">
+        <el-dialog :title="product.id ? 'Редактирование товара' : 'Добавление товара'" :visible.sync="productFormVisible" @close="$refs.productForm.resetFields()">
             <el-form :model="product" label-position="right" label-width="15%" :rules="productRules" ref="productForm">
                 <el-form-item label="Название" prop="name">
                     <el-input v-model="product.name"></el-input>
@@ -40,7 +39,30 @@
                 </el-form-item>
 
                 <el-form-item>
-                    <el-button type="primary" @click="submitProductForm(product)">Готово</el-button>
+                    <el-button type="primary" @click="submitProductForm">Готово</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+
+        <el-dialog title="Редактирование категории" :visible.sync="categoryEditFormVisible" @close="categoryEditForm = {id: null, name: ''}">
+            <el-form :model="categoryEditForm" label-position="right" label-width="15%" :rules="categoryRules" ref="categoryEditForm">
+                <el-form-item label="Название" prop="name">
+                    <el-input v-model="categoryEditForm.name"></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="submitCategoryEditForm">Готово</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+        <el-dialog title="Добавление категории" :visible.sync="categoryAddFormVisible" @close="categoryAddForm = {id: null, name: ''}">
+            <el-form :model="categoryAddForm" label-position="right" label-width="15%" :rules="categoryRules" ref="categoryAddForm">
+                <el-form-item label="Название" prop="name">
+                    <el-input v-model="categoryAddForm.name"></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                    <el-button type="primary" @click="submitCategoryAddForm">Готово</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
@@ -54,15 +76,27 @@
     export default {
         data() {
             return {
-                category: null,
-                categoryName: '',
                 productFormVisible: false,
+                categoryAddFormVisible: false,
+                categoryEditFormVisible: false,
 
                 product: {
                     id: null,
                     name: '',
                     description: '',
                     price: ''
+                },
+                category: {
+                    id: null,
+                    name: ''
+                },
+                categoryEditForm: {
+                    id: null,
+                    name: ''
+                },
+                categoryAddForm: {
+                    id: null,
+                    name: ''
                 },
 
                 productRules: {
@@ -76,109 +110,127 @@
                     ],
                     price: [
                         { type: 'number', required: true, message: 'Цена обязательна'}
-                    ],
+                    ]
+                },
+                categoryRules: {
+                    name: [
+                        { required: true, message: 'Навазние категории обязательно', trigger: 'blur' },
+                        { min: 3, max: 255, message: 'Навазние категории должно быть от 3 до 255 символов', trigger: 'blur' }
+                    ]
                 }
             };
         },
         computed: mapGetters({
             categories: 'private/categories',
-            activeCategory: 'private/activeCategory',
             products: 'private/products',
         }),
         mounted() {
-            if (!this.categories.length) {
-                this.$store.dispatch('private/FETCH_CATEGORIES');
-            }
+            this.$store.dispatch('private/FETCH_CATEGORIES').then(() => {
+                this.selectCategory(Object.assign({}, this.categories[0])); // по умолчанию берем первую категорию
+            });
         },
         components: {
             AdminNavMenu
         },
         methods: {
-            selectCategory() {
-                this.categoryName = '';
-
-                if (!this.category) {
-                    this.$store.dispatch('private/SET_ACTIVE_CATEGORY', null);
-                    return;
-                }
-
-                if (!this.category.id) {
-                    return this.$store.dispatch('private/ADD_CATEGORY', {categoryName: this.category, fn: category => {
+            selectCategory(category) {
+                this.category = category;
+                this.$store.dispatch('private/FETCH_PRODUCTS', this.category.id);
+            },
+            categoryDelete(category) {
+                this.$confirm('Вы действительно хотите удалить категорию со всеми товарами в ней?', 'Удаление категории', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    this.$store.dispatch('private/DELETE_CATEGORY', {category: category}).then(() => {
                         this.$notify({
                             title: 'Success',
-                            message: '"' + category.name + '" создана',
+                            message: `Категория ${category.name} удалена`,
                             type: 'success'
                         });
 
-                        this.$store.dispatch('private/SET_ACTIVE_CATEGORY', category);
-                        this.$store.dispatch('private/FETCH_PRODUCTS', category.id);
-                        this.category = category;
-                        this.categoryName = category.name;
-                    }});
-                }
-
-                this.$store.dispatch('private/SET_ACTIVE_CATEGORY', this.category);
-                this.$store.dispatch('private/FETCH_PRODUCTS', this.category.id);
-                this.categoryName = this.category.name;
-            },
-            categoryEdit(category, categoryName) {
-                this.$store.dispatch('private/UPDATE_CATEGORY', {category: {id: category.id, name: categoryName}, fn: category => {
-                    this.$notify({
-                        title: 'Success',
-                        message: '"' + this.category.name + '" переименована в "' + category.name + '"',
-                        type: 'success'
+                        this.$store.dispatch('private/FETCH_CATEGORIES').then(() => {
+                            this.selectCategory(Object.assign({}, this.categories[0])); // по умолчанию берем первую категорию
+                        });
                     });
-
-                    this.$store.dispatch('private/SET_ACTIVE_CATEGORY', category);
-                    this.category = category;
-                }});
-            },
-            categoryDelete(category) {
-                this.$store.dispatch('private/DELETE_CATEGORY', {category: category, fn: () => {
-                    this.$notify({
-                        title: 'Success',
-                        message: '"' + category.name + '" удалена',
-                        type: 'success'
-                    });
-
-                    this.category = null;
-                    this.categoryName = '';
-                }});
+                }).catch(() => {
+                    // ???
+                });
             },
             productEdit(product) {
-                console.log(product);
                 this.product.id = product.id;
                 this.product.name = product.name;
                 this.product.description = product.description;
                 this.product.price = product.price;
                 this.productFormVisible = true;
             },
-            productAdd() {
-                this.productFormVisible = true;
-            },
             productDelete(product) {
-                this.$store.dispatch('private/DELETE_PRODUCT', {product: product, fn: () => {
-                    this.$notify({
-                        title: 'Success',
-                        message: '"' + product.name + '" удален',
-                        type: 'success'
+                this.$confirm('Вы действительно хотите удалить товар?', 'Удаление товара', {
+                    confirmButtonText: 'OK',
+                    cancelButtonText: 'Cancel',
+                    type: 'warning'
+                }).then(() => {
+                    this.$store.dispatch('private/DELETE_PRODUCT', {product: product}).then(() => {
+                        this.$notify({
+                            title: 'Success',
+                            message: `Товар ${product.name} удален`,
+                            type: 'success'
+                        });
                     });
-                }});
+                }).catch(() => {
+                    // ???
+                });
             },
-            submitProductForm(product) {
-                console.log(product);
+            submitProductForm(val) {
+                console.log(val);
 
-                this.$refs['productForm'].validate((valid) => {
+                this.$refs.productForm.validate((valid) => {
                     if (valid) {
                         alert('submit!');
                         this.productFormVisible = false;
                     } else {
-                        alert('error submit!!');
+                        alert('error validate!');
                     }
                 });
             },
-            resetProductForm() {
-                this.$refs['productForm'].resetFields();
+            submitCategoryEditForm() {
+                this.$refs.categoryEditForm.validate((valid) => {
+                    if (valid) {
+                        this.$store.dispatch('private/UPDATE_CATEGORY', {category: this.categoryEditForm}).then(categoryResp => {
+                            this.$notify({
+                                title: 'Success',
+                                message: `Категория ${this.category.name} переименована в ${categoryResp.name}`,
+                                type: 'success'
+                            });
+
+                            this.categoryEditFormVisible = false;
+                            this.category = categoryResp;
+                            this.selectCategory(this.category);
+                        });
+                    } else {
+                        alert('error validate!');
+                    }
+                });
+            },
+            submitCategoryAddForm() {
+                this.$refs.categoryAddForm.validate((valid) => {
+                    if (valid) {
+                        this.$store.dispatch('private/ADD_CATEGORY', {categoryName: this.categoryAddForm.name}).then(categoryResp => {
+                            this.$notify({
+                                title: 'Success',
+                                message: `Категория ${categoryResp.name} создана`,
+                                type: 'success'
+                            });
+
+                            this.categoryAddFormVisible = false;
+                            this.category = categoryResp;
+                            this.selectCategory(this.category);
+                        });
+                    } else {
+                        alert('error validate!');
+                    }
+                });
             }
         }
     }
