@@ -19,6 +19,7 @@
         "nelmio/api-doc-bundle": "^3.2@dev"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
         "phpstan/phpstan": "^0.9"
     },
     "config": {
