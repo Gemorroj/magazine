@@ -14,7 +14,8 @@
         "symfony/serializer-pack": "*",
         "symfony/yaml": "^4.0",
         "symfony/dotenv": "^4.0",
-        "symfony/validator": "^4.0"
+        "symfony/validator": "^4.0",
+        "nelmio/api-doc-bundle": "^3.2@dev"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.9"

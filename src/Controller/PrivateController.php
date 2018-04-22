@@ -4,23 +4,51 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Swagger\Annotations as SWG;
 
 class PrivateController extends Controller
 {
     /**
+     * @Route("/api/private/login", methods={"POST"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Авторизация"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="login",
+     *     in="formData",
+     *     type="string",
+     *     description="Логин",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="formData",
+     *     type="string",
+     *     description="Пароль",
+     *     required=true
+     * )
+     *
      * @param Request $request
      * @return JsonResponse
      */
     public function loginAction(Request $request): JsonResponse
     {
-        $jsonRequest = \json_decode($request->getContent());
-        $login = $jsonRequest->login;
-        $password = $jsonRequest->password;
+        $login = $request->get('login');
+        $password = $request->get('password');
 
         if ($login === $this->getParameter('login') && $password === $this->getParameter('password')) {
             return $this->json([
@@ -49,6 +77,26 @@ class PrivateController extends Controller
 
 
     /**
+     * @Route("/api/private/categories/add", methods={"POST"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Добавление категории",
+     *     @Model(type=Category::class, groups={"category"}))
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="categoryName",
+     *     in="formData",
+     *     type="string",
+     *     description="Имя категории",
+     *     required=true
+     * )
+     * @Security(name="Bearer")
+     *
      * @param Request $request
      * @param ValidatorInterface $validator
      * @return JsonResponse
@@ -73,11 +121,38 @@ class PrivateController extends Controller
         $manager->persist($category);
         $manager->flush();
 
-        return $this->json($category, 200, [], ['groups' => ['categories']]);
+        return $this->json($category, 200, [], ['groups' => ['category']]);
     }
 
 
     /**
+     * @Route("/api/private/categories/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="Обновление категории",
+     *     @Model(type=Category::class, groups={"category"}))
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="categoryId",
+     *     in="formData",
+     *     type="integer",
+     *     description="ID категории",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="categoryName",
+     *     in="formData",
+     *     type="string",
+     *     description="Имя категории",
+     *     required=true
+     * )
+     * @Security(name="Bearer")
+     *
      * @param Request $request
      * @param ValidatorInterface $validator
      * @return JsonResponse
@@ -115,11 +190,30 @@ class PrivateController extends Controller
         $manager->persist($category);
         $manager->flush();
 
-        return $this->json($category, 200, [], ['groups' => ['categories']]);
+        return $this->json($category, 201, [], ['groups' => ['category']]);
     }
 
 
     /**
+     * @Route("/api/private/products/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Удаление товара"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="productId",
+     *     in="formData",
+     *     type="integer",
+     *     description="ID товара",
+     *     required=true
+     * )
+     * @Security(name="Bearer")
+     *
      * @param Request $request
      * @return JsonResponse
      */
@@ -148,6 +242,25 @@ class PrivateController extends Controller
     }
 
     /**
+     * @Route("/api/private/categories/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Удаление категории"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="categoryId",
+     *     in="formData",
+     *     type="integer",
+     *     description="ID категории",
+     *     required=true
+     * )
+     * @Security(name="Bearer")
+     *
      * @param Request $request
      * @return JsonResponse
      */

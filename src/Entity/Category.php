@@ -14,26 +14,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Category
 {
     /**
-     * @Groups({"categories", "product", "products"})
+     * @Groups({"category", "product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;
     /**
-     * @Groups({"categories"})
+     * @Groups({"category"})
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     /**
-     * @Groups({"categories"})
+     * @Groups({"category"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min=3)
-     * @Groups({"categories"})
+     * @Assert\Length(min=3, max=255)
+     * @Groups({"category"})
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;

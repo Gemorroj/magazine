@@ -14,67 +14,70 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Product
 {
     /**
-     * @Groups({"products", "product"})
+     * @Groups({"product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;
     /**
-     * @Groups({"products", "product"})
+     * @Groups({"product"})
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     /**
-     * @Groups({"products", "product"})
+     * @Groups({"product"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min=3)
-     * @Groups({"products", "product"})
+     * @Assert\Length(min=3, max=255)
+     * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=false)
      */
     private $name;
     /**
      * @Assert\NotBlank()
-     * @Assert\Length(min=3)
-     * @Groups({"products", "product"})
+     * @Assert\Length(min=3, max=5000)
+     * @Groups({"product"})
      * @ORM\Column(type="string", length=5000, nullable=false)
      */
     private $description;
     /**
      * @Assert\NotBlank()
      * @Assert\Type(type="numeric")
-     * @Groups({"products", "product"})
+     * @Groups({"product"})
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false, options={"unsigned": true})
      */
     private $price;
     /**
-     * @Groups({"products", "product"})
+     * @Assert\Length(max=255)
+     * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $size;
     /**
-     * @Groups({"products", "product"})
+     * @Assert\Length(max=255)
+     * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $composition;
     /**
-     * @Groups({"products", "product"})
+     * @Assert\Length(max=255)
+     * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $manufacturer;
     /**
-     * @Groups({"products", "product"})
+     * @Groups({"product"})
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
      * @see https://github.com/j0k3r/php-imgur-api-client
      */
     private $photos;
     /**
-     * @Groups({"products", "product"})
+     * @Groups({"product"})
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
