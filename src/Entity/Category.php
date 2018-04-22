@@ -16,7 +16,7 @@ class Category
     /**
      * @Groups({"category", "product"})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;

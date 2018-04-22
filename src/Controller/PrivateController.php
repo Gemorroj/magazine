@@ -235,6 +235,9 @@ class PrivateController extends Controller
             $this->createNotFoundException('Товар не найден');
         }
 
+        // вручную очищаем сущность, т.к. sqlite в doctrine не поддерживает foreign keys
+        // @see https://github.com/doctrine/dbal/issues/2833
+        $product->getPhotos()->clear();
         $manager->remove($product);
         $manager->flush();
 
@@ -281,6 +284,12 @@ class PrivateController extends Controller
         if (null === $category) {
             $this->createNotFoundException('Категория не найдена');
         }
+
+        // вручную очищаем сущность, т.к. sqlite в doctrine не поддерживает foreign keys
+        // @see https://github.com/doctrine/dbal/issues/2833
+        $category->getProducts()->map(function (Product $product) {
+            $product->getPhotos()->clear();
+        })->clear();
 
         $manager->remove($category);
         $manager->flush();

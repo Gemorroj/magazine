@@ -16,7 +16,7 @@ class Product
     /**
      * @Groups({"product"})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;
@@ -73,7 +73,6 @@ class Product
      * @Groups({"product"})
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
-     * @see https://github.com/j0k3r/php-imgur-api-client
      */
     private $photos;
     /**

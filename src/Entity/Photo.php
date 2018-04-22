@@ -7,7 +7,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @see https://github.com/j0k3r/php-imgur-api-client
  * @ORM\Table(name="photo")
  * @ORM\Entity
  */
@@ -16,7 +15,7 @@ class Photo
     /**
      * @Groups({"product"})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
      */
     private $id;
