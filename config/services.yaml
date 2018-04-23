@@ -4,6 +4,7 @@ parameters:
     login: '%env(AUTH_LOGIN)%'
     password: '%env(AUTH_PASSWORD)%'
     locale: 'ru'
+    vk_token: '%env(VK_TOKEN)%'
 
 services:
     # default configuration for services in *this* file
