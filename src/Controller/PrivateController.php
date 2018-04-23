@@ -296,4 +296,20 @@ class PrivateController extends Controller
 
         return $this->json(null);
     }
+
+
+    /**
+     * @Route("/api/private/photo", methods={"POST", "PUT", "DELETE"}, defaults={"_format": "json"})
+     *
+     * @Security(name="Bearer")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function photoAction(Request $request): JsonResponse
+    {
+        $this->checkAuth($request);
+
+        \dump($request);
+        return $this->json(null);
+    }
 }

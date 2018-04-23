@@ -9,8 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
-use VK\Client\Enums\VKLanguage;
-use VK\Client\VKApiClient;
 
 class PublicController extends Controller
 {
@@ -88,26 +86,5 @@ class PublicController extends Controller
         $product = $repository->find($productId);
 
         return $this->json($product, 200, [], ['groups' => ['product']]);
-    }
-
-
-    /**
-     * @todo
-     * @Route("/api/public/market", methods={"GET"}, defaults={"_format": "json"})
-     * @SWG\Response(
-     *     response=200,
-     *     description="Вк"
-     * )
-     * @return JsonResponse
-     */
-    public function listMarket(): JsonResponse
-    {
-        $vk = new VKApiClient('5.74', VKLanguage::RUSSIAN);
-        $response = $vk->market()->get($this->getParameter('vk_token'), [
-            'owner_id' => -165538977,
-            'extended' => true,
-        ]);
-
-        return $this->json($response);
     }
 }

@@ -8,34 +8,16 @@
 - Сервер должен перенаправлять все запросы на `public/index.html`
 - Если запрос начинается с `/api/public/` или `/api/private/`, то направлять на `api.php`
 
-- Фотографии хранятся на серввере https://apidocs.imgur.com/ (php прослойка https://github.com/j0k3r/php-imgur-api-client). 1250 загрузок в месяц, 12500 скачиваний в месяц.
-- Превью фото делается через сервис https://rethumb.com/api максимальный размер картинки 512кб
 
 ### План по переделке (выбранный вариант, на данный момент)
 - fixed: Основную БД перевести на sqlite (чтобы упростить инфраструктуру, т.е. отвязаться от промышленных БД, требующих запущенного сервера). Пока что в доктрине нет поддержки `foreign keys` для sqlite - https://github.com/doctrine/dbal/issues/2833
-- Фотки хранить во вконтакте - https://github.com/VKCOM/vk-php-sdk
-- Превью пока не понятно как делать, возможно вк предоставит апи
-- Удалить админку, использовать только данные vk?
-
-
-### Мысли по переделке (были проанализированы, но отброшены по разным причинам)
-- Дефолт - хранить данные в Mysql (собственно нужн mysql). 
-
-- Использовать возможности vk по работае с товарами, для хранения базы данных товаров, включая фотографии
-    - https://vk.com/dev/market
-    - https://vk.com/dev/market.getCategories?params[count]=1000&params[v]=5.74
-    - https://vk.com/dev/upload_files_2?f=6.%2B%D0%97%D0%B0%D0%B3%D1%80%D1%83%D0%B7%D0%BA%D0%B0%2B%D1%84%D0%BE%D1%82%D0%BE%D0%B3%D1%80%D0%B0%D1%84%D0%B8%D0%B8%2B%D0%B4%D0%BB%D1%8F%2B%D1%82%D0%BE%D0%B2%D0%B0%D1%80%D0%B0
-    
-- Использовать api яндекса (фоотки, диск, datasync, market ???) (не позволяет получить картинку в браузер, только disposition=attachment)
-    - https://tech.yandex.ru/datasync/http/
-    - https://github.com/nixsolutions/yandex-php-library
-    - https://github.com/jack-theripper/yandex
-
+- Фотки хранить у себя на диске
 
 
 ### Установка прав доступа на запись:
 - `var/log`
 - `var/cache`
+- `public/upload`
 
 ### Установка БД (var/data.db)
 ```bash

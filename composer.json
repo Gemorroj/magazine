@@ -16,11 +16,11 @@
         "symfony/yaml": "^4.0",
         "symfony/dotenv": "^4.0",
         "symfony/validator": "^4.0",
-        "nelmio/api-doc-bundle": "^3.2@dev",
-        "vkcom/vk-php-sdk": "^0.2"
+        "nelmio/api-doc-bundle": "^3.2@dev"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "symfony/var-dumper": "^4.0",
         "phpstan/phpstan": "^0.9"
     },
     "config": {

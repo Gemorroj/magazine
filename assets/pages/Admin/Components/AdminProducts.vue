@@ -2,10 +2,21 @@
     <section style="display: inline">
         <el-button size="small" @click="productFormVisible = true">Добавить товар</el-button>
 
-        <el-table :data="products" stripe>
-            <el-table-column prop="name" label="Название" sortable></el-table-column>
-            <el-table-column prop="price" label="Цена" sortable></el-table-column>
-            <el-table-column label="Действия">
+        <el-table :data="products" border show-summary>
+            <el-table-column prop="id" label="ID" width="100" sortable></el-table-column>
+            <el-table-column label="Название" sortable>
+                <template slot-scope="scope">
+                    <el-popover trigger="hover" placement="top">
+                        <p>Дата создания: {{ (new Date(scope.row.dateCreate)).toLocaleString() }}</p>
+                        <p>Дата обновления: {{ scope.row.dateUpdate ? (new Date(scope.row.dateUpdate)).toLocaleString() : '' }}</p>
+                        <div slot="reference">
+                            <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                        </div>
+                    </el-popover>
+                </template>
+            </el-table-column>
+            <el-table-column prop="price" label="Цена" width="150" sortable></el-table-column>
+            <el-table-column label="Действия" fixed="right" width="250">
                 <template slot-scope="scope">
                     <el-button-group>
                         <el-button size="mini" @click="productEdit(scope.row)" icon="el-icon-edit">Редактировать</el-button>
@@ -16,7 +27,7 @@
         </el-table>
 
 
-        <el-dialog :title="product.id ? 'Редактирование товара' : 'Добавление товара'" :visible.sync="productFormVisible" @close="$refs.productForm.resetFields()">
+        <el-dialog :title="product.id ? 'Редактирование товара' : 'Добавление товара'" :visible.sync="productFormVisible" @close="$refs.productForm.resetFields(); product = {}; fileList = []">
             <el-form :model="product" label-position="right" label-width="15%" :rules="productRules" ref="productForm">
                 <el-form-item label="Название" prop="name">
                     <el-input v-model="product.name"></el-input>
@@ -37,11 +48,31 @@
                     <el-input v-model="product.manufacturer"></el-input>
                 </el-form-item>
 
+                <el-form-item label="Фотографии">
+                    <el-upload
+                            multiple
+                            :limit="10"
+                            accept="image/*"
+                            action="/api/private/photo"
+                            :on-preview="handlePreview"
+                            :on-remove="handleRemove"
+                            :on-success="handleSuccess"
+                            :headers="{'Authorization': 'Bearer ' + this.$auth.token()}"
+                            :file-list="fileList"
+                            list-type="picture">
+                        <el-tooltip effect="dark" content="Фотография должна быть не более 500кб" placement="right-start">
+                            <el-button size="small" type="primary">Добавить</el-button>
+                        </el-tooltip>
+                    </el-upload>
+                </el-form-item>
+
+
                 <el-form-item>
                     <el-button type="primary" @click="submitProductForm">Готово</el-button>
                 </el-form-item>
             </el-form>
         </el-dialog>
+
     </section>
 </template>
 
@@ -52,6 +83,7 @@
     export default {
         data() {
             return {
+                fileList: [],
                 productFormVisible: false,
 
                 product: {
@@ -61,7 +93,8 @@
                     price: '',
                     size: '',
                     composition: '',
-                    manufacturer: ''
+                    manufacturer: '',
+                    photos: []
                 },
 
                 productRules: {
@@ -93,11 +126,18 @@
             activeCategory: 'private/activeCategory'
         }),
         methods: {
+            handleRemove(file, fileList) {
+                console.log('remove', file, fileList);
+            },
+            handlePreview(file) {
+                console.log('preview', file);
+            },
+            handleSuccess(res, file) {
+                console.log('success', res, file);
+            },
             productEdit(product) {
-                this.product.id = product.id;
-                this.product.name = product.name;
-                this.product.description = product.description;
-                this.product.price = product.price;
+                this.product = Object.assign({}, product);
+                this.fileList = this.product.photos.map(photo => ({'name': photo.path, 'url': photo.path}));
                 this.productFormVisible = true;
             },
             productDelete(product) {
