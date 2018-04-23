@@ -1,14 +1,15 @@
 <template>
-    <div>
+    <section style="display: inline">
         <el-select placeholder="Категория" value-key="id" v-model="selectedCategory" @change="selectCategory">
             <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item"></el-option>
         </el-select>
 
         <el-button-group>
-            <el-button size="small" @click="categoryEditForm = Object.assign({}, selectedCategory); categoryEditFormVisible = true">Изменить</el-button>
-            <el-button size="small" @click="categoryAddForm = {id: null, name: ''}; categoryAddFormVisible = true">Добавить</el-button>
-            <el-button size="small" type="danger" @click="categoryDelete(selectedCategory)">Удалить</el-button>
+            <el-button size="small" @click="categoryEditForm = Object.assign({}, selectedCategory); categoryEditFormVisible = true" icon="el-icon-edit">Редактировать</el-button>
+            <el-button size="small" type="danger" @click="categoryDelete(selectedCategory)" icon="el-icon-delete">Удалить</el-button>
         </el-button-group>
+        <el-button size="small" @click="categoryAddForm = {id: null, name: ''}; categoryAddFormVisible = true">Добавить категорию</el-button>
+
 
         <el-dialog title="Редактирование категории" :visible.sync="categoryEditFormVisible" @close="categoryEditForm = {id: null, name: ''}">
             <el-form :model="categoryEditForm" label-position="right" label-width="15%" :rules="categoryRules" ref="categoryEditForm">
@@ -32,7 +33,7 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-    </div>
+    </section>
 </template>
 
 
