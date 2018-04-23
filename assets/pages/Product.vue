@@ -6,7 +6,7 @@
             <h1>{{ activeProduct.name }}</h1>
             <p>{{ activeProduct.description }}</p>
 
-            <fieldset v-if="activeProduct" class="product-info">
+            <fieldset class="product-info">
                 <div>
                     <span>Цена</span>
                     <span>{{ activeProduct.price }}</span>

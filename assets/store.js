@@ -26,6 +26,7 @@ export default new Vuex.Store({
             namespaced: true,
             state: {
                 categories: [],
+                activeCategory: null,
                 products: [],
             },
             actions,

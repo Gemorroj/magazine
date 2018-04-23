@@ -14,10 +14,6 @@
             categoryId: {
                 type: [String, Number],
                 required: false
-            },
-            activateCategoryCallback: {
-                type: Function,
-                requited: false
             }
         },
         computed: mapGetters({
@@ -37,18 +33,12 @@
                 }
 
                 this.$store.dispatch('public/SET_ACTIVE_CATEGORY', category);
-                if (this.$props.activateCategoryCallback) {
-                    this.$props.activateCategoryCallback(category);
-                }
             });
         },
         methods: {
             clickCategory(category) {
                 this.$store.dispatch('public/SET_ACTIVE_CATEGORY', category);
                 this.$router.push({name: 'category', params: { categoryId: category.id }});
-                if (this.$props.activateCategoryCallback) {
-                    this.$props.activateCategoryCallback(category);
-                }
             }
         }
     };

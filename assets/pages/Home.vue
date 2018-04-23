@@ -1,6 +1,6 @@
 <template>
     <main>
-        <Categories :activateCategoryCallback="activateCategoryCallback" :categoryId="$route.params.categoryId"/>
+        <Categories :categoryId="$route.params.categoryId"/>
         <Products v-if="products" />
     </main>
 </template>
@@ -16,11 +16,12 @@
             Products,
         },
         computed: mapGetters({
-            products: 'public/products'
+            products: 'public/products',
+            activeCategory: 'public/activeCategory'
         }),
-        methods: {
-            activateCategoryCallback(category) {
-                this.$store.dispatch('public/FETCH_PRODUCTS', category.id);
+        watch: {
+            activeCategory(newActiveCategory, oldActiveCategory) {
+                this.$store.dispatch('public/FETCH_PRODUCTS', newActiveCategory.id);
             }
         }
     };

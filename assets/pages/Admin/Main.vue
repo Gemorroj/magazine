@@ -1,16 +1,9 @@
 <template>
     <main>
-        <admin-nav-menu activeItem="main" />
+        <AdminNavMenu activeItem="main" />
 
-        <el-select placeholder="Категория" value-key="id" v-model="category" @change="selectCategory">
-            <el-option v-for="item in categories" :key="item.id" :label="item.name" :value="item"></el-option>
-        </el-select>
+        <AdminCategories />
 
-        <el-button-group>
-            <el-button size="small" @click="categoryEditForm = Object.assign({}, category); categoryEditFormVisible = true">Изменить</el-button>
-            <el-button size="small" @click="categoryAddForm = {id: null, name: ''}; categoryAddFormVisible = true">Добавить</el-button>
-            <el-button size="small" type="danger" @click="categoryDelete(category)">Удалить</el-button>
-        </el-button-group>
         <el-button-group>
             <el-button size="small" @click="productFormVisible = true">Добавить товар</el-button>
         </el-button-group>
@@ -43,60 +36,24 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-
-        <el-dialog title="Редактирование категории" :visible.sync="categoryEditFormVisible" @close="categoryEditForm = {id: null, name: ''}">
-            <el-form :model="categoryEditForm" label-position="right" label-width="15%" :rules="categoryRules" ref="categoryEditForm">
-                <el-form-item label="Название" prop="name">
-                    <el-input v-model="categoryEditForm.name"></el-input>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button type="primary" @click="submitCategoryEditForm">Готово</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
-        <el-dialog title="Добавление категории" :visible.sync="categoryAddFormVisible" @close="categoryAddForm = {id: null, name: ''}">
-            <el-form :model="categoryAddForm" label-position="right" label-width="15%" :rules="categoryRules" ref="categoryAddForm">
-                <el-form-item label="Название" prop="name">
-                    <el-input v-model="categoryAddForm.name"></el-input>
-                </el-form-item>
-
-                <el-form-item>
-                    <el-button type="primary" @click="submitCategoryAddForm">Готово</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
     </main>
 </template>
 
 <script>
-    import AdminNavMenu from '../Components/AdminNavMenu.vue';
+    import AdminNavMenu from './Components/AdminNavMenu.vue';
+    import AdminCategories from './Components/AdminCategories.vue';
     import { mapGetters } from 'vuex';
 
     export default {
         data() {
             return {
                 productFormVisible: false,
-                categoryAddFormVisible: false,
-                categoryEditFormVisible: false,
 
                 product: {
                     id: null,
                     name: '',
                     description: '',
                     price: ''
-                },
-                category: {
-                    id: null,
-                    name: ''
-                },
-                categoryEditForm: {
-                    id: null,
-                    name: ''
-                },
-                categoryAddForm: {
-                    id: null,
-                    name: ''
                 },
 
                 productRules: {
@@ -111,53 +68,24 @@
                     price: [
                         { type: 'number', required: true, message: 'Цена обязательна'}
                     ]
-                },
-                categoryRules: {
-                    name: [
-                        { required: true, message: 'Навазние категории обязательно', trigger: 'blur' },
-                        { min: 3, max: 255, message: 'Навазние категории должно быть от 3 до 255 символов', trigger: 'blur' }
-                    ]
                 }
             };
         },
         computed: mapGetters({
             categories: 'private/categories',
+            activeCategory: 'private/activeCategory',
             products: 'private/products',
         }),
-        mounted() {
-            this.$store.dispatch('private/FETCH_CATEGORIES').then(() => {
-                this.selectCategory(Object.assign({}, this.categories[0])); // по умолчанию берем первую категорию
-            });
+        watch: {
+            activeCategory(newActiveCategory, oldActiveCategory) {
+                this.$store.dispatch('private/FETCH_PRODUCTS', newActiveCategory.id);
+            }
         },
         components: {
-            AdminNavMenu
+            AdminNavMenu,
+            AdminCategories
         },
         methods: {
-            selectCategory(category) {
-                this.category = category;
-                this.$store.dispatch('private/FETCH_PRODUCTS', this.category.id);
-            },
-            categoryDelete(category) {
-                this.$confirm('Вы действительно хотите удалить категорию со всеми товарами в ней?', 'Удаление категории', {
-                    confirmButtonText: 'OK',
-                    cancelButtonText: 'Cancel',
-                    type: 'warning'
-                }).then(() => {
-                    this.$store.dispatch('private/DELETE_CATEGORY', {category: category}).then(() => {
-                        this.$notify({
-                            title: 'Success',
-                            message: `Категория ${category.name} удалена`,
-                            type: 'success'
-                        });
-
-                        this.$store.dispatch('private/FETCH_CATEGORIES').then(() => {
-                            this.selectCategory(Object.assign({}, this.categories[0])); // по умолчанию берем первую категорию
-                        });
-                    });
-                }).catch(() => {
-                    // ???
-                });
-            },
             productEdit(product) {
                 this.product.id = product.id;
                 this.product.name = product.name;
@@ -192,40 +120,6 @@
                     }
                 });
             },
-            submitCategoryEditForm() {
-                this.$refs.categoryEditForm.validate((valid) => {
-                    if (valid) {
-                        this.$store.dispatch('private/UPDATE_CATEGORY', {category: this.categoryEditForm}).then(categoryResp => {
-                            this.$notify({
-                                title: 'Success',
-                                message: `Категория ${this.category.name} переименована в ${categoryResp.name}`,
-                                type: 'success'
-                            });
-
-                            this.categoryEditFormVisible = false;
-                            this.category = categoryResp;
-                            this.selectCategory(this.category);
-                        });
-                    }
-                });
-            },
-            submitCategoryAddForm() {
-                this.$refs.categoryAddForm.validate((valid) => {
-                    if (valid) {
-                        this.$store.dispatch('private/ADD_CATEGORY', {categoryName: this.categoryAddForm.name}).then(categoryResp => {
-                            this.$notify({
-                                title: 'Success',
-                                message: `Категория ${categoryResp.name} создана`,
-                                type: 'success'
-                            });
-
-                            this.categoryAddFormVisible = false;
-                            this.category = categoryResp;
-                            this.selectCategory(this.category);
-                        });
-                    }
-                });
-            }
         }
-    }
+    };
 </script>
