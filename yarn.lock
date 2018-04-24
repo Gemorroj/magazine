@@ -508,9 +508,9 @@
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.7.0.tgz#9a06f4f137ee84d7df0460c1fdb1135ffa6c50fd"
 
-"@websanova/vue-auth@^2.21.8-beta":
-  version "2.21.8-beta"
-  resolved "https://registry.yarnpkg.com/@websanova/vue-auth/-/vue-auth-2.21.8-beta.tgz#950469b255f410f41699c9ad04e9c61113363e80"
+"@websanova/vue-auth@^2.21.9-beta":
+  version "2.21.9-beta"
+  resolved "https://registry.yarnpkg.com/@websanova/vue-auth/-/vue-auth-2.21.9-beta.tgz#9aaa6f6835ac6b229add71c6368b07ba5b8b07c7"
 
 abbrev@1:
   version "1.1.1"

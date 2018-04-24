@@ -21,7 +21,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/var-dumper": "^4.0",
-        "phpstan/phpstan": "^0.9"
+        "symfony/maker-bundle": "^1.4"
     },
     "config": {
         "preferred-install": {

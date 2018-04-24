@@ -7,6 +7,8 @@
 ###< symfony/framework-bundle ###
 
 
+/public/upload/*
+!/public/upload/index.html
 .idea
 composer.phar
 node_modules/

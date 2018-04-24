@@ -34,7 +34,7 @@ class Photo
      * @Assert\Url()
      * @Assert\Length(max=255)
      * @Groups({"product"})
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $path;
     /**

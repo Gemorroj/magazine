@@ -34,7 +34,7 @@ class Category
      * @Assert\NotBlank()
      * @Assert\Length(min=3, max=255)
      * @Groups({"category"})
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $name;
     /**

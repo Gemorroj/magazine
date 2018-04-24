@@ -7,6 +7,8 @@ use App\Entity\Product;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\Exception\UploadException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -71,7 +73,7 @@ class PrivateController extends Controller
         $expectedHash = \hash_hmac('sha256', $this->getParameter('login').':'.$this->getParameter('password'), $this->getParameter('kernel.secret'));
         \preg_match('/Bearer\s+(?P<token>\S+)/', $request->headers->get('Authorization'), $matches);
 
-        if ($matches['token'] !== $expectedHash) {
+        if (!$matches || $matches['token'] !== $expectedHash) {
             throw new HttpException(403, 'Ны не авторизованы');
         }
     }
@@ -308,7 +310,12 @@ class PrivateController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="OK"
+     *     description="OK",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="name", type="string", description="Имя загруженного файла"),
+     *         @SWG\Property(property="path", type="string", description="Публичная директория загруженного файла"),
+     *     )
      * )
      * @SWG\Parameter(
      *     name="file",
@@ -327,28 +334,32 @@ class PrivateController extends Controller
     {
         $this->checkAuth($request);
 
-        \dump($request);
-        return $this->json(null);
-    }
+        if (!$request->files->has('file')) {
+            throw new \InvalidArgumentException('Не передана фотография');
+        }
 
-    /**
-     * @Route("/api/private/photo/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="OK"
-     * )
-     * @Security(name="Bearer")
-     * @SWG\Tag(name="photo")
-     *
-     * @param Request $request
-     * @return JsonResponse
-     */
-    public function deletePhotoAction(Request $request): JsonResponse
-    {
-        $this->checkAuth($request);
+        /** @var UploadedFile $uploadedFile */
+        $uploadedFile = $request->files->get('file');
+        if (!$uploadedFile->isValid()) {
+            throw new UploadException($uploadedFile->getErrorMessage());
+        }
+        if (\strstr($uploadedFile->getMimeType(), '/', true) !== 'image') {
+            throw new \InvalidArgumentException('Некорректный mime тип. Поддерживаются только картинки (image/*)');
+        }
 
-        \dump($request);
-        return $this->json(null);
+        $dirName = \date('Y-m-d');
+        $this->get('filesystem')->mkdir($this->getParameter('kernel.upload_dir') . '/' . $dirName);
+
+        $fileName = \str_replace('.', '', \uniqid('', true));
+        if ($extension = $uploadedFile->guessExtension()) {
+            $fileName = \sprintf('%s.%s', $fileName, $extension);
+        }
+
+        $file = $uploadedFile->move($this->getParameter('kernel.upload_dir') . '/' . $dirName, $fileName);
+
+        return $this->json([
+            'name' => $file->getFilename(),
+            'path' => '/upload/' . $dirName,
+        ]);
     }
 }

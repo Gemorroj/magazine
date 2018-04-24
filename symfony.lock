@@ -74,9 +74,6 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
-    "jean85/pretty-package-versions": {
-        "version": "1.0.3"
-    },
     "monolog/monolog": {
         "version": "1.23.0"
     },
@@ -88,27 +85,6 @@
             "version": "3.0",
             "ref": "9e11b09b3681b683efd33d270581fe7a281d7236"
         }
-    },
-    "nette/bootstrap": {
-        "version": "v2.4.5"
-    },
-    "nette/di": {
-        "version": "v2.4.10"
-    },
-    "nette/finder": {
-        "version": "v2.4.1"
-    },
-    "nette/neon": {
-        "version": "v2.4.2"
-    },
-    "nette/php-generator": {
-        "version": "v3.0.1"
-    },
-    "nette/robot-loader": {
-        "version": "v3.0.2"
-    },
-    "nette/utils": {
-        "version": "v2.4.8"
     },
     "nikic/php-parser": {
         "version": "v3.1.2"
@@ -127,12 +103,6 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
-    },
-    "phpstan/phpdoc-parser": {
-        "version": "0.1"
-    },
-    "phpstan/phpstan": {
-        "version": "0.9.1"
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -211,6 +181,15 @@
     },
     "symfony/lts": {
         "version": "4-dev"
+    },
+    "symfony/maker-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
     },
     "symfony/monolog-bridge": {
         "version": "v4.0.8"

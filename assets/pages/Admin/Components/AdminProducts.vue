@@ -48,12 +48,12 @@
                     <el-input v-model="product.manufacturer"></el-input>
                 </el-form-item>
 
-                <el-form-item label="Фотографии">
+                <el-form-item label="Фотографии" required>
                     <el-upload
                             multiple
                             :limit="10"
                             accept="image/*"
-                            action="/api/private/photo"
+                            action="/api/private/photo/add"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :on-success="handleSuccess"
@@ -73,6 +73,9 @@
             </el-form>
         </el-dialog>
 
+        <el-dialog :visible.sync="photoPreviewVisible">
+            <img width="100%" :src="photoPreviewImageUrl" />
+        </el-dialog>
     </section>
 </template>
 
@@ -85,6 +88,8 @@
             return {
                 fileList: [],
                 productFormVisible: false,
+                photoPreviewVisible: false,
+                photoPreviewImageUrl: '',
 
                 product: {
                     id: null,
@@ -131,9 +136,12 @@
             },
             handlePreview(file) {
                 console.log('preview', file);
+                this.photoPreviewImageUrl = file.url;
+                this.photoPreviewVisible = true;
             },
             handleSuccess(res, file) {
                 console.log('success', res, file);
+                this.product.photos = [...this.product.photos, res];
             },
             productEdit(product) {
                 this.product = Object.assign({}, product);
