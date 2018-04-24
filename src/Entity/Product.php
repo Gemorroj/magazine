@@ -4,8 +4,10 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Swagger\Annotations as SWG;
 
 /**
  * @ORM\Table(name="product")
@@ -73,6 +75,7 @@ class Product
      * @Groups({"product"})
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
+     * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=Photo::class, groups={"product"})))
      */
     private $photos;
     /**

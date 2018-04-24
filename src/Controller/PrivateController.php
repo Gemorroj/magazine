@@ -20,8 +20,9 @@ class PrivateController extends Controller
      * @Route("/api/private/login", methods={"POST"}, defaults={"_format": "json"})
      *
      * @SWG\Response(
+     *     @SWG\Header(header="Authorization", description="Bearer токен", type="string"),
      *     response=200,
-     *     description="Авторизация"
+     *     description="OK"
      * )
      * @SWG\Response(
      *     response=401,
@@ -81,7 +82,7 @@ class PrivateController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Добавление категории",
+     *     description="OK",
      *     @Model(type=Category::class, groups={"category"}))
      * )
      * @SWG\Response(
@@ -96,6 +97,7 @@ class PrivateController extends Controller
      *     required=true
      * )
      * @Security(name="Bearer")
+     * @SWG\Tag(name="category")
      *
      * @param Request $request
      * @param ValidatorInterface $validator
@@ -130,7 +132,7 @@ class PrivateController extends Controller
      *
      * @SWG\Response(
      *     response=201,
-     *     description="Обновление категории",
+     *     description="OK",
      *     @Model(type=Category::class, groups={"category"}))
      * )
      * @SWG\Response(
@@ -152,6 +154,7 @@ class PrivateController extends Controller
      *     required=true
      * )
      * @Security(name="Bearer")
+     * @SWG\Tag(name="category")
      *
      * @param Request $request
      * @param ValidatorInterface $validator
@@ -199,7 +202,7 @@ class PrivateController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Удаление товара"
+     *     description="OK"
      * )
      * @SWG\Response(
      *     response=400,
@@ -213,6 +216,7 @@ class PrivateController extends Controller
      *     required=true
      * )
      * @Security(name="Bearer")
+     * @SWG\Tag(name="product")
      *
      * @param Request $request
      * @return JsonResponse
@@ -249,7 +253,7 @@ class PrivateController extends Controller
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Удаление категории"
+     *     description="OK"
      * )
      * @SWG\Response(
      *     response=400,
@@ -263,6 +267,7 @@ class PrivateController extends Controller
      *     required=true
      * )
      * @Security(name="Bearer")
+     * @SWG\Tag(name="category")
      *
      * @param Request $request
      * @return JsonResponse
@@ -299,13 +304,47 @@ class PrivateController extends Controller
 
 
     /**
-     * @Route("/api/private/photo", methods={"POST", "PUT", "DELETE"}, defaults={"_format": "json"})
+     * @Route("/api/private/photo/add", methods={"POST"}, defaults={"_format": "json"})
      *
+     * @SWG\Response(
+     *     response=200,
+     *     description="OK"
+     * )
+     * @SWG\Parameter(
+     *     name="file",
+     *     in="formData",
+     *     type="file",
+     *     description="Фотография",
+     *     required=true
+     * )
      * @Security(name="Bearer")
+     * @SWG\Tag(name="photo")
+     *
      * @param Request $request
      * @return JsonResponse
      */
-    public function photoAction(Request $request): JsonResponse
+    public function addPhotoAction(Request $request): JsonResponse
+    {
+        $this->checkAuth($request);
+
+        \dump($request);
+        return $this->json(null);
+    }
+
+    /**
+     * @Route("/api/private/photo/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="OK"
+     * )
+     * @Security(name="Bearer")
+     * @SWG\Tag(name="photo")
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deletePhotoAction(Request $request): JsonResponse
     {
         $this->checkAuth($request);
 
