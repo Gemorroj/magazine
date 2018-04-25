@@ -1,7 +1,9 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
+const { VueLoaderPlugin } = require('vue-loader');
 const exclude = /node_modules/;
+const isDevMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
     devtool: 'source-map',
@@ -16,7 +18,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 enforce: "pre",
-                exclude: exclude,
+                //exclude: exclude,
                 use: [{
                     loader: 'babel-loader',
                     options: {
@@ -40,37 +42,36 @@ module.exports = {
             },
             {
                 test: /\.vue$/,
-                exclude: exclude,
-                use: ['vue-loader']
+                //exclude: exclude,
+                use: [{loader: 'vue-loader'}]
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-                loader: 'file-loader',
-                query: {
-                    outputPath: 'fonts/'
-                }
+                //exclude: exclude,
+                use: [{
+                    loader: 'file-loader',
+                    query: {
+                        outputPath: 'fonts/'
+                    }
+                }]
             },
             {
-                test: /\.css$|\.s[ac]ss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [{
-                        loader: 'css-loader',
-                        options: {
-                            minimize: true,
-                            sourceMap: true
-                        }
-                    }],
-                })
+                test: /\.css$/,
+                //exclude: exclude,
+                use: [
+                    isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
             }
         ]
     },
     plugins: [
+        new VueLoaderPlugin(),
         new HtmlWebpackPlugin({
             filename: path.resolve(__dirname, "./public/index.html"),
             template: path.resolve(__dirname, "./assets/index.html")
         }),
-        new ExtractTextPlugin({
+        new MiniCssExtractPlugin({
             filename: "app.css?[hash]"
         })
     ]
