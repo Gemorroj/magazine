@@ -2,7 +2,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
-const exclude = /node_modules/;
 const isDevMode = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -17,37 +16,18 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                enforce: "pre",
-                //exclude: exclude,
                 use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ["@babel/preset-env", {
-                                "targets": {
-                                    "browsers": [
-                                        "last 2 versions",
-                                        "> 1%",
-                                        "ie >= 11",
-                                        "safari >= 11",
-                                        "not dead",
-                                        "Firefox ESR",
-                                        "last 1 OperaMini versions"
-                                    ]
-                                }
-                            }]
-                        ]
-                    }
+                    loader: 'babel-loader'
                 }]
             },
             {
                 test: /\.vue$/,
-                //exclude: exclude,
-                use: [{loader: 'vue-loader'}]
+                use: [{
+                    loader: 'vue-loader'
+                }]
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-                //exclude: exclude,
                 use: [{
                     loader: 'file-loader',
                     query: {
@@ -57,9 +37,8 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                //exclude: exclude,
                 use: [
-                    MiniCssExtractPlugin.loader,
+                    isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             }

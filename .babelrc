@@ -1,0 +1,17 @@
+{
+    "presets": [
+        ["@babel/preset-env", {
+            "targets": {
+                "browsers": [
+                    "last 2 versions",
+                    "> 1%",
+                    "ie >= 11",
+                    "safari >= 11",
+                    "not dead",
+                    "Firefox ESR",
+                    "last 1 OperaMini versions"
+                ]
+            }
+        }]
+    ]
+}
