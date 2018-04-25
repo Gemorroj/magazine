@@ -59,7 +59,7 @@ module.exports = {
                 test: /\.css$/,
                 //exclude: exclude,
                 use: [
-                    isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+                    MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             }
