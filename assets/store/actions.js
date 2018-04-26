@@ -76,4 +76,23 @@ export default {
             return response.body;
         });
     },
+    ADD_PRODUCT({commit}, {product, category}) {
+        let formData = new FormData();
+        formData.append('categoryId', category.id);
+        formData.append('name', product.name);
+        formData.append('description', product.description);
+        formData.append('price', product.price);
+        formData.append('size', product.size);
+        formData.append('composition', product.composition);
+        formData.append('manufacturer', product.manufacturer);
+
+        for (let i = 0; i < product.photos.length; ++i) {
+            formData.append('photos[]', product.photos[i].path);
+        }
+
+        return Vue.resource('private/products/add').save(formData).then(response => {
+            commit('ADD_PRODUCT', response.body);
+            return response.body;
+        });
+    }
 };

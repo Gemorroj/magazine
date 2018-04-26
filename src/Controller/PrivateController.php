@@ -511,4 +511,127 @@ class PrivateController extends Controller
 
         return $this->json($product, 201, [], ['groups' => ['product']]);
     }
+
+
+    /**
+     * @Route("/api/private/products/add", methods={"POST"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="OK",
+     *     @Model(type=Product::class, groups={"product"}))
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="categoryId",
+     *     in="formData",
+     *     type="integer",
+     *     description="ID категории",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     type="string",
+     *     description="Имя товара",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="formData",
+     *     type="string",
+     *     description="Описание товара",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="price",
+     *     in="formData",
+     *     type="number",
+     *     description="Цена",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="size",
+     *     in="formData",
+     *     type="string",
+     *     description="Размер",
+     *     required=false
+     * )
+     * @SWG\Parameter(
+     *     name="composition",
+     *     in="formData",
+     *     type="string",
+     *     description="Состав",
+     *     required=false
+     * )
+     * @SWG\Parameter(
+     *     name="manufacturer",
+     *     in="formData",
+     *     type="string",
+     *     description="Производитель",
+     *     required=false
+     * )
+     * @SWG\Parameter(
+     *     name="photos",
+     *     in="formData",
+     *     type="array",
+     *     @SWG\Items(type="string"),
+     *     description="Фотографии",
+     *     required=true
+     * )
+     * @Security(name="Bearer")
+     * @SWG\Tag(name="product")
+     *
+     * @param Request $request
+     * @param ValidatorInterface $validator
+     * @return JsonResponse
+     */
+    public function addProductAction(Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $this->checkAuth($request);
+
+        $categoryId = $request->request->get('categoryId');
+        if (null === $categoryId || '' === $categoryId) {
+            throw new \InvalidArgumentException('Не указан идентификатор категории');
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $category = $manager->find(Category::class, $categoryId);
+
+        $product = new Product();
+        $product->setCategory($category);
+        $product->setDateUpdate(new \DateTime());
+        $product->setName($request->request->get('name'));
+        $product->setDescription($request->request->get('description'));
+        $product->setComposition($request->request->get('composition'));
+        $product->setManufacturer($request->request->get('manufacturer'));
+        $product->setPrice($request->request->get('price'));
+        $product->setSize($request->request->get('size'));
+
+        foreach ($request->request->get('photos', []) as $photoPath) {
+            $product->getPhotos()->add(
+                (new Photo())
+                    ->setDateCreate(new \DateTime())
+                    ->setProduct($product)
+                    ->setPath($photoPath)
+            );
+        }
+
+        // валидация
+        $errors = $validator->validate($product);
+        if ($errors->count() > 0) {
+            return $this->json([
+                'status' => 'error',
+                'message' => (string)$errors,
+            ], 400);
+        }
+
+        $manager->persist($product);
+        $manager->flush();
+
+        return $this->json($product, 201, [], ['groups' => ['product']]);
+    }
 }

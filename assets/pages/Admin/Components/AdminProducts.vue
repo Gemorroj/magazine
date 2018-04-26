@@ -170,14 +170,25 @@
             submitProductForm() {
                 this.$refs.productForm.validate((valid) => {
                     if (valid) {
-                        this.$store.dispatch('private/UPDATE_PRODUCT', {product: this.product}).then(() => {
-                            this.$notify({
-                                title: 'Success',
-                                message: `Товар ${this.product.name} обновлен`,
-                                type: 'success'
+                        if (this.product.id) {
+                            this.$store.dispatch('private/UPDATE_PRODUCT', {product: this.product}).then(() => {
+                                this.$notify({
+                                    title: 'Success',
+                                    message: `Товар ${this.product.name} обновлен`,
+                                    type: 'success'
+                                });
+                                this.productFormVisible = false;
                             });
-                            this.productFormVisible = false;
-                        });
+                        } else {
+                            this.$store.dispatch('private/ADD_PRODUCT', {product: this.product, category: this.activeCategory}).then(() => {
+                                this.$notify({
+                                    title: 'Success',
+                                    message: `Товар ${this.product.name} добавлен`,
+                                    type: 'success'
+                                });
+                                this.productFormVisible = false;
+                            });
+                        }
                     }
                 });
             }

@@ -41,5 +41,8 @@ export default {
             }
             return item;
         });
+    },
+    ADD_PRODUCT(state, product) {
+        state.products.push(product);
     }
 };
