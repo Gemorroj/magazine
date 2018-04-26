@@ -133,6 +133,8 @@
         methods: {
             handleRemove(file, fileList) {
                 console.log('remove', file, fileList);
+                this.product.photos = fileList.map(photo => ({'name': photo.name, 'path': photo.url}));
+                console.log(this.product.photos);
             },
             handlePreview(file) {
                 console.log('preview', file);
@@ -145,7 +147,7 @@
             },
             productEdit(product) {
                 this.product = Object.assign({}, product);
-                this.fileList = this.product.photos.map(photo => ({'name': photo.path, 'url': photo.path}));
+                this.fileList = this.product.photos.map(photo => ({'name': photo.name, 'url': photo.path}));
                 this.productFormVisible = true;
             },
             productDelete(product) {
@@ -165,13 +167,17 @@
                     // ???
                 });
             },
-            submitProductForm(val) {
-                console.log(val);
-
+            submitProductForm() {
                 this.$refs.productForm.validate((valid) => {
                     if (valid) {
-                        alert('submit!');
-                        this.productFormVisible = false;
+                        this.$store.dispatch('private/UPDATE_PRODUCT', {product: this.product}).then(() => {
+                            this.$notify({
+                                title: 'Success',
+                                message: `Товар ${this.product.name} обновлен`,
+                                type: 'success'
+                            });
+                            this.productFormVisible = false;
+                        });
                     }
                 });
             }

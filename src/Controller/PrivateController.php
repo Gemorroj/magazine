@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Photo;
 use App\Entity\Product;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\PersistentCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -314,7 +317,7 @@ class PrivateController extends Controller
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(property="name", type="string", description="Имя загруженного файла"),
-     *         @SWG\Property(property="path", type="string", description="Публичная директория загруженного файла"),
+     *         @SWG\Property(property="path", type="string", description="Публичный путь к загруженному файлу"),
      *     )
      * )
      * @SWG\Parameter(
@@ -359,7 +362,153 @@ class PrivateController extends Controller
 
         return $this->json([
             'name' => $file->getFilename(),
-            'path' => '/upload/' . $dirName,
+            'path' => '/upload/' . $dirName . '/' . $file->getFilename(),
         ]);
+    }
+
+
+    /**
+     * @Route("/api/private/products/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
+     *
+     * @SWG\Response(
+     *     response=201,
+     *     description="OK",
+     *     @Model(type=Product::class, groups={"product"}))
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="formData",
+     *     type="integer",
+     *     description="ID товара",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     type="string",
+     *     description="Имя товара",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="formData",
+     *     type="string",
+     *     description="Описание товара",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="price",
+     *     in="formData",
+     *     type="number",
+     *     description="Цена",
+     *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="size",
+     *     in="formData",
+     *     type="string",
+     *     description="Размер",
+     *     required=false
+     * )
+     * @SWG\Parameter(
+     *     name="composition",
+     *     in="formData",
+     *     type="string",
+     *     description="Состав",
+     *     required=false
+     * )
+     * @SWG\Parameter(
+     *     name="manufacturer",
+     *     in="formData",
+     *     type="string",
+     *     description="Производитель",
+     *     required=false
+     * )
+     * @SWG\Parameter(
+     *     name="photos",
+     *     in="formData",
+     *     type="array",
+     *     @SWG\Items(type="string"),
+     *     description="Фотографии",
+     *     required=true
+     * )
+     * @Security(name="Bearer")
+     * @SWG\Tag(name="product")
+     *
+     * @param Request $request
+     * @param ValidatorInterface $validator
+     * @return JsonResponse
+     */
+    public function updateProductAction(Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        $this->checkAuth($request);
+
+        $productId = $request->request->get('id');
+        if (null === $productId || '' === $productId) {
+            throw new \InvalidArgumentException('Не указан идентификатор товара');
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $repository = $manager->getRepository(Product::class);
+
+        /** @var Product $product */
+        $product = $repository->find($productId);
+        if (null === $product) {
+            $this->createNotFoundException('Товар не найден');
+        }
+
+        $product->setDateUpdate(new \DateTime());
+        $product->setName($request->request->get('name'));
+        $product->setDescription($request->request->get('description'));
+        $product->setComposition($request->request->get('composition'));
+        $product->setManufacturer($request->request->get('manufacturer'));
+        $product->setPrice($request->request->get('price'));
+        $product->setSize($request->request->get('size'));
+
+        /** @var PersistentCollection $photos */
+        $photos = $product->getPhotos();
+
+        // оставляем только те фотографии, что пришли из формы
+        foreach ($photos as $p) {
+            if (!\in_array($p->getPath(), $request->request->get('photos'), true)) {
+                $photos->removeElement($p);
+            }
+        }
+
+        foreach ($request->request->get('photos') as $photoPath) {
+            if (!$photos->exists(function ($key, Photo $photo) use ($photoPath) {
+                return $photo->getPath() === $photoPath;
+            })) {
+                // добавляем новые, если их раньше не было
+                $photos->add(
+                    (new Photo())
+                        ->setDateCreate(new \DateTime())
+                        ->setProduct($product)
+                        ->setPath($photoPath)
+                );
+            }
+        }
+
+        // валидация
+        $errors = $validator->validate($product);
+        if ($errors->count() > 0) {
+            return $this->json([
+                'status' => 'error',
+                'message' => (string)$errors,
+            ], 400);
+        }
+
+        $manager->persist($product);
+        $manager->flush();
+
+        $sortedPhotos = $product->getPhotos()->toArray();
+        \sort($sortedPhotos);
+        $product->setPhotos(new ArrayCollection($sortedPhotos)); // сбрасываем сортировку
+
+        return $this->json($product, 201, [], ['groups' => ['product']]);
     }
 }

@@ -33,5 +33,13 @@ export default {
         state.products = state.products.filter(item => {
             return item.id !== product.id;
         });
+    },
+    UPDATE_PRODUCT(state, product) {
+        state.products = state.products.map(item => {
+            if (item.id === product.id) {
+                return product;
+            }
+            return item;
+        });
     }
 };

@@ -44,7 +44,7 @@ class PhotoCleanOrphanedCommand extends Command
 
         $query = $this->entityManager->createQuery('SELECT 1 FROM App\Entity\Photo p WHERE p.path = :path');
         /** @var \AppendIterator $files */
-        $files = Finder::create()->files()->in($this->uploadDir)->getIterator();
+        $files = Finder::create()->files()->in($this->uploadDir)->notName('index.html')->getIterator();
 
         // считаем кол-во файлов в БД, для красивого прогрессбара
         $countFiles = $this->entityManager->createQuery('SELECT COUNT(p) FROM App\Entity\Photo p')->execute([], AbstractQuery::HYDRATE_SINGLE_SCALAR);
