@@ -78,6 +78,7 @@ class Product
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
      * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=Photo::class, groups={"product"})))
      * @var Collection
+     * @Assert\Count(min=1)
      */
     private $photos;
     /**

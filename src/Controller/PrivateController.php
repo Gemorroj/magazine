@@ -474,12 +474,12 @@ class PrivateController extends Controller
 
         // оставляем только те фотографии, что пришли из формы
         foreach ($photos as $p) {
-            if (!\in_array($p->getPath(), $request->request->get('photos'), true)) {
+            if (!\in_array($p->getPath(), $request->request->get('photos', []), true)) {
                 $photos->removeElement($p);
             }
         }
 
-        foreach ($request->request->get('photos') as $photoPath) {
+        foreach ($request->request->get('photos', []) as $photoPath) {
             if (!$photos->exists(function ($key, Photo $photo) use ($photoPath) {
                 return $photo->getPath() === $photoPath;
             })) {
