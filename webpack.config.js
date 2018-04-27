@@ -56,7 +56,7 @@ module.exports = function (env, argv) {
                 minify: isDevMode ? false : true
             }),
             new MiniCssExtractPlugin({
-                filename: "app.css?[hash]"
+                filename: "app.css"
             })
         ]
     };
