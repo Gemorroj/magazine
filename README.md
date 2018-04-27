@@ -4,6 +4,7 @@
 - БД Sqlite
 - И Vue.js + element-ui как фронтенд
 
+---
 
 - Сервер должен перенаправлять все запросы на `public/index.html`
 - Если запрос начинается с `/api/public/` или `/api/private/`, то направлять на `api.php`
@@ -11,7 +12,7 @@
 
 ### План по переделке (выбранный вариант, на данный момент)
 - fixed: Основную БД перевести на sqlite (чтобы упростить инфраструктуру, т.е. отвязаться от промышленных БД, требующих запущенного сервера). Пока что в доктрине нет поддержки `foreign keys` для sqlite - https://github.com/doctrine/dbal/issues/2833
-- Фотки хранить у себя на диске
+- fixed: Фотки хранить у себя на диске
 
 
 ### Установка прав доступа на запись:
@@ -116,7 +117,15 @@ server {
     }
     location /build/ {
         access_log off;
-        expires 30d;
+        expires 7d;
+    }
+    location /bundles/ {
+        access_log off;
+        expires 7d;
+    }
+    location /upload/ {
+        access_log off;
+        expires 7d;
     }
 
     # JSON api

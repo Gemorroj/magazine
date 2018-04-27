@@ -603,7 +603,7 @@ class PrivateController extends Controller
 
         $product = new Product();
         $product->setCategory($category);
-        $product->setDateUpdate(new \DateTime());
+        $product->setDateCreate(new \DateTime());
         $product->setName($request->request->get('name'));
         $product->setDescription($request->request->get('description'));
         $product->setComposition($request->request->get('composition'));

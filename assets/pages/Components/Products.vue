@@ -2,7 +2,7 @@
     <el-row>
         <el-col :xs="24" :sm="8" :md="8" :lg="8" v-for="product in products" :key="product.id">
             <el-card>
-                <img :src="'https://api.rethumb.com/v1/width/200/' + product.photos[0].path" />
+                <img :src="'/api/public/photos/' + product.photos[0].id" />
                 <div>
                     <div>{{ product.name }}</div>
                     <div>{{ product.price }} рубля</div>

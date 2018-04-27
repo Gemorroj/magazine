@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Category;
+use App\Entity\Photo;
 use App\Entity\Product;
+use Imagine\Image\ImageInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Swagger\Annotations as SWG;
 
@@ -82,9 +86,50 @@ class PublicController extends Controller
     public function getProductAction(string $productId): JsonResponse
     {
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Product::class);
-        $product = $repository->find($productId);
+        $product = $manager->find(Product::class, $productId);
 
         return $this->json($product, 200, [], ['groups' => ['product']]);
+    }
+
+    /**
+     * @Route("/api/public/photos/{photoId}", methods={"GET"}, defaults={"_format": "image"})
+     * @SWG\Response(
+     *     response=200,
+     *     description="Фото"
+     * )
+     * @SWG\Parameter(
+     *     name="photoId",
+     *     in="path",
+     *     type="integer",
+     *     description="ID фото"
+     * )
+     * @param string $photoId
+     * @return StreamedResponse
+     */
+    public function getPhotoPreviewAction(string $photoId): StreamedResponse
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $photo = $manager->find(Photo::class, $photoId);
+
+        $image = (new \Imagine\Gd\Imagine())
+            ->open($this->getParameter('kernel.upload_dir') . '/..' . $photo->getPath())
+            ->thumbnail(new \Imagine\Image\Box(350, 260), ImageInterface::THUMBNAIL_OUTBOUND)
+        ;
+
+        $response = new StreamedResponse();
+        $response->setCallback(function () use ($image) {
+            $image->show('jpeg');
+        });
+
+        $cacheSeconds = 7 * 86400; // 7 дней
+        $response->setCache([
+            'public' => true,
+            'private' => false,
+            'immutable' => true,
+            'max_age' => $cacheSeconds,
+        ]);
+        $response->headers->set('X-Accel-Expires', $cacheSeconds);
+
+        return $response;
     }
 }

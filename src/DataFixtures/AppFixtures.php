@@ -43,12 +43,25 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
+
+    private function getRandomPhotoPath(): string
+    {
+        $files = \array_diff(\scandir(__DIR__ . '/images',  \SCANDIR_SORT_NONE), ['..', '.']);
+        return $files[\array_rand($files, 1)];
+    }
+
     private function makePhoto(Product $product): Photo
     {
+        $photoSourcePath = $this->getRandomPhotoPath();
+        $photoDestPath = \mt_rand(1000, 999999) . '_' . $this->getRandomPhotoPath();
+
+        @\mkdir(__DIR__ . '/../../public/upload/2018-01-01', 0777);
+        \copy(__DIR__ . '/images/' . $photoSourcePath, __DIR__ . '/../../public/upload/2018-01-01/' . $photoDestPath);
+
         return (new Photo())
             ->setProduct($product)
             ->setDateCreate(new \DateTime())
-            ->setPath('https://lorempixel.com/800/800/?' . \mt_rand(1, 1000));
+            ->setPath('/upload/2018-01-01/' . $photoDestPath);
     }
 
     private function makeProduct(Category $category): Product

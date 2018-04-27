@@ -132,17 +132,16 @@
         }),
         methods: {
             handleRemove(file, fileList) {
-                console.log('remove', file, fileList);
+                //console.log('remove', file, fileList);
                 this.product.photos = fileList.map(photo => ({'name': photo.name, 'path': photo.url}));
-                console.log(this.product.photos);
             },
             handlePreview(file) {
-                console.log('preview', file);
+                //console.log('preview', file);
                 this.photoPreviewImageUrl = file.url;
                 this.photoPreviewVisible = true;
             },
             handleSuccess(res, file) {
-                console.log('success', res, file);
+                //console.log('success', res, file);
                 this.product.photos = [...this.product.photos, res];
             },
             productEdit(product) {
