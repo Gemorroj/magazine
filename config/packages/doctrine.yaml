@@ -10,7 +10,7 @@ doctrine:
         # configure these for your database server
         driver: 'pdo_sqlite'
         #server_version: '5.7'
-        path: '%kernel.project_dir%/database.db'
+        path: '%kernel.project_dir%/var/data.db'
         charset: utf8mb4
         default_table_options:
             charset: utf8mb4
