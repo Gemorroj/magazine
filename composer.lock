@@ -1158,12 +1158,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "bf52f136ce55cd6474fe583d5641e41835102737"
+                "reference": "d79dc5922dbdde7ae0c31d647e9e4d5b08dfbaa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/bf52f136ce55cd6474fe583d5641e41835102737",
-                "reference": "bf52f136ce55cd6474fe583d5641e41835102737",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/d79dc5922dbdde7ae0c31d647e9e4d5b08dfbaa3",
+                "reference": "d79dc5922dbdde7ae0c31d647e9e4d5b08dfbaa3",
                 "shasum": ""
             },
             "require": {
@@ -1233,7 +1233,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2018-05-09T17:46:01+00:00"
+            "time": "2018-05-11T08:43:37+00:00"
         },
         {
             "name": "ocramius/package-versions",
