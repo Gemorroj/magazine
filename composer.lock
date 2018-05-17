@@ -972,12 +972,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalanche123/Imagine.git",
-                "reference": "f2919909f5c43ddf0aea373f460d86f1ea45811c"
+                "reference": "45bed118fce4b364f486a279667fdc8d1e2f8af3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/f2919909f5c43ddf0aea373f460d86f1ea45811c",
-                "reference": "f2919909f5c43ddf0aea373f460d86f1ea45811c",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/45bed118fce4b364f486a279667fdc8d1e2f8af3",
+                "reference": "45bed118fce4b364f486a279667fdc8d1e2f8af3",
                 "shasum": ""
             },
             "require": {
@@ -1022,7 +1022,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2018-02-12T12:28:52+00:00"
+            "time": "2018-05-13T01:04:23+00:00"
         },
         {
             "name": "jdorn/sql-formatter",
