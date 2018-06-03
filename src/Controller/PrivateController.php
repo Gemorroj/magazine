@@ -8,6 +8,7 @@ use App\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
@@ -23,7 +24,9 @@ class PrivateController extends Controller
 {
     /**
      * @Route("/api/private/login", methods={"POST"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"multipart/form-data"}
+     * )
      * @SWG\Response(
      *     @SWG\Header(header="Authorization", description="Bearer токен", type="string"),
      *     response=200,
@@ -84,7 +87,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/categories/add", methods={"POST"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"}
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="OK",
@@ -134,7 +139,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/categories/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"}
+     * )
      * @SWG\Response(
      *     response=201,
      *     description="OK",
@@ -204,7 +211,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/products/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"}
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="OK"
@@ -255,7 +264,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/categories/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"}
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="OK"
@@ -310,7 +321,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/photo/add", methods={"POST"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"multipart/form-data"}
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="OK",
@@ -369,7 +382,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/products/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"}
+     * )
      * @SWG\Response(
      *     response=201,
      *     description="OK",
@@ -515,7 +530,9 @@ class PrivateController extends Controller
 
     /**
      * @Route("/api/private/products/add", methods={"POST"}, defaults={"_format": "json"})
-     *
+     * @Operation(
+     *     consumes={"application/x-www-form-urlencoded"}
+     * )
      * @SWG\Response(
      *     response=201,
      *     description="OK",
