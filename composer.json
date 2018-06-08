@@ -12,7 +12,7 @@
         "symfony/flex": "^1.0",
         "symfony/framework-bundle": "^4.0",
         "symfony/lts": "^4@dev",
-        "symfony/monolog-bundle": "^3.2",
+        "symfony/monolog-bundle": "^3.3",
         "symfony/serializer-pack": "*",
         "symfony/yaml": "^4.0",
         "symfony/dotenv": "^4.0",
