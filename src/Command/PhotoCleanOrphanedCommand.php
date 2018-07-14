@@ -2,7 +2,6 @@
 
 namespace App\Command;
 
-use App\Entity\Photo;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NoResultException;
