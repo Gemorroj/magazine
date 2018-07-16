@@ -15,12 +15,12 @@
         "vue-resource": "^1.5.1",
         "vue-router": "^3.0.1",
         "vue-touch": "^2.0.0-beta.4",
-        "vue-yandex-maps": "^0.7.12",
+        "vue-yandex-maps": "^0.7.13",
         "vuex": "^3.0.1"
     },
     "devDependencies": {
-        "@babel/core": "^7.0.0-beta.53",
-        "@babel/preset-env": "^7.0.0-beta.53",
+        "@babel/core": "^7.0.0-beta.54",
+        "@babel/preset-env": "^7.0.0-beta.54",
         "babel-loader": "^8.0.0-beta.4",
         "css-loader": "^1.0.0",
         "file-loader": "^1.1.11",
@@ -28,7 +28,7 @@
         "mini-css-extract-plugin": "^0.4.1",
         "vue-loader": "^15.2.4",
         "vue-template-compiler": "^2.5.16",
-        "webpack": "^4.16.0",
+        "webpack": "^4.16.1",
         "webpack-cli": "^3.0.8"
     },
     "scripts": {
