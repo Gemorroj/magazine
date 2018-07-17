@@ -22,8 +22,8 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "symfony/var-dumper": "^4.0",
-        "symfony/maker-bundle": "^1.5"
+        "symfony/maker-bundle": "^1.5",
+        "symfony/debug-pack": "*"
     },
     "config": {
         "preferred-install": {
