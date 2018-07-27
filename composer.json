@@ -13,6 +13,7 @@
         "symfony/framework-bundle": "^4.0",
         "symfony/lts": "^4@dev",
         "symfony/monolog-bundle": "^3.3",
+        "easycorp/easy-log-handler": "^1.0.2",
         "symfony/serializer-pack": "*",
         "symfony/yaml": "^4.0",
         "symfony/dotenv": "^4.0",
@@ -23,7 +24,7 @@
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
         "symfony/maker-bundle": "^1.5",
-        "symfony/debug-pack": "*"
+        "symfony/debug-bundle": "^4.0"
     },
     "config": {
         "preferred-install": {
