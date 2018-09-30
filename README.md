@@ -1,6 +1,6 @@
 # Магазин
 
-- Использует php 7 как бэкенд (Symfony 4)
+- Использует php 7 как бэкенд (Symfony 4.1+)
 - БД Sqlite
 - И Vue.js + element-ui как фронтенд
 

@@ -8,23 +8,22 @@
         "ext-gd": "*",
         "ext-pdo_sqlite": "*",
         "symfony/orm-pack": "*",
-        "symfony/console": "^4.0",
-        "symfony/flex": "^1.0",
-        "symfony/framework-bundle": "^4.0",
-        "symfony/lts": "^4@dev",
+        "symfony/console": "^4.1",
+        "symfony/flex": "^1.1",
+        "symfony/framework-bundle": "^4.1",
         "symfony/monolog-bundle": "^3.3",
         "symfony/serializer-pack": "*",
-        "symfony/yaml": "^4.0",
-        "symfony/dotenv": "^4.0",
-        "symfony/validator": "^4.0",
-        "nelmio/api-doc-bundle": "^3.2@dev",
-        "imagine/imagine": "^0.7@dev"
+        "symfony/yaml": "^4.1",
+        "symfony/dotenv": "^4.1",
+        "symfony/validator": "^4.1",
+        "nelmio/api-doc-bundle": "^3.3",
+        "imagine/imagine": "^1.0"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
-        "symfony/maker-bundle": "^1.5",
-        "symfony/debug-bundle": "^4.0",
-        "easycorp/easy-log-handler": "^1.0.5"
+        "symfony/maker-bundle": "^1.7",
+        "symfony/debug-bundle": "^4.1",
+        "easycorp/easy-log-handler": "^1.0.7"
     },
     "config": {
         "preferred-install": {
