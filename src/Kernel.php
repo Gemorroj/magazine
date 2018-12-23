@@ -62,7 +62,7 @@ class Kernel extends BaseKernel
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function getKernelParameters()
     {

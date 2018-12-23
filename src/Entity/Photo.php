@@ -16,7 +16,7 @@ class Photo
      * @Groups({"product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
      */
     private $id;
     /**
@@ -30,8 +30,8 @@ class Photo
      */
     private $dateUpdate;
     /**
-     * @Assert\NotBlank()
-     * @Assert\Url()
+     * @Assert\NotBlank
+     * @Assert\Url
      * @Assert\Length(max=255)
      * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
@@ -53,11 +53,13 @@ class Photo
 
     /**
      * @param int $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -71,11 +73,13 @@ class Photo
 
     /**
      * @param \DateTime $dateCreate
+     *
      * @return $this
      */
     public function setDateCreate(\DateTime $dateCreate)
     {
         $this->dateCreate = $dateCreate;
+
         return $this;
     }
 
@@ -89,11 +93,13 @@ class Photo
 
     /**
      * @param \DateTime $dateUpdate
+     *
      * @return $this
      */
     public function setDateUpdate(\DateTime $dateUpdate)
     {
         $this->dateUpdate = $dateUpdate;
+
         return $this;
     }
 
@@ -107,11 +113,13 @@ class Photo
 
     /**
      * @param string $path
+     *
      * @return $this
      */
     public function setPath($path)
     {
         $this->path = $path;
+
         return $this;
     }
 
@@ -125,11 +133,13 @@ class Photo
 
     /**
      * @param Product $product
+     *
      * @return $this
      */
     public function setProduct(Product $product)
     {
         $this->product = $product;
+
         return $this;
     }
 }

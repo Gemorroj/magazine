@@ -10,7 +10,8 @@ use Doctrine\ORM\PersistentCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Swagger\Annotations as SWG;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,9 +19,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Swagger\Annotations as SWG;
 
-class PrivateController extends Controller
+class PrivateController extends AbstractController
 {
     /**
      * @Route("/api/private/login", methods={"POST"}, defaults={"_format": "json"})
@@ -52,6 +52,7 @@ class PrivateController extends Controller
      * )
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function loginAction(Request $request): JsonResponse
@@ -62,14 +63,13 @@ class PrivateController extends Controller
         if ($login === $this->getParameter('login') && $password === $this->getParameter('password')) {
             return $this->json([
                 'status' => 'success',
-            ], 200, ['Authorization' => 'Bearer ' . \hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
+            ], 200, ['Authorization' => 'Bearer '.\hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
         }
 
         return $this->json([
             'status' => 'error',
         ], 401);
     }
-
 
     /**
      * @param Request $request
@@ -83,7 +83,6 @@ class PrivateController extends Controller
             throw new HttpException(403, 'Ны не авторизованы');
         }
     }
-
 
     /**
      * @Route("/api/private/categories/add", methods={"POST"}, defaults={"_format": "json"})
@@ -109,8 +108,9 @@ class PrivateController extends Controller
      * @Security(name="Bearer")
      * @SWG\Tag(name="category")
      *
-     * @param Request $request
+     * @param Request            $request
      * @param ValidatorInterface $validator
+     *
      * @return JsonResponse
      */
     public function addCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
@@ -125,7 +125,7 @@ class PrivateController extends Controller
         if ($errors->count() > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => (string)$errors,
+                'message' => (string) $errors,
             ], 400);
         }
 
@@ -136,7 +136,6 @@ class PrivateController extends Controller
         return $this->json($category, 200, [], ['groups' => ['category']]);
     }
 
-
     /**
      * @Route("/api/private/categories/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
      * @Operation(
@@ -145,7 +144,7 @@ class PrivateController extends Controller
      * @SWG\Response(
      *     response=201,
      *     description="OK",
-     *     @Model(type=Category::class, groups={"category"}))
+     * @Model(type=Category::class, groups={"category"}))
      * )
      * @SWG\Response(
      *     response=400,
@@ -168,8 +167,9 @@ class PrivateController extends Controller
      * @Security(name="Bearer")
      * @SWG\Tag(name="category")
      *
-     * @param Request $request
+     * @param Request            $request
      * @param ValidatorInterface $validator
+     *
      * @return JsonResponse
      */
     public function updateCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
@@ -198,7 +198,7 @@ class PrivateController extends Controller
         if ($errors->count() > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => (string)$errors,
+                'message' => (string) $errors,
             ], 400);
         }
 
@@ -207,7 +207,6 @@ class PrivateController extends Controller
 
         return $this->json($category, 201, [], ['groups' => ['category']]);
     }
-
 
     /**
      * @Route("/api/private/products/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
@@ -233,6 +232,7 @@ class PrivateController extends Controller
      * @SWG\Tag(name="product")
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function deleteProductAction(Request $request): JsonResponse
@@ -286,6 +286,7 @@ class PrivateController extends Controller
      * @SWG\Tag(name="category")
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function deleteCategoryAction(Request $request): JsonResponse
@@ -318,7 +319,6 @@ class PrivateController extends Controller
         return $this->json(null);
     }
 
-
     /**
      * @Route("/api/private/photo/add", methods={"POST"}, defaults={"_format": "json"})
      * @Operation(
@@ -344,6 +344,7 @@ class PrivateController extends Controller
      * @SWG\Tag(name="photo")
      *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function addPhotoAction(Request $request): JsonResponse
@@ -359,26 +360,25 @@ class PrivateController extends Controller
         if (!$uploadedFile->isValid()) {
             throw new UploadException($uploadedFile->getErrorMessage());
         }
-        if (\strstr($uploadedFile->getMimeType(), '/', true) !== 'image') {
+        if ('image' !== \mb_strstr($uploadedFile->getMimeType(), '/', true)) {
             throw new \InvalidArgumentException('Некорректный mime тип. Поддерживаются только картинки (image/*)');
         }
 
         $dirName = \date('Y-m-d');
-        $this->get('filesystem')->mkdir($this->getParameter('kernel.upload_dir') . '/' . $dirName);
+        $this->get('filesystem')->mkdir($this->getParameter('kernel.upload_dir').'/'.$dirName);
 
         $fileName = \str_replace('.', '', \uniqid('', true));
         if ($extension = $uploadedFile->guessExtension()) {
             $fileName = \sprintf('%s.%s', $fileName, $extension);
         }
 
-        $file = $uploadedFile->move($this->getParameter('kernel.upload_dir') . '/' . $dirName, $fileName);
+        $file = $uploadedFile->move($this->getParameter('kernel.upload_dir').'/'.$dirName, $fileName);
 
         return $this->json([
             'name' => $file->getFilename(),
-            'path' => '/upload/' . $dirName . '/' . $file->getFilename(),
+            'path' => '/upload/'.$dirName.'/'.$file->getFilename(),
         ]);
     }
-
 
     /**
      * @Route("/api/private/products/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
@@ -388,7 +388,7 @@ class PrivateController extends Controller
      * @SWG\Response(
      *     response=201,
      *     description="OK",
-     *     @Model(type=Product::class, groups={"product"}))
+     * @Model(type=Product::class, groups={"product"}))
      * )
      * @SWG\Response(
      *     response=400,
@@ -454,8 +454,9 @@ class PrivateController extends Controller
      * @Security(name="Bearer")
      * @SWG\Tag(name="product")
      *
-     * @param Request $request
+     * @param Request            $request
      * @param ValidatorInterface $validator
+     *
      * @return JsonResponse
      */
     public function updateProductAction(Request $request, ValidatorInterface $validator): JsonResponse
@@ -513,7 +514,7 @@ class PrivateController extends Controller
         if ($errors->count() > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => (string)$errors,
+                'message' => (string) $errors,
             ], 400);
         }
 
@@ -527,7 +528,6 @@ class PrivateController extends Controller
         return $this->json($product, 201, [], ['groups' => ['product']]);
     }
 
-
     /**
      * @Route("/api/private/products/add", methods={"POST"}, defaults={"_format": "json"})
      * @Operation(
@@ -536,7 +536,7 @@ class PrivateController extends Controller
      * @SWG\Response(
      *     response=201,
      *     description="OK",
-     *     @Model(type=Product::class, groups={"product"}))
+     * @Model(type=Product::class, groups={"product"}))
      * )
      * @SWG\Response(
      *     response=400,
@@ -602,8 +602,9 @@ class PrivateController extends Controller
      * @Security(name="Bearer")
      * @SWG\Tag(name="product")
      *
-     * @param Request $request
+     * @param Request            $request
      * @param ValidatorInterface $validator
+     *
      * @return JsonResponse
      */
     public function addProductAction(Request $request, ValidatorInterface $validator): JsonResponse
@@ -642,7 +643,7 @@ class PrivateController extends Controller
         if ($errors->count() > 0) {
             return $this->json([
                 'status' => 'error',
-                'message' => (string)$errors,
+                'message' => (string) $errors,
             ], 400);
         }
 

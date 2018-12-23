@@ -6,9 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use Swagger\Annotations as SWG;
 
 /**
  * @ORM\Table(name="product")
@@ -20,7 +20,7 @@ class Product
      * @Groups({"product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
      */
     private $id;
     /**
@@ -34,21 +34,21 @@ class Product
      */
     private $dateUpdate;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min=3, max=255)
      * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $name;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min=3, max=5000)
      * @Groups({"product"})
      * @ORM\Column(type="string", length=5000, nullable=false)
      */
     private $description;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Type(type="numeric")
      * @Groups({"product"})
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false, options={"unsigned": true})
@@ -77,6 +77,7 @@ class Product
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
      * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=Photo::class, groups={"product"})))
+     *
      * @var Collection
      * @Assert\Count(min=1)
      */
@@ -104,11 +105,13 @@ class Product
 
     /**
      * @param int $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -122,11 +125,13 @@ class Product
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -140,11 +145,13 @@ class Product
 
     /**
      * @param string $description
+     *
      * @return $this
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -158,11 +165,13 @@ class Product
 
     /**
      * @param float $price
+     *
      * @return $this
      */
     public function setPrice($price)
     {
         $this->price = $price;
+
         return $this;
     }
 
@@ -176,11 +185,13 @@ class Product
 
     /**
      * @param string $size
+     *
      * @return $this
      */
     public function setSize($size)
     {
         $this->size = $size;
+
         return $this;
     }
 
@@ -194,11 +205,13 @@ class Product
 
     /**
      * @param string $composition
+     *
      * @return $this
      */
     public function setComposition($composition)
     {
         $this->composition = $composition;
+
         return $this;
     }
 
@@ -212,11 +225,13 @@ class Product
 
     /**
      * @param string $manufacturer
+     *
      * @return $this
      */
     public function setManufacturer($manufacturer)
     {
         $this->manufacturer = $manufacturer;
+
         return $this;
     }
 
@@ -230,11 +245,13 @@ class Product
 
     /**
      * @param ArrayCollection $photos
+     *
      * @return $this
      */
     public function setPhotos(ArrayCollection $photos)
     {
         $this->photos = $photos;
+
         return $this;
     }
 
@@ -248,11 +265,13 @@ class Product
 
     /**
      * @param Category $category
+     *
      * @return $this
      */
     public function setCategory(Category $category)
     {
         $this->category = $category;
+
         return $this;
     }
 
@@ -266,11 +285,13 @@ class Product
 
     /**
      * @param \DateTime $dateCreate
+     *
      * @return $this
      */
     public function setDateCreate(\DateTime $dateCreate)
     {
         $this->dateCreate = $dateCreate;
+
         return $this;
     }
 
@@ -284,11 +305,13 @@ class Product
 
     /**
      * @param \DateTime $dateUpdate
+     *
      * @return $this
      */
     public function setDateUpdate(\DateTime $dateUpdate)
     {
         $this->dateUpdate = $dateUpdate;
+
         return $this;
     }
 }

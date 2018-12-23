@@ -7,14 +7,13 @@ use App\Entity\Photo;
 use App\Entity\Product;
 use Imagine\Image\ImageInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Swagger\Annotations as SWG;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
-use Swagger\Annotations as SWG;
 
-class PublicController extends Controller
+class PublicController extends AbstractController
 {
     /**
      * @Route("/api/public/categories", methods={"GET"}, defaults={"_format": "json"})
@@ -26,6 +25,7 @@ class PublicController extends Controller
      *         @SWG\Items(ref=@Model(type=Category::class, groups={"category"}))
      *     )
      * )
+     *
      * @return JsonResponse
      */
     public function getCategoriesAction(): JsonResponse
@@ -53,7 +53,9 @@ class PublicController extends Controller
      *     type="integer",
      *     description="ID категории"
      * )
+     *
      * @param string $categoryId
+     *
      * @return JsonResponse
      */
     public function getCategoryProductsAction(string $categoryId): JsonResponse
@@ -80,7 +82,9 @@ class PublicController extends Controller
      *     type="integer",
      *     description="ID товара"
      * )
+     *
      * @param string $productId
+     *
      * @return JsonResponse
      */
     public function getProductAction(string $productId): JsonResponse
@@ -103,7 +107,9 @@ class PublicController extends Controller
      *     type="integer",
      *     description="ID фото"
      * )
+     *
      * @param string $photoId
+     *
      * @return StreamedResponse
      */
     public function getPhotoPreviewAction(string $photoId): StreamedResponse
@@ -112,7 +118,7 @@ class PublicController extends Controller
         $photo = $manager->find(Photo::class, $photoId);
 
         $image = (new \Imagine\Gd\Imagine())
-            ->open($this->getParameter('kernel.upload_dir') . '/..' . $photo->getPath())
+            ->open($this->getParameter('kernel.upload_dir').'/..'.$photo->getPath())
             ->thumbnail(new \Imagine\Image\Box(350, 260), ImageInterface::THUMBNAIL_OUTBOUND)
         ;
 

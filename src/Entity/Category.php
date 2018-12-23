@@ -17,7 +17,7 @@ class Category
      * @Groups({"category", "product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned":true})
+     * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
      */
     private $id;
     /**
@@ -31,7 +31,7 @@ class Category
      */
     private $dateUpdate;
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank
      * @Assert\Length(min=3, max=255)
      * @Groups({"category"})
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
@@ -59,11 +59,13 @@ class Category
 
     /**
      * @param string $id
+     *
      * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -77,11 +79,13 @@ class Category
 
     /**
      * @param string $name
+     *
      * @return $this
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -95,11 +99,13 @@ class Category
 
     /**
      * @param ArrayCollection $products
+     *
      * @return $this
      */
     public function setProducts(ArrayCollection $products)
     {
         $this->products = $products;
+
         return $this;
     }
 
@@ -113,11 +119,13 @@ class Category
 
     /**
      * @param \DateTime $dateCreate
+     *
      * @return $this
      */
     public function setDateCreate(\DateTime $dateCreate)
     {
         $this->dateCreate = $dateCreate;
+
         return $this;
     }
 
@@ -131,11 +139,13 @@ class Category
 
     /**
      * @param \DateTime $dateUpdate
+     *
      * @return $this
      */
     public function setDateUpdate(\DateTime $dateUpdate)
     {
         $this->dateUpdate = $dateUpdate;
+
         return $this;
     }
 }

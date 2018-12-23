@@ -52,7 +52,7 @@ class PhotoCleanOrphanedCommand extends Command
         /** @var \SplFileInfo $fileInfo */
         foreach ($files as $fileInfo) {
             // поиск файла по path
-            $path = '/upload/' . \str_replace('\\', '/', \basename($fileInfo->getPath())) . '/' . $fileInfo->getFilename();
+            $path = '/upload/'.\str_replace('\\', '/', \basename($fileInfo->getPath())).'/'.$fileInfo->getFilename();
 
             $pogressBar->advance();
 
