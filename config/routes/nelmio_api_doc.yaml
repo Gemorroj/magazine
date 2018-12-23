@@ -11,7 +11,7 @@ app.swagger.areas:
 
 
 ## Requires the Asset component and the Twig bundle
-## $ composer require composer require twig asset
+## $ composer require twig asset
 #app.swagger_ui:
 #    path: /api/doc
 #    methods: GET
