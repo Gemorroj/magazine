@@ -56,7 +56,7 @@ class Photo
      *
      * @return $this
      */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id = $id;
 
@@ -76,7 +76,7 @@ class Photo
      *
      * @return $this
      */
-    public function setDateCreate(\DateTime $dateCreate)
+    public function setDateCreate(\DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
 
@@ -84,7 +84,7 @@ class Photo
     }
 
     /**
-     * @return null|\DateTime
+     * @return \DateTime|null
      */
     public function getDateUpdate()
     {
@@ -96,7 +96,7 @@ class Photo
      *
      * @return $this
      */
-    public function setDateUpdate(\DateTime $dateUpdate)
+    public function setDateUpdate(\DateTime $dateUpdate): self
     {
         $this->dateUpdate = $dateUpdate;
 
@@ -116,7 +116,7 @@ class Photo
      *
      * @return $this
      */
-    public function setPath($path)
+    public function setPath($path): self
     {
         $this->path = $path;
 
@@ -136,7 +136,7 @@ class Photo
      *
      * @return $this
      */
-    public function setProduct(Product $product)
+    public function setProduct(Product $product): self
     {
         $this->product = $product;
 

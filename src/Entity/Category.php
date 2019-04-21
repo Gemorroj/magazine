@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -62,7 +63,7 @@ class Category
      *
      * @return $this
      */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id = $id;
 
@@ -82,7 +83,7 @@ class Category
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -90,7 +91,7 @@ class Category
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
     public function getProducts()
     {
@@ -98,11 +99,11 @@ class Category
     }
 
     /**
-     * @param ArrayCollection $products
+     * @param Collection $products
      *
      * @return $this
      */
-    public function setProducts(ArrayCollection $products)
+    public function setProducts(Collection $products): self
     {
         $this->products = $products;
 
@@ -122,7 +123,7 @@ class Category
      *
      * @return $this
      */
-    public function setDateCreate(\DateTime $dateCreate)
+    public function setDateCreate(\DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
 
@@ -142,7 +143,7 @@ class Category
      *
      * @return $this
      */
-    public function setDateUpdate(\DateTime $dateUpdate)
+    public function setDateUpdate(\DateTime $dateUpdate): self
     {
         $this->dateUpdate = $dateUpdate;
 

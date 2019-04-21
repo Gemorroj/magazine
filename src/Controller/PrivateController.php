@@ -92,7 +92,7 @@ class PrivateController extends AbstractController
      * @SWG\Response(
      *     response=200,
      *     description="OK",
-     *     @Model(type=Category::class, groups={"category"}))
+     * @Model(type=Category::class, groups={"category"}))
      * )
      * @SWG\Response(
      *     response=400,

@@ -108,7 +108,7 @@ class Product
      *
      * @return $this
      */
-    public function setId($id)
+    public function setId($id): self
     {
         $this->id = $id;
 
@@ -128,7 +128,7 @@ class Product
      *
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -148,7 +148,7 @@ class Product
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription($description): self
     {
         $this->description = $description;
 
@@ -168,7 +168,7 @@ class Product
      *
      * @return $this
      */
-    public function setPrice($price)
+    public function setPrice($price): self
     {
         $this->price = $price;
 
@@ -188,7 +188,7 @@ class Product
      *
      * @return $this
      */
-    public function setSize($size)
+    public function setSize($size): self
     {
         $this->size = $size;
 
@@ -208,7 +208,7 @@ class Product
      *
      * @return $this
      */
-    public function setComposition($composition)
+    public function setComposition($composition): self
     {
         $this->composition = $composition;
 
@@ -228,7 +228,7 @@ class Product
      *
      * @return $this
      */
-    public function setManufacturer($manufacturer)
+    public function setManufacturer($manufacturer): self
     {
         $this->manufacturer = $manufacturer;
 
@@ -236,7 +236,7 @@ class Product
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
     public function getPhotos()
     {
@@ -244,11 +244,11 @@ class Product
     }
 
     /**
-     * @param ArrayCollection $photos
+     * @param Collection $photos
      *
      * @return $this
      */
-    public function setPhotos(ArrayCollection $photos)
+    public function setPhotos(Collection $photos): self
     {
         $this->photos = $photos;
 
@@ -268,7 +268,7 @@ class Product
      *
      * @return $this
      */
-    public function setCategory(Category $category)
+    public function setCategory(Category $category): self
     {
         $this->category = $category;
 
@@ -288,7 +288,7 @@ class Product
      *
      * @return $this
      */
-    public function setDateCreate(\DateTime $dateCreate)
+    public function setDateCreate(\DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
 
@@ -308,7 +308,7 @@ class Product
      *
      * @return $this
      */
-    public function setDateUpdate(\DateTime $dateUpdate)
+    public function setDateUpdate(\DateTime $dateUpdate): self
     {
         $this->dateUpdate = $dateUpdate;
 
