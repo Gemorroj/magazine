@@ -2,7 +2,7 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "ext-apcu": "*",
         "ext-ctype": "*",
         "ext-gd": "*",
@@ -10,22 +10,22 @@
         "ext-pdo_sqlite": "*",
         "imagine/imagine": "^1.2",
         "nelmio/api-doc-bundle": "^3.4",
-        "symfony/console": "4.2.*",
-        "symfony/dotenv": "4.2.*",
+        "symfony/console": "4.3.*",
+        "symfony/dotenv": "4.3.*",
         "symfony/flex": "^1.2",
-        "symfony/framework-bundle": "4.2.*",
+        "symfony/framework-bundle": "4.3.*",
         "symfony/monolog-bundle": "^3.3",
-        "symfony/orm-pack": "^1.0",
-        "symfony/serializer-pack": "^1.0",
-        "symfony/validator": "4.2.*",
-        "symfony/translation": "4.2.*",
-        "symfony/yaml": "4.2.*"
+        "symfony/orm-pack": "*",
+        "symfony/serializer-pack": "*",
+        "symfony/validator": "4.3.*",
+        "symfony/translation": "4.3.*",
+        "symfony/yaml": "4.3.*"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.14",
-        "doctrine/doctrine-fixtures-bundle": "^3.1",
+        "friendsofphp/php-cs-fixer": "^2.15",
+        "doctrine/doctrine-fixtures-bundle": "^3.2",
         "symfony/maker-bundle": "^1.11",
-        "symfony/debug-bundle": "4.2.*",
+        "symfony/debug-bundle": "4.3.*",
         "easycorp/easy-log-handler": "^1.0.7"
     },
     "config": {
@@ -70,7 +70,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.2.*"
+            "require": "4.3.*"
         }
     }
 }

@@ -47,14 +47,14 @@ class PhotoCleanOrphanedCommand extends Command
 
         // считаем кол-во файлов в БД, для красивого прогрессбара
         $countFiles = $this->entityManager->createQuery('SELECT COUNT(p) FROM App\Entity\Photo p')->execute([], AbstractQuery::HYDRATE_SINGLE_SCALAR);
-        $pogressBar = $io->createProgressBar($countFiles);
+        $progressBar = $io->createProgressBar($countFiles);
 
         /** @var \SplFileInfo $fileInfo */
         foreach ($files as $fileInfo) {
             // поиск файла по path
             $path = '/upload/'.\str_replace('\\', '/', \basename($fileInfo->getPath())).'/'.$fileInfo->getFilename();
 
-            $pogressBar->advance();
+            $progressBar->advance();
 
             try {
                 $query->execute(['path' => $path], AbstractQuery::HYDRATE_SINGLE_SCALAR);
@@ -65,7 +65,7 @@ class PhotoCleanOrphanedCommand extends Command
                 $removedFiles[] = $path;
             }
         }
-        $pogressBar->finish();
+        $progressBar->finish();
 
         if ($removedFiles) {
             $io->success('БД и файловая система синхронизированы.');
