@@ -155,6 +155,9 @@
     "symfony/cache": {
         "version": "v4.0.1"
     },
+    "symfony/cache-contracts": {
+        "version": "v1.1.5"
+    },
     "symfony/config": {
         "version": "v4.0.1"
     },
@@ -193,6 +196,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.0.1"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.5"
     },
     "symfony/filesystem": {
         "version": "v4.0.1"
@@ -293,6 +299,9 @@
     "symfony/serializer-pack": {
         "version": "v1.0.1"
     },
+    "symfony/service-contracts": {
+        "version": "v1.1.5"
+    },
     "symfony/stopwatch": {
         "version": "v4.2.1"
     },
@@ -308,6 +317,9 @@
             "./config/packages/translation.yaml",
             "./translations/.gitignore"
         ]
+    },
+    "symfony/translation-contracts": {
+        "version": "v1.1.5"
     },
     "symfony/twig-bridge": {
         "version": "v4.1.2"
