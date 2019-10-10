@@ -24,7 +24,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.15",
         "doctrine/doctrine-fixtures-bundle": "^3.2",
-        "symfony/maker-bundle": "^1.12",
+        "symfony/maker-bundle": "^1.13",
         "symfony/debug-bundle": "4.3.*",
         "easycorp/easy-log-handler": "^1.0.7"
     },
