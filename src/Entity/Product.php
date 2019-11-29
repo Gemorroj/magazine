@@ -244,8 +244,6 @@ class Product
     }
 
     /**
-     * @param Collection $photos
-     *
      * @return $this
      */
     public function setPhotos(Collection $photos): self
@@ -264,8 +262,6 @@ class Product
     }
 
     /**
-     * @param Category $category
-     *
      * @return $this
      */
     public function setCategory(Category $category): self
@@ -284,8 +280,6 @@ class Product
     }
 
     /**
-     * @param \DateTime $dateCreate
-     *
      * @return $this
      */
     public function setDateCreate(\DateTime $dateCreate): self
@@ -304,8 +298,6 @@ class Product
     }
 
     /**
-     * @param \DateTime $dateUpdate
-     *
      * @return $this
      */
     public function setDateUpdate(\DateTime $dateUpdate): self

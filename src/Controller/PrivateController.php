@@ -50,10 +50,6 @@ class PrivateController extends AbstractController
      *     description="Пароль",
      *     required=true
      * )
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
      */
     public function loginAction(Request $request): JsonResponse
     {
@@ -71,9 +67,6 @@ class PrivateController extends AbstractController
         ], 401);
     }
 
-    /**
-     * @param Request $request
-     */
     private function checkAuth(Request $request): void
     {
         $expectedHash = \hash_hmac('sha256', $this->getParameter('login').':'.$this->getParameter('password'), $this->getParameter('kernel.secret'));
@@ -107,11 +100,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="category")
-     *
-     * @param Request            $request
-     * @param ValidatorInterface $validator
-     *
-     * @return JsonResponse
      */
     public function addCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -166,11 +154,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="category")
-     *
-     * @param Request            $request
-     * @param ValidatorInterface $validator
-     *
-     * @return JsonResponse
      */
     public function updateCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -230,10 +213,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="product")
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
      */
     public function deleteProductAction(Request $request): JsonResponse
     {
@@ -284,10 +263,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="category")
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
      */
     public function deleteCategoryAction(Request $request): JsonResponse
     {
@@ -342,10 +317,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="photo")
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
      */
     public function addPhotoAction(Request $request): JsonResponse
     {
@@ -453,11 +424,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="product")
-     *
-     * @param Request            $request
-     * @param ValidatorInterface $validator
-     *
-     * @return JsonResponse
      */
     public function updateProductAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -601,11 +567,6 @@ class PrivateController extends AbstractController
      * )
      * @Security(name="Bearer")
      * @SWG\Tag(name="product")
-     *
-     * @param Request            $request
-     * @param ValidatorInterface $validator
-     *
-     * @return JsonResponse
      */
     public function addProductAction(Request $request, ValidatorInterface $validator): JsonResponse
     {

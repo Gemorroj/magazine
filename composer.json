@@ -9,24 +9,24 @@
         "ext-iconv": "*",
         "ext-pdo_sqlite": "*",
         "imagine/imagine": "^1.2",
-        "nelmio/api-doc-bundle": "^3.4",
-        "symfony/console": "4.3.*",
-        "symfony/dotenv": "4.3.*",
+        "nelmio/api-doc-bundle": "^3.5",
+        "symfony/console": "4.4.*",
+        "symfony/dotenv": "4.4.*",
         "symfony/flex": "^1.4",
-        "symfony/framework-bundle": "4.3.*",
-        "symfony/monolog-bundle": "^3.4",
+        "symfony/framework-bundle": "4.4.*",
+        "symfony/monolog-bundle": "^3.5",
         "symfony/orm-pack": "*",
         "symfony/serializer-pack": "*",
-        "symfony/validator": "4.3.*",
-        "symfony/translation": "4.3.*",
-        "symfony/yaml": "4.3.*"
+        "symfony/validator": "4.4.*",
+        "symfony/translation": "4.4.*",
+        "symfony/yaml": "4.4.*"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.15",
-        "doctrine/doctrine-fixtures-bundle": "^3.2",
-        "symfony/maker-bundle": "^1.13",
-        "symfony/debug-bundle": "4.3.*",
-        "easycorp/easy-log-handler": "^1.0.7"
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "doctrine/doctrine-fixtures-bundle": "^3.3",
+        "symfony/maker-bundle": "^1.14",
+        "symfony/debug-bundle": "4.4.*",
+        "easycorp/easy-log-handler": "^1.0.9"
     },
     "config": {
         "preferred-install": {
@@ -70,7 +70,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.3.*"
+            "require": "4.4.*"
         }
     }
 }

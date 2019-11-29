@@ -72,8 +72,6 @@ class Photo
     }
 
     /**
-     * @param \DateTime $dateCreate
-     *
      * @return $this
      */
     public function setDateCreate(\DateTime $dateCreate): self
@@ -92,8 +90,6 @@ class Photo
     }
 
     /**
-     * @param \DateTime $dateUpdate
-     *
      * @return $this
      */
     public function setDateUpdate(\DateTime $dateUpdate): self
@@ -132,8 +128,6 @@ class Photo
     }
 
     /**
-     * @param Product $product
-     *
      * @return $this
      */
     public function setProduct(Product $product): self

@@ -99,8 +99,6 @@ class Category
     }
 
     /**
-     * @param Collection $products
-     *
      * @return $this
      */
     public function setProducts(Collection $products): self
@@ -119,8 +117,6 @@ class Category
     }
 
     /**
-     * @param \DateTime $dateCreate
-     *
      * @return $this
      */
     public function setDateCreate(\DateTime $dateCreate): self
@@ -139,8 +135,6 @@ class Category
     }
 
     /**
-     * @param \DateTime $dateUpdate
-     *
      * @return $this
      */
     public function setDateUpdate(\DateTime $dateUpdate): self

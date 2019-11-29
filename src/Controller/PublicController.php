@@ -25,8 +25,6 @@ class PublicController extends AbstractController
      *         @SWG\Items(ref=@Model(type=Category::class, groups={"category"}))
      *     )
      * )
-     *
-     * @return JsonResponse
      */
     public function getCategoriesAction(): JsonResponse
     {
@@ -53,10 +51,6 @@ class PublicController extends AbstractController
      *     type="integer",
      *     description="ID категории"
      * )
-     *
-     * @param string $categoryId
-     *
-     * @return JsonResponse
      */
     public function getCategoryProductsAction(string $categoryId): JsonResponse
     {
@@ -82,10 +76,6 @@ class PublicController extends AbstractController
      *     type="integer",
      *     description="ID товара"
      * )
-     *
-     * @param string $productId
-     *
-     * @return JsonResponse
      */
     public function getProductAction(string $productId): JsonResponse
     {
@@ -107,10 +97,6 @@ class PublicController extends AbstractController
      *     type="integer",
      *     description="ID фото"
      * )
-     *
-     * @param string $photoId
-     *
-     * @return StreamedResponse
      */
     public function getPhotoPreviewAction(string $photoId): StreamedResponse
     {

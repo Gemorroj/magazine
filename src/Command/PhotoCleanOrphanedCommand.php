@@ -74,5 +74,7 @@ class PhotoCleanOrphanedCommand extends Command
         } else {
             $io->success('БД и файловая система синхронизированы, удалять нечего.');
         }
+
+        return 0;
     }
 }

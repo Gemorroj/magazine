@@ -53,7 +53,7 @@ module.exports = function (env, argv) {
                 template: path.resolve(__dirname, "./assets/index.html"),
                 xhtml: true,
                 hash: true,
-                minify: isDevMode ? false : true
+                minify: !isDevMode
             }),
             new MiniCssExtractPlugin({
                 filename: "app.css"
