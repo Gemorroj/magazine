@@ -109,7 +109,7 @@ class PublicController extends AbstractController
         ;
 
         $response = new StreamedResponse();
-        $response->setCallback(function () use ($image) {
+        $response->setCallback(static function () use ($image) {
             $image->show('jpeg');
         });
 
