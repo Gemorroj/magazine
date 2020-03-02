@@ -29,7 +29,7 @@
                 <div class="product-photos">
                     <img v-for="(photo, index) in activeProduct.photos" :src="'/api/public/photos/' + photo.id" @click="openGallery(index)" />
                 </div>
-                <lightbox :images="prepareLightbox()" ref="lightbox" :show-light-box="false"></lightbox>
+                <lightbox :media="prepareLightbox()" ref="lightbox" :show-light-box="false"></lightbox>
             </div>
         </section>
     </main>
