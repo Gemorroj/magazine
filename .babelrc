@@ -9,8 +9,10 @@
                     "not dead",
                     "Firefox ESR",
                     "not IE_Mob <= 11",
-                    "not safari <= 12",
-                    "not op_mini all"
+                    "not safari < 13",
+                    "not op_mini all",
+                    "not ios_saf < 13",
+                    "not samsung < 10"
                 ]
             }
         }]
