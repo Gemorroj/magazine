@@ -2,7 +2,7 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": "^7.3",
+        "php": "^7.4",
         "ext-apcu": "*",
         "ext-ctype": "*",
         "ext-gd": "*",
@@ -25,8 +25,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/maker-bundle": "^1.14",
-        "symfony/debug-bundle": "4.4.*",
-        "easycorp/easy-log-handler": "^1.0.9"
+        "symfony/debug-bundle": "4.4.*"
     },
     "config": {
         "preferred-install": {
