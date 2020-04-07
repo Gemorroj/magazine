@@ -46,7 +46,7 @@
 
                         this.$auth.login({
                             body: data,
-                            rememberMe: true
+                            staySignedIn: true
                         });
                     }
                 });

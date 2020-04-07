@@ -6,6 +6,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import locale from 'element-ui/lib/locale/lang/ru-RU';
 
+import auth from '@websanova/vue-auth';
+import authBearer from '@websanova/vue-auth/drivers/auth/bearer';
+import httpVueResource from '@websanova/vue-auth/drivers/http/vue-resource.1.x';
+import routerVueRouter from '@websanova/vue-auth/drivers/router/vue-router.2.x';
+
 import './app.css';
 import store from './store';
 import router from './router';
@@ -41,10 +46,10 @@ Vue.http.interceptors.push(function (request, next) {
     });
 });
 
-Vue.use(require('@websanova/vue-auth'), {
-    auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
-    http: require('@websanova/vue-auth/drivers/http/vue-resource.1.x.js'),
-    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+Vue.use(auth, {
+    auth: authBearer,
+    http: httpVueResource,
+    router: routerVueRouter,
     authRedirect: {path: '/login'},
     loginData: {url: 'private/login', method: 'POST', redirect: '/admin', fetchUser: false},
     fetchData: {enabled: false},
