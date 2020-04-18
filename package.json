@@ -33,7 +33,6 @@
     "scripts": {
         "dev-build": "webpack --mode development --config webpack.config.js",
         "prod-build": "webpack --mode production --config webpack.config.js",
-        "dev-build:watch": "webpack --mode development --config webpack.config.js --watch",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev-build:watch": "webpack --mode development --config webpack.config.js --watch"
     }
 }
