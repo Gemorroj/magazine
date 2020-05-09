@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  php:
+    build:
+      context: ./.docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/var/www/app'
+    container_name: magazine-php
+
+  nginx:
+    build:
+      context: ./.docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/var/www/app'
+    ports:
+      - "80:80"
+    container_name: magazine-nginx
+    depends_on:
+      - php
