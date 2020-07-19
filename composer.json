@@ -12,10 +12,10 @@
         "nelmio/api-doc-bundle": "^3.6",
         "symfony/console": "5.1.*",
         "symfony/dotenv": "5.1.*",
-        "symfony/flex": "^1.8",
+        "symfony/flex": "^1.9",
         "symfony/framework-bundle": "5.1.*",
         "symfony/monolog-bundle": "^3.5",
-        "symfony/orm-pack": "^1.0",
+        "symfony/orm-pack": "^2.0",
         "symfony/serializer-pack": "^1.0",
         "symfony/translation": "5.1.*",
         "symfony/validator": "5.1.*",
@@ -25,7 +25,7 @@
         "friendsofphp/php-cs-fixer": "^2.16",
         "doctrine/doctrine-fixtures-bundle": "^3.3",
         "symfony/debug-bundle": "5.1.*",
-        "symfony/maker-bundle": "^1.19"
+        "symfony/maker-bundle": "^1.20"
     },
     "config": {
         "optimize-autoloader": true,

@@ -1,7 +1,7 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(['src', 'config']);
+    ->in(['src', 'config', 'public', 'migrations']);
 
 return PhpCsFixer\Config::create()
     ->setRules([
