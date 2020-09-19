@@ -6,7 +6,7 @@
     "license": "MIT",
     "main": "assets/app.js",
     "dependencies": {
-        "@websanova/vue-auth": "^3.2.1-beta",
+        "@websanova/vue-auth": "^3.3.3",
         "element-ui": "^2.13.2",
         "reset-css": "^5.0.1",
         "vue": "^2.6.11",
@@ -27,7 +27,7 @@
         "mini-css-extract-plugin": "^0.11.2",
         "vue-loader": "^15.9.3",
         "vue-template-compiler": "^2.6.11",
-        "webpack": "^4.44.1",
+        "webpack": "^4.44.2",
         "webpack-cli": "^3.3.12"
     },
     "scripts": {
