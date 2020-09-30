@@ -16,9 +16,9 @@ class PhotoCleanOrphanedCommand extends Command
 {
     protected static $defaultName = 'app:photo-clean-orphaned';
 
-    private $entityManager;
-    private $uploadDir;
-    private $fileSystem;
+    private EntityManagerInterface $entityManager;
+    private string $uploadDir;
+    private Filesystem $fileSystem;
 
     public function __construct(string $uploadDir, Filesystem $fileSystem, EntityManagerInterface $entityManager)
     {
@@ -29,14 +29,14 @@ class PhotoCleanOrphanedCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Удаляет осиротевшие фотографии из файловой системы')
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $removedFiles = [];
