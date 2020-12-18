@@ -7,7 +7,7 @@ module.exports = function (env, argv) {
     const isDevMode = argv.mode === 'development';
 
     return {
-        devtool: isDevMode ? 'eval' : 'source-maps',
+        devtool: isDevMode ? 'eval' : 'source-map',
         entry: path.resolve(__dirname + '/assets/app.js'),
         output: {
             publicPath: '/build/',
@@ -32,7 +32,7 @@ module.exports = function (env, argv) {
                     test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
                     use: [{
                         loader: 'file-loader',
-                        query: {
+                        options: {
                             outputPath: 'fonts/'
                         }
                     }]
