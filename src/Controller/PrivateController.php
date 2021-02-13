@@ -8,15 +8,17 @@ use App\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\PersistentCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Nelmio\ApiDocBundle\Annotation\Operation;
 use Nelmio\ApiDocBundle\Annotation\Security;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
@@ -24,31 +26,34 @@ class PrivateController extends AbstractController
 {
     /**
      * @Route("/api/private/login", methods={"POST"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"multipart/form-data"}
-     * )
-     * @SWG\Response(
-     *     @SWG\Header(header="Authorization", description="Bearer токен", type="string"),
+     * @OA\Response(
+     *     @OA\Header(header="Authorization", description="Bearer токен", @OA\Schema(type="string")),
      *     response=200,
      *     description="OK"
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=401,
      *     description="Ошибка валидации"
      * )
-     * @SWG\Parameter(
-     *     name="login",
-     *     in="formData",
-     *     type="string",
-     *     description="Логин",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="password",
-     *     in="formData",
-     *     type="string",
-     *     description="Пароль",
-     *     required=true
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="multipart/form-data",
+     *         @OA\Schema(
+     *             required={"login", "password"},
+     *             @OA\Property(
+     *                 property="login",
+     *                 type="string",
+     *                 description="Логин"
+     *             ),
+     *             @OA\Property(
+     *                 property="password",
+     *                 type="string",
+     *                 format="password",
+     *                 description="Пароль"
+     *             )
+     *         )
+     *     )
      * )
      */
     public function loginAction(Request $request): JsonResponse
@@ -62,9 +67,7 @@ class PrivateController extends AbstractController
             ], 200, ['Authorization' => 'Bearer '.\hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
         }
 
-        return $this->json([
-            'status' => 'error',
-        ], 401);
+        throw new UnauthorizedHttpException('Bearer');
     }
 
     private function checkAuth(Request $request): void
@@ -78,28 +81,32 @@ class PrivateController extends AbstractController
     }
 
     /**
-     * @Route("/api/private/categories/add", methods={"POST"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"application/x-www-form-urlencoded"}
-     * )
-     * @SWG\Response(
-     *     response=200,
+     * @Route("/api/private/categories", methods={"POST"}, defaults={"_format": "json"})
+     * @OA\Response(
+     *     response=201,
      *     description="OK",
-     * @Model(type=Category::class, groups={"category"}))
+     *     @OA\JsonContent(ref=@Model(type=Category::class, groups={"category"}))
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @SWG\Parameter(
-     *     name="categoryName",
-     *     in="formData",
-     *     type="string",
-     *     description="Имя категории",
-     *     required=true
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="application/x-www-form-urlencoded",
+     *         @OA\Schema(
+     *             required={"categoryName"},
+     *             @OA\Property(
+     *                 property="categoryName",
+     *                 type="string",
+     *                 description="Имя категории"
+     *             )
+     *         )
+     *     )
      * )
      * @Security(name="Bearer")
-     * @SWG\Tag(name="category")
+     * @OA\Tag(name="category")
      */
     public function addCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -108,83 +115,12 @@ class PrivateController extends AbstractController
         $category = new Category();
         $category->setName($request->request->get('categoryName'));
 
-        // валидация
         $errors = $validator->validate($category);
         if ($errors->count() > 0) {
-            return $this->json([
-                'status' => 'error',
-                'message' => (string) $errors,
-            ], 400);
+            throw new BadRequestHttpException((string) $errors);
         }
 
         $manager = $this->getDoctrine()->getManager();
-        $manager->persist($category);
-        $manager->flush();
-
-        return $this->json($category, 200, [], ['groups' => ['category']]);
-    }
-
-    /**
-     * @Route("/api/private/categories/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"application/x-www-form-urlencoded"}
-     * )
-     * @SWG\Response(
-     *     response=201,
-     *     description="OK",
-     * @Model(type=Category::class, groups={"category"}))
-     * )
-     * @SWG\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @SWG\Parameter(
-     *     name="categoryId",
-     *     in="formData",
-     *     type="integer",
-     *     description="ID категории",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="categoryName",
-     *     in="formData",
-     *     type="string",
-     *     description="Имя категории",
-     *     required=true
-     * )
-     * @Security(name="Bearer")
-     * @SWG\Tag(name="category")
-     */
-    public function updateCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
-    {
-        $this->checkAuth($request);
-
-        $categoryId = $request->request->get('categoryId');
-        if (null === $categoryId || '' === $categoryId) {
-            throw new \InvalidArgumentException('Не указан идентификатор категории');
-        }
-
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Category::class);
-
-        /** @var Category $category */
-        $category = $repository->find($categoryId);
-        if (null === $category) {
-            $this->createNotFoundException('Категория не найдена');
-        }
-
-        $category->setDateUpdate(new \DateTime());
-        $category->setName($request->request->get('categoryName'));
-
-        // валидация
-        $errors = $validator->validate($category);
-        if ($errors->count() > 0) {
-            return $this->json([
-                'status' => 'error',
-                'message' => (string) $errors,
-            ], 400);
-        }
-
         $manager->persist($category);
         $manager->flush();
 
@@ -192,44 +128,87 @@ class PrivateController extends AbstractController
     }
 
     /**
-     * @Route("/api/private/products/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"application/x-www-form-urlencoded"}
-     * )
-     * @SWG\Response(
+     * @Route("/api/private/categories/{id}", methods={"PUT"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
+     * @OA\Response(
      *     response=200,
-     *     description="OK"
+     *     description="OK",
+     *     @OA\JsonContent(ref=@Model(type=Category::class, groups={"category"}))
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @SWG\Parameter(
-     *     name="productId",
-     *     in="formData",
-     *     type="integer",
-     *     description="ID товара",
-     *     required=true
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="application/x-www-form-urlencoded",
+     *         @OA\Schema(
+     *             required={"categoryId", "categoryName"},
+     *             @OA\Property(
+     *                 property="categoryId",
+     *                 type="integer",
+     *                 description="ID категории"
+     *             ),
+     *             @OA\Property(
+     *                 property="categoryName",
+     *                 type="string",
+     *                 description="Имя категории"
+     *             )
+     *         )
+     *     )
      * )
      * @Security(name="Bearer")
-     * @SWG\Tag(name="product")
+     * @OA\Tag(name="category")
      */
-    public function deleteProductAction(Request $request): JsonResponse
+    public function updateCategoryAction(int $id, Request $request, ValidatorInterface $validator): JsonResponse
     {
         $this->checkAuth($request);
 
-        $productId = $request->request->get('productId');
-        if (null === $productId || '' === $productId) {
-            throw new \InvalidArgumentException('Не указан идентификатор товара');
+        $manager = $this->getDoctrine()->getManager();
+
+        /** @var Category|null $category */
+        $category = $manager->find(Category::class, $id);
+        if (!$category) {
+            throw $this->createNotFoundException();
         }
 
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Product::class);
+        $category->setDateUpdate(new \DateTime());
+        $category->setName($request->request->get('categoryName'));
 
-        /** @var Product $product */
-        $product = $repository->find($productId);
-        if (null === $product) {
-            $this->createNotFoundException('Товар не найден');
+        $errors = $validator->validate($category);
+        if ($errors->count() > 0) {
+            throw new BadRequestHttpException((string) $errors);
+        }
+
+        $manager->persist($category);
+        $manager->flush();
+
+        return $this->json($category, 200, [], ['groups' => ['category']]);
+    }
+
+    /**
+     * @Route("/api/private/products/{id}", methods={"DELETE"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
+     * @OA\Response(
+     *     response=200,
+     *     description="OK"
+     * )
+     * @OA\Response(
+     *     response=400,
+     *     description="Ошибка валидации"
+     * )
+     * @Security(name="Bearer")
+     * @OA\Tag(name="product")
+     */
+    public function deleteProductAction(int $id, Request $request): JsonResponse
+    {
+        $this->checkAuth($request);
+
+        $manager = $this->getDoctrine()->getManager();
+
+        /** @var Product|null $product */
+        $product = $manager->find(Product::class, $id);
+        if (!$product) {
+            throw $this->createNotFoundException();
         }
 
         // вручную очищаем сущность, т.к. sqlite в doctrine не поддерживает foreign keys
@@ -242,44 +221,28 @@ class PrivateController extends AbstractController
     }
 
     /**
-     * @Route("/api/private/categories/delete", methods={"POST", "DELETE"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"application/x-www-form-urlencoded"}
-     * )
-     * @SWG\Response(
+     * @Route("/api/private/categories/{id}", methods={"DELETE"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
+     * @OA\Response(
      *     response=200,
      *     description="OK"
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @SWG\Parameter(
-     *     name="categoryId",
-     *     in="formData",
-     *     type="integer",
-     *     description="ID категории",
-     *     required=true
-     * )
      * @Security(name="Bearer")
-     * @SWG\Tag(name="category")
+     * @OA\Tag(name="category")
      */
-    public function deleteCategoryAction(Request $request): JsonResponse
+    public function deleteCategoryAction(int $id, Request $request): JsonResponse
     {
         $this->checkAuth($request);
 
-        $categoryId = $request->request->get('categoryId');
-        if (null === $categoryId || '' === $categoryId) {
-            throw new \InvalidArgumentException('Не указан идентификатор категории');
-        }
-
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Category::class);
 
-        /** @var Category $category */
-        $category = $repository->find($categoryId);
-        if (null === $category) {
-            $this->createNotFoundException('Категория не найдена');
+        /** @var Category|null $category */
+        $category = $manager->find(Category::class, $id);
+        if (!$category) {
+            throw $this->createNotFoundException();
         }
 
         // вручную очищаем сущность, т.к. sqlite в doctrine не поддерживает foreign keys
@@ -295,30 +258,35 @@ class PrivateController extends AbstractController
     }
 
     /**
-     * @Route("/api/private/photo/add", methods={"POST"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"multipart/form-data"}
-     * )
-     * @SWG\Response(
-     *     response=200,
+     * @Route("/api/private/photo", methods={"POST"}, defaults={"_format": "json"})
+     * @OA\Response(
+     *     response=201,
      *     description="OK",
-     *     @SWG\Schema(
+     *     @OA\JsonContent(
      *         type="object",
-     *         @SWG\Property(property="name", type="string", description="Имя загруженного файла"),
-     *         @SWG\Property(property="path", type="string", description="Публичный путь к загруженному файлу"),
+     *         @OA\Property(property="name", type="string", description="Имя загруженного файла"),
+     *         @OA\Property(property="path", type="string", description="Публичный путь к загруженному файлу"),
      *     )
      * )
-     * @SWG\Parameter(
-     *     name="file",
-     *     in="formData",
-     *     type="file",
-     *     description="Фотография",
-     *     required=true
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="multipart/form-data",
+     *         @OA\Schema(
+     *             required={"file"},
+     *             @OA\Property(
+     *                 property="file",
+     *                 type="string",
+     *                 format="binary",
+     *                 description="Фотография"
+     *             )
+     *         )
+     *     )
      * )
      * @Security(name="Bearer")
-     * @SWG\Tag(name="photo")
+     * @OA\Tag(name="photo")
      */
-    public function addPhotoAction(Request $request): JsonResponse
+    public function addPhotoAction(Request $request, Filesystem $filesystem): JsonResponse
     {
         $this->checkAuth($request);
 
@@ -331,12 +299,12 @@ class PrivateController extends AbstractController
         if (!$uploadedFile->isValid()) {
             throw new UploadException($uploadedFile->getErrorMessage());
         }
-        if ('image' !== \mb_strstr($uploadedFile->getMimeType(), '/', true)) {
+        if ('image' !== \strstr($uploadedFile->getMimeType(), '/', true)) {
             throw new \InvalidArgumentException('Некорректный mime тип. Поддерживаются только картинки (image/*)');
         }
 
         $dirName = \date('Y-m-d');
-        $this->get('filesystem')->mkdir($this->getParameter('kernel.upload_dir').'/'.$dirName);
+        $filesystem->mkdir($this->getParameter('kernel.upload_dir').'/'.$dirName);
 
         $fileName = \str_replace('.', '', \uniqid('', true));
         if ($extension = $uploadedFile->guessExtension()) {
@@ -348,99 +316,78 @@ class PrivateController extends AbstractController
         return $this->json([
             'name' => $file->getFilename(),
             'path' => '/upload/'.$dirName.'/'.$file->getFilename(),
-        ]);
+        ], 201);
     }
 
     /**
-     * @Route("/api/private/products/update", methods={"POST", "PUT"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"application/x-www-form-urlencoded"}
-     * )
-     * @SWG\Response(
-     *     response=201,
+     * @Route("/api/private/products/{id}", methods={"PUT"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
+     * @OA\Response(
+     *     response=200,
      *     description="OK",
-     * @Model(type=Product::class, groups={"product"}))
+     *     @OA\JsonContent(ref=@Model(type=Product::class, groups={"product"}))
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @SWG\Parameter(
-     *     name="id",
-     *     in="formData",
-     *     type="integer",
-     *     description="ID товара",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="name",
-     *     in="formData",
-     *     type="string",
-     *     description="Имя товара",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="description",
-     *     in="formData",
-     *     type="string",
-     *     description="Описание товара",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="price",
-     *     in="formData",
-     *     type="number",
-     *     description="Цена",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="size",
-     *     in="formData",
-     *     type="string",
-     *     description="Размер",
-     *     required=false
-     * )
-     * @SWG\Parameter(
-     *     name="composition",
-     *     in="formData",
-     *     type="string",
-     *     description="Состав",
-     *     required=false
-     * )
-     * @SWG\Parameter(
-     *     name="manufacturer",
-     *     in="formData",
-     *     type="string",
-     *     description="Производитель",
-     *     required=false
-     * )
-     * @SWG\Parameter(
-     *     name="photos",
-     *     in="formData",
-     *     type="array",
-     *     @SWG\Items(type="string"),
-     *     description="Фотографии",
-     *     required=true
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="application/x-www-form-urlencoded",
+     *         @OA\Schema(
+     *             required={"name", "description", "price", "photos"},
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 description="Имя товара"
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 description="Описание товара"
+     *             ),
+     *             @OA\Property(
+     *                 property="price",
+     *                 type="number",
+     *                 description="Цена"
+     *             ),
+     *             @OA\Property(
+     *                 property="size",
+     *                 type="string",
+     *                 description="Размер"
+     *             ),
+     *             @OA\Property(
+     *                 property="composition",
+     *                 type="string",
+     *                 description="Состав"
+     *             ),
+     *             @OA\Property(
+     *                 property="manufacturer",
+     *                 type="string",
+     *                 description="Производитель"
+     *             ),
+     *             @OA\Property(
+     *                 property="photos",
+     *                 type="array",
+     *                 @OA\Items(type="string"),
+     *                 description="Фотографии"
+     *             )
+     *         )
+     *     )
      * )
      * @Security(name="Bearer")
-     * @SWG\Tag(name="product")
+     * @OA\Tag(name="product")
      */
-    public function updateProductAction(Request $request, ValidatorInterface $validator): JsonResponse
+    public function updateProductAction(int $id, Request $request, ValidatorInterface $validator): JsonResponse
     {
         $this->checkAuth($request);
 
-        $productId = $request->request->get('id');
-        if (null === $productId || '' === $productId) {
-            throw new \InvalidArgumentException('Не указан идентификатор товара');
-        }
-
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Product::class);
 
-        /** @var Product $product */
-        $product = $repository->find($productId);
-        if (null === $product) {
-            $this->createNotFoundException('Товар не найден');
+        /** @var Product|null $product */
+        $product = $manager->find(Product::class, $id);
+        if (!$product) {
+            throw $this->createNotFoundException();
         }
 
         $product->setDateUpdate(new \DateTime());
@@ -475,13 +422,9 @@ class PrivateController extends AbstractController
             }
         }
 
-        // валидация
         $errors = $validator->validate($product);
         if ($errors->count() > 0) {
-            return $this->json([
-                'status' => 'error',
-                'message' => (string) $errors,
-            ], 400);
+            throw new BadRequestHttpException((string) $errors);
         }
 
         $manager->persist($product);
@@ -491,82 +434,72 @@ class PrivateController extends AbstractController
         \sort($sortedPhotos);
         $product->setPhotos(new ArrayCollection($sortedPhotos)); // сбрасываем сортировку
 
-        return $this->json($product, 201, [], ['groups' => ['product']]);
+        return $this->json($product, 200, [], ['groups' => ['product']]);
     }
 
     /**
-     * @Route("/api/private/products/add", methods={"POST"}, defaults={"_format": "json"})
-     * @Operation(
-     *     consumes={"application/x-www-form-urlencoded"}
-     * )
-     * @SWG\Response(
+     * @Route("/api/private/products", methods={"POST"}, defaults={"_format": "json"})
+     * @OA\Response(
      *     response=201,
      *     description="OK",
-     * @Model(type=Product::class, groups={"product"}))
+     *     @OA\JsonContent(ref=@Model(type=Product::class, groups={"product"}))
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @SWG\Parameter(
-     *     name="categoryId",
-     *     in="formData",
-     *     type="integer",
-     *     description="ID категории",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="name",
-     *     in="formData",
-     *     type="string",
-     *     description="Имя товара",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="description",
-     *     in="formData",
-     *     type="string",
-     *     description="Описание товара",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="price",
-     *     in="formData",
-     *     type="number",
-     *     description="Цена",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="size",
-     *     in="formData",
-     *     type="string",
-     *     description="Размер",
-     *     required=false
-     * )
-     * @SWG\Parameter(
-     *     name="composition",
-     *     in="formData",
-     *     type="string",
-     *     description="Состав",
-     *     required=false
-     * )
-     * @SWG\Parameter(
-     *     name="manufacturer",
-     *     in="formData",
-     *     type="string",
-     *     description="Производитель",
-     *     required=false
-     * )
-     * @SWG\Parameter(
-     *     name="photos",
-     *     in="formData",
-     *     type="array",
-     *     @SWG\Items(type="string"),
-     *     description="Фотографии",
-     *     required=true
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="application/x-www-form-urlencoded",
+     *         @OA\Schema(
+     *             required={"categoryId", "name", "description", "price", "photos"},
+     *             @OA\Property(
+     *                 property="categoryId",
+     *                 type="integer",
+     *                 description="ID категории"
+     *             ),
+     *             @OA\Property(
+     *                 property="name",
+     *                 type="string",
+     *                 description="Имя товара"
+     *             ),
+     *             @OA\Property(
+     *                 property="description",
+     *                 type="string",
+     *                 description="Описание товара"
+     *             ),
+     *             @OA\Property(
+     *                 property="price",
+     *                 type="number",
+     *                 description="Цена"
+     *             ),
+     *             @OA\Property(
+     *                 property="size",
+     *                 type="string",
+     *                 description="Размер"
+     *             ),
+     *             @OA\Property(
+     *                 property="composition",
+     *                 type="string",
+     *                 description="Состав"
+     *             ),
+     *             @OA\Property(
+     *                 property="manufacturer",
+     *                 type="string",
+     *                 description="Производитель"
+     *             ),
+     *             @OA\Property(
+     *                 property="photos",
+     *                 type="array",
+     *                 @OA\Items(type="string"),
+     *                 description="Фотографии"
+     *             )
+     *         )
+     *     )
      * )
      * @Security(name="Bearer")
-     * @SWG\Tag(name="product")
+     * @OA\Tag(name="product")
      */
     public function addProductAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
@@ -599,13 +532,9 @@ class PrivateController extends AbstractController
             );
         }
 
-        // валидация
         $errors = $validator->validate($product);
         if ($errors->count() > 0) {
-            return $this->json([
-                'status' => 'error',
-                'message' => (string) $errors,
-            ], 400);
+            throw new BadRequestHttpException((string) $errors);
         }
 
         $manager->persist($product);

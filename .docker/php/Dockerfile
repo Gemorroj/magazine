@@ -1,4 +1,5 @@
-FROM php:7.4-fpm-alpine
+# alpine3.13 is broken
+FROM php:7.4-fpm-alpine3.12
 
 RUN set -xe \
     && apk update \
@@ -26,8 +27,8 @@ RUN set -xe \
     && docker-php-ext-install -j${NPROC} gd \
     && docker-php-ext-enable gd \
 
-    # Xdebug (use latest 2.x)
-    && pecl install xdebug-2.9.8 \
+    # Xdebug
+    && pecl install xdebug \
     && docker-php-ext-enable xdebug \
 
     # APCU
@@ -44,7 +45,7 @@ RUN set -xe \
 
 # Composer
 RUN set -xe \
-    && curl -L -o /composer.phar https://github.com/composer/composer/releases/download/1.10.19/composer.phar \
+    && curl -L -o /composer.phar https://github.com/composer/composer/releases/download/1.10.20/composer.phar \
     && chmod 755 /composer.phar
 
 

@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -76,10 +76,10 @@ class Product
      * @Groups({"product"})
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
-     * @SWG\Property(type="array", @SWG\Items(ref=@Model(type=Photo::class, groups={"product"})))
+     * @OA\Property(type="array", @OA\Items(ref=@Model(type=Photo::class, groups={"product"})))
      *
      * @var Collection
-     * @Assert\Count(min=1)
+     * @Assert\Count(min=1, max=255)
      */
     private $photos;
     /**

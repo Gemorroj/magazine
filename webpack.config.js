@@ -40,7 +40,7 @@ module.exports = function (env, argv) {
                 {
                     test: /\.css$/,
                     use: [
-                        isDevMode ? 'vue-style-loader' : MiniCssExtractPlugin.loader,
+                        MiniCssExtractPlugin.loader,
                         'css-loader'
                     ]
                 }

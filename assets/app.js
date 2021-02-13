@@ -38,7 +38,7 @@ Vue.http.interceptors.push(function (request, next) {
                 message: 'Ошибка сервера, пожалуйста, сообщите о ней администрации'
             });
         }
-        if (res.body && res.body.status === 'error') { // обработка наших собственных ошибок (валидация, например)
+        if (res.body && res.status === 400) { // обработка наших собственных ошибок (валидация, например)
             ElementUI.Notification.error({
                 title: 'Ошибка',
                 message: res.body.message
@@ -48,13 +48,21 @@ Vue.http.interceptors.push(function (request, next) {
 });
 
 Vue.use(auth, {
-    auth: authBearer,
-    http: httpVueResource,
-    router: routerVueRouter,
-    authRedirect: {path: '/login'},
-    loginData: {url: 'private/login', method: 'POST', redirect: '/admin', fetchUser: false},
-    fetchData: {enabled: false},
-    refreshData: {enabled: false},
+    plugins: {
+        router: Vue.router,
+        http: Vue.http,
+    },
+    drivers: {
+        auth: authBearer,
+        router: routerVueRouter,
+        http: httpVueResource,
+    },
+    options: {
+        authRedirect: {path: '/login'},
+        loginData: {url: 'private/login', method: 'POST', redirect: '/admin', fetchUser: false},
+        fetchData: {enabled: false},
+        refreshData: {enabled: false},
+    }
 });
 
 new Vue({

@@ -7,7 +7,7 @@ use App\Entity\Photo;
 use App\Entity\Product;
 use Imagine\Image\ImageInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -17,12 +17,12 @@ class PublicController extends AbstractController
 {
     /**
      * @Route("/api/public/categories", methods={"GET"}, defaults={"_format": "json"})
-     * @SWG\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Список категорий",
-     *     @SWG\Schema(
+     *     @OA\JsonContent(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Category::class, groups={"category"}))
+     *         @OA\Items(ref=@Model(type=Category::class, groups={"category"}))
      *     )
      * )
      */
@@ -30,78 +30,89 @@ class PublicController extends AbstractController
     {
         $manager = $this->getDoctrine()->getManager();
         $repository = $manager->getRepository(Category::class);
+        /** @var Category[] $categories */
         $categories = $repository->findAll();
 
         return $this->json($categories, 200, [], ['groups' => ['category']]);
     }
 
     /**
-     * @Route("/api/public/categories/{categoryId}/products", methods={"GET"}, defaults={"_format": "json"})
-     * @SWG\Response(
+     * @Route("/api/public/categories/{categoryId}/products", methods={"GET"}, defaults={"_format": "json"}, requirements={"categoryId": "\d+"})
+     * @OA\Response(
      *     response=200,
      *     description="Товары в категории",
-     *     @SWG\Schema(
+     *     @OA\JsonContent(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Product::class, groups={"product"}))
+     *         @OA\Items(ref=@Model(type=Product::class, groups={"product"}))
      *     )
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="categoryId",
      *     in="path",
-     *     type="integer",
+     *     @OA\Schema(type="integer"),
      *     description="ID категории"
      * )
      */
-    public function getCategoryProductsAction(string $categoryId): JsonResponse
+    public function getCategoryProductsAction(int $categoryId): JsonResponse
     {
         $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Category::class);
-        /** @var Category $category */
-        $category = $repository->find($categoryId);
+        /** @var Category|null $category */
+        $category = $manager->find(Category::class, $categoryId);
+        if (!$category) {
+            throw $this->createNotFoundException();
+        }
         $products = $category->getProducts();
 
         return $this->json($products, 200, [], ['groups' => ['product']]);
     }
 
     /**
-     * @Route("/api/public/products/{productId}", methods={"GET"}, defaults={"_format": "json"})
-     * @SWG\Response(
+     * @Route("/api/public/products/{productId}", methods={"GET"}, defaults={"_format": "json"}, requirements={"productId": "\d+"})
+     * @OA\Response(
      *     response=200,
      *     description="Товар",
-     *     @Model(type=Product::class, groups={"product"})
+     *     @OA\JsonContent(ref=@Model(type=Product::class, groups={"product"}))
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="productId",
      *     in="path",
-     *     type="integer",
+     *     @OA\Schema(type="integer"),
      *     description="ID товара"
      * )
      */
-    public function getProductAction(string $productId): JsonResponse
+    public function getProductAction(int $productId): JsonResponse
     {
         $manager = $this->getDoctrine()->getManager();
+        /** @var Product|null $product */
         $product = $manager->find(Product::class, $productId);
+        if (!$product) {
+            throw $this->createNotFoundException();
+        }
 
         return $this->json($product, 200, [], ['groups' => ['product']]);
     }
 
     /**
-     * @Route("/api/public/photos/{photoId}", methods={"GET"}, defaults={"_format": "image"})
-     * @SWG\Response(
+     * @Route("/api/public/photos/{photoId}", methods={"GET"}, defaults={"_format": "image"}, requirements={"photoId": "\d+"})
+     * @OA\Response(
      *     response=200,
      *     description="Фото"
      * )
-     * @SWG\Parameter(
+     * @OA\Parameter(
      *     name="photoId",
      *     in="path",
-     *     type="integer",
+     *     @OA\Schema(type="integer"),
      *     description="ID фото"
      * )
      */
-    public function getPhotoPreviewAction(string $photoId): StreamedResponse
+    public function getPhotoPreviewAction(int $photoId): StreamedResponse
     {
         $manager = $this->getDoctrine()->getManager();
+        /** @var Photo|null $photo */
         $photo = $manager->find(Photo::class, $photoId);
+        if (!$photo) {
+            throw $this->createNotFoundException();
+        }
 
         $image = (new \Imagine\Gd\Imagine())
             ->open($this->getParameter('kernel.upload_dir').'/..'.$photo->getPath())
@@ -109,7 +120,7 @@ class PublicController extends AbstractController
         ;
 
         $response = new StreamedResponse();
-        $response->setCallback(static function () use ($image) {
+        $response->setCallback(static function () use ($image): void {
             $image->show('jpeg');
         });
 

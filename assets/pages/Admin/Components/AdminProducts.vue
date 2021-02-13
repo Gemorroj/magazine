@@ -53,7 +53,7 @@
                             multiple
                             :limit="10"
                             accept="image/*"
-                            action="/api/private/photo/add"
+                            action="/api/private/photo"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :on-success="handleSuccess"

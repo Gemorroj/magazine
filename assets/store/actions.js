@@ -26,40 +26,32 @@ export default {
         let formData = new FormData();
         formData.append('categoryName', categoryName);
 
-        return Vue.resource('private/categories/add').save(formData).then(response => {
+        return Vue.resource('private/categories').save(formData).then(response => {
             commit('ADD_CATEGORY', response.body);
             return response.body;
         });
     },
     DELETE_CATEGORY({commit}, {category}) {
-        let formData = new FormData();
-        formData.append('categoryId', category.id);
-
-        return Vue.resource('private/categories/delete').save(formData).then(() => {
+        return Vue.resource(`private/categories/${category.id}`).delete().then(() => {
             commit('DELETE_CATEGORY', category);
         });
     },
     UPDATE_CATEGORY({commit}, {category}) {
         let formData = new FormData();
-        formData.append('categoryId', category.id);
         formData.append('categoryName', category.name);
 
-        return Vue.resource('private/categories/update').save(formData).then(response => {
+        return Vue.resource(`private/categories/${category.id}`).update(formData).then(response => {
             commit('UPDATE_CATEGORY', response.body);
             return response.body;
         });
     },
     DELETE_PRODUCT({commit}, {product}) {
-        let formData = new FormData();
-        formData.append('productId', product.id);
-
-        return Vue.resource('private/products/delete').save(formData).then(() => {
+        return Vue.resource(`private/products/${product.id}`).delete().then(() => {
             commit('DELETE_PRODUCT', product);
         });
     },
     UPDATE_PRODUCT({commit}, {product}) {
         let formData = new FormData();
-        formData.append('id', product.id);
         formData.append('name', product.name);
         formData.append('description', product.description);
         formData.append('price', product.price);
@@ -71,7 +63,7 @@ export default {
             formData.append('photos[]', product.photos[i].path);
         }
 
-        return Vue.resource('private/products/update').save(formData).then(response => {
+        return Vue.resource(`private/products/${product.id}`).update(formData).then(response => {
             commit('UPDATE_PRODUCT', response.body);
             return response.body;
         });
@@ -90,7 +82,7 @@ export default {
             formData.append('photos[]', product.photos[i].path);
         }
 
-        return Vue.resource('private/products/add').save(formData).then(response => {
+        return Vue.resource('private/products').save(formData).then(response => {
             commit('ADD_PRODUCT', response.body);
             return response.body;
         });
