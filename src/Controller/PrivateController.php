@@ -247,9 +247,11 @@ class PrivateController extends AbstractController
 
         // вручную очищаем сущность, т.к. sqlite в doctrine не поддерживает foreign keys
         // @see https://github.com/doctrine/dbal/issues/2833
-        $category->getProducts()->map(function (Product $product) {
+        /** @var Product $product */
+        foreach ($category->getProducts() as $product) {
             $product->getPhotos()->clear();
-        })->clear();
+        }
+        $category->getProducts()->clear();
 
         $manager->remove($category);
         $manager->flush();
@@ -409,7 +411,7 @@ class PrivateController extends AbstractController
         }
 
         foreach ($request->request->get('photos', []) as $photoPath) {
-            if (!$photos->exists(function ($key, Photo $photo) use ($photoPath) {
+            if (!$photos->exists(static function ($key, Photo $photo) use ($photoPath): bool {
                 return $photo->getPath() === $photoPath;
             })) {
                 // добавляем новые, если их раньше не было
