@@ -1,5 +1,7 @@
 {
     "type": "project",
+    "description": "Magazine project",
+    "name": "gemorroj/magazine",
     "license": "MIT",
     "require": {
         "php": "^7.4",
@@ -14,10 +16,10 @@
         "symfony/dotenv": "5.2.*",
         "symfony/flex": "^1.12",
         "symfony/framework-bundle": "5.2.*",
-        "symfony/monolog-bundle": "^3.6",
+        "symfony/monolog-bundle": "^3.7",
 
         "doctrine/orm": "^2.8",
-        "doctrine/doctrine-bundle": "^2.2",
+        "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "symfony/proxy-manager-bridge": "5.2.*",
 
@@ -35,7 +37,7 @@
         "friendsofphp/php-cs-fixer": "^2.18",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/debug-bundle": "5.2.*",
-        "symfony/maker-bundle": "^1.29"
+        "symfony/maker-bundle": "^1.30"
     },
     "config": {
         "optimize-autoloader": true,
