@@ -4,7 +4,7 @@
     "name": "gemorroj/magazine",
     "license": "MIT",
     "require": {
-        "php": "^7.4",
+        "php": ">=7.4",
         "ext-apcu": "*",
         "ext-ctype": "*",
         "ext-gd": "*",
