@@ -10,9 +10,16 @@
 - Если запрос начинается с `/api/public/` или `/api/private/`, то направлять на `api.php`
 
 
-### План по переделке (выбранный вариант, на данный момент)
-- fixed: Основную БД перевести на sqlite (чтобы упростить инфраструктуру, т.е. отвязаться от промышленных БД, требующих запущенного сервера). Пока что в доктрине нет поддержки `foreign keys` для sqlite - https://github.com/doctrine/dbal/issues/2833
-- fixed: Фотки хранить у себя на диске
+### Установка
+```bash
+git clone https://github.com/Gemorroj/magazine.git
+cd magazine
+cp .env.dist .env
+composer install --no-dev --optimize-autoloader --apcu-autoloader
+rm -rf ./var/cache/*
+rm -rf ./var/log/*
+service php-fpm restart
+```
 
 
 ### Установка прав доступа на запись:
