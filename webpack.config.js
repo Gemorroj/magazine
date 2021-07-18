@@ -29,15 +29,6 @@ module.exports = function (env, argv) {
                     }]
                 },
                 {
-                    test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-                    use: [{
-                        loader: 'file-loader',
-                        options: {
-                            outputPath: 'fonts/'
-                        }
-                    }]
-                },
-                {
                     test: /\.css$/,
                     use: [
                         MiniCssExtractPlugin.loader,
