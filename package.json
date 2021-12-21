@@ -6,7 +6,7 @@
     "license": "MIT",
     "main": "assets/app.js",
     "dependencies": {
-        "@websanova/vue-auth": "^4.1.6",
+        "@websanova/vue-auth": "^4.1.8",
         "element-ui": "^2.15.6",
         "reset-css": "^5.0.1",
         "vue": "^2.6.14",
@@ -18,8 +18,8 @@
         "vuex": "^3.6.2"
     },
     "devDependencies": {
-        "@babel/core": "^7.16.0",
-        "@babel/preset-env": "^7.16.4",
+        "@babel/core": "^7.16.5",
+        "@babel/preset-env": "^7.16.5",
         "babel-loader": "^8.2.3",
         "css-loader": "^6.5.1",
         "html-webpack-plugin": "^5.5.0",
