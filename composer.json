@@ -42,8 +42,7 @@
     "config": {
         "allow-plugins": {
             "symfony/flex": true,
-            "symfony/runtime": true,
-            "composer/package-versions-deprecated": true
+            "symfony/runtime": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
