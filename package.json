@@ -6,7 +6,7 @@
     "license": "MIT",
     "main": "assets/app.js",
     "dependencies": {
-        "@websanova/vue-auth": "^4.1.10",
+        "@websanova/vue-auth": "^4.1.12",
         "element-ui": "^2.15.6",
         "reset-css": "^5.0.1",
         "vue": "^2.6.14",
