@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Entity\Photo;
 use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Imagine\Image\ImageInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
@@ -26,10 +27,9 @@ class PublicController extends AbstractController
      *     )
      * )
      */
-    public function getCategoriesAction(): JsonResponse
+    public function getCategoriesAction(EntityManagerInterface $entityManager): JsonResponse
     {
-        $manager = $this->getDoctrine()->getManager();
-        $repository = $manager->getRepository(Category::class);
+        $repository = $entityManager->getRepository(Category::class);
         /** @var Category[] $categories */
         $categories = $repository->findAll();
 
@@ -53,11 +53,10 @@ class PublicController extends AbstractController
      *     description="ID категории"
      * )
      */
-    public function getCategoryProductsAction(int $categoryId): JsonResponse
+    public function getCategoryProductsAction(int $categoryId, EntityManagerInterface $entityManager): JsonResponse
     {
-        $manager = $this->getDoctrine()->getManager();
         /** @var Category|null $category */
-        $category = $manager->find(Category::class, $categoryId);
+        $category = $entityManager->find(Category::class, $categoryId);
         if (!$category) {
             throw $this->createNotFoundException();
         }
@@ -80,11 +79,10 @@ class PublicController extends AbstractController
      *     description="ID товара"
      * )
      */
-    public function getProductAction(int $productId): JsonResponse
+    public function getProductAction(int $productId, EntityManagerInterface $entityManager): JsonResponse
     {
-        $manager = $this->getDoctrine()->getManager();
         /** @var Product|null $product */
-        $product = $manager->find(Product::class, $productId);
+        $product = $entityManager->find(Product::class, $productId);
         if (!$product) {
             throw $this->createNotFoundException();
         }
@@ -105,11 +103,10 @@ class PublicController extends AbstractController
      *     description="ID фото"
      * )
      */
-    public function getPhotoPreviewAction(int $photoId): StreamedResponse
+    public function getPhotoPreviewAction(int $photoId, EntityManagerInterface $entityManager): StreamedResponse
     {
-        $manager = $this->getDoctrine()->getManager();
         /** @var Photo|null $photo */
-        $photo = $manager->find(Photo::class, $photoId);
+        $photo = $entityManager->find(Photo::class, $photoId);
         if (!$photo) {
             throw $this->createNotFoundException();
         }

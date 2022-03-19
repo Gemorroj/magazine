@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Photo;
 use App\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\PersistentCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -108,7 +109,7 @@ class PrivateController extends AbstractController
      * @Security(name="Bearer")
      * @OA\Tag(name="category")
      */
-    public function addCategoryAction(Request $request, ValidatorInterface $validator): JsonResponse
+    public function addCategoryAction(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
 
@@ -120,9 +121,8 @@ class PrivateController extends AbstractController
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($category);
-        $manager->flush();
+        $entityManager->persist($category);
+        $entityManager->flush();
 
         return $this->json($category, 201, [], ['groups' => ['category']]);
     }
@@ -160,14 +160,12 @@ class PrivateController extends AbstractController
      * @Security(name="Bearer")
      * @OA\Tag(name="category")
      */
-    public function updateCategoryAction(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    public function updateCategoryAction(int $id, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
 
-        $manager = $this->getDoctrine()->getManager();
-
         /** @var Category|null $category */
-        $category = $manager->find(Category::class, $id);
+        $category = $entityManager->find(Category::class, $id);
         if (!$category) {
             throw $this->createNotFoundException();
         }
@@ -180,8 +178,8 @@ class PrivateController extends AbstractController
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $manager->persist($category);
-        $manager->flush();
+        $entityManager->persist($category);
+        $entityManager->flush();
 
         return $this->json($category, 200, [], ['groups' => ['category']]);
     }
@@ -199,14 +197,12 @@ class PrivateController extends AbstractController
      * @Security(name="Bearer")
      * @OA\Tag(name="product")
      */
-    public function deleteProductAction(int $id, Request $request): JsonResponse
+    public function deleteProductAction(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
 
-        $manager = $this->getDoctrine()->getManager();
-
         /** @var Product|null $product */
-        $product = $manager->find(Product::class, $id);
+        $product = $entityManager->find(Product::class, $id);
         if (!$product) {
             throw $this->createNotFoundException();
         }
@@ -214,8 +210,8 @@ class PrivateController extends AbstractController
         // вручную очищаем сущность, т.к. sqlite в doctrine не поддерживает foreign keys
         // @see https://github.com/doctrine/dbal/issues/2833
         $product->getPhotos()->clear();
-        $manager->remove($product);
-        $manager->flush();
+        $entityManager->remove($product);
+        $entityManager->flush();
 
         return $this->json(null);
     }
@@ -233,14 +229,12 @@ class PrivateController extends AbstractController
      * @Security(name="Bearer")
      * @OA\Tag(name="category")
      */
-    public function deleteCategoryAction(int $id, Request $request): JsonResponse
+    public function deleteCategoryAction(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
 
-        $manager = $this->getDoctrine()->getManager();
-
         /** @var Category|null $category */
-        $category = $manager->find(Category::class, $id);
+        $category = $entityManager->find(Category::class, $id);
         if (!$category) {
             throw $this->createNotFoundException();
         }
@@ -253,8 +247,8 @@ class PrivateController extends AbstractController
         }
         $category->getProducts()->clear();
 
-        $manager->remove($category);
-        $manager->flush();
+        $entityManager->remove($category);
+        $entityManager->flush();
 
         return $this->json(null);
     }
@@ -380,14 +374,12 @@ class PrivateController extends AbstractController
      * @Security(name="Bearer")
      * @OA\Tag(name="product")
      */
-    public function updateProductAction(int $id, Request $request, ValidatorInterface $validator): JsonResponse
+    public function updateProductAction(int $id, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
 
-        $manager = $this->getDoctrine()->getManager();
-
         /** @var Product|null $product */
-        $product = $manager->find(Product::class, $id);
+        $product = $entityManager->find(Product::class, $id);
         if (!$product) {
             throw $this->createNotFoundException();
         }
@@ -429,8 +421,8 @@ class PrivateController extends AbstractController
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $manager->persist($product);
-        $manager->flush();
+        $entityManager->persist($product);
+        $entityManager->flush();
 
         $sortedPhotos = $product->getPhotos()->toArray();
         \sort($sortedPhotos);
@@ -503,7 +495,7 @@ class PrivateController extends AbstractController
      * @Security(name="Bearer")
      * @OA\Tag(name="product")
      */
-    public function addProductAction(Request $request, ValidatorInterface $validator): JsonResponse
+    public function addProductAction(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
 
@@ -512,8 +504,10 @@ class PrivateController extends AbstractController
             throw new \InvalidArgumentException('Не указан идентификатор категории');
         }
 
-        $manager = $this->getDoctrine()->getManager();
-        $category = $manager->find(Category::class, $categoryId);
+        $category = $entityManager->find(Category::class, $categoryId);
+        if (!$category) {
+            throw new \InvalidArgumentException('Указанная категория не найдена');
+        }
 
         $product = new Product();
         $product->setCategory($category);
@@ -539,8 +533,8 @@ class PrivateController extends AbstractController
             throw new BadRequestHttpException((string) $errors);
         }
 
-        $manager->persist($product);
-        $manager->flush();
+        $entityManager->persist($product);
+        $entityManager->flush();
 
         return $this->json($product, 201, [], ['groups' => ['product']]);
     }
