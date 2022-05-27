@@ -12,28 +12,28 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Photo
 {
+    #[Groups(['product'])]
     /**
-     * @Groups({"product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
      */
     private $id;
+    #[Groups(['product'])]
     /**
-     * @Groups({"product"})
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
+    #[Groups(['product'])]
     /**
-     * @Groups({"product"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
+    #[Groups(['product'])]
+    #[Assert\NotBlank]
+    #[Assert\Url]
+    #[Assert\Length(max: 255)]
     /**
-     * @Assert\NotBlank
-     * @Assert\Url
-     * @Assert\Length(max=255)
-     * @Groups({"product"})
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $path;

@@ -16,16 +16,8 @@ class PhotoCleanOrphanedCommand extends Command
 {
     protected static $defaultName = 'app:photo-clean-orphaned';
 
-    private EntityManagerInterface $entityManager;
-    private string $uploadDir;
-    private Filesystem $fileSystem;
-
-    public function __construct(string $uploadDir, Filesystem $fileSystem, EntityManagerInterface $entityManager)
+    public function __construct(private string $uploadDir, private Filesystem $fileSystem, private EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
-        $this->uploadDir = $uploadDir;
-        $this->fileSystem = $fileSystem;
-
         parent::__construct();
     }
 

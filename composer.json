@@ -13,18 +13,18 @@
         "ext-iconv": "*",
         "ext-pdo_sqlite": "*",
 
-        "symfony/console": "6.0.*",
-        "symfony/dotenv": "6.0.*",
+        "symfony/console": "6.1.*",
+        "symfony/dotenv": "6.1.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "6.0.*",
-        "symfony/mime": "6.0.*",
+        "symfony/framework-bundle": "6.1.*",
+        "symfony/mime": "6.1.*",
         "symfony/monolog-bundle": "^3.8",
-        "symfony/property-access": "6.0.*",
-        "symfony/property-info": "6.0.*",
-        "symfony/runtime": "6.0.*",
-        "symfony/serializer": "6.0.*",
-        "symfony/validator": "6.0.*",
-        "symfony/yaml": "6.0.*",
+        "symfony/property-access": "6.1.*",
+        "symfony/property-info": "6.1.*",
+        "symfony/runtime": "6.1.*",
+        "symfony/serializer": "6.1.*",
+        "symfony/validator": "6.1.*",
+        "symfony/yaml": "6.1.*",
 
         "doctrine/doctrine-bundle": "^2.6",
         "doctrine/doctrine-migrations-bundle": "^3.2",
@@ -36,7 +36,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.8",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
-        "symfony/debug-bundle": "6.0.*",
+        "symfony/debug-bundle": "6.1.*",
         "symfony/maker-bundle": "^1.43"
     },
     "config": {
@@ -93,7 +93,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.0.*"
+            "require": "6.1.*"
         }
     }
 }

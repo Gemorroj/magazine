@@ -14,40 +14,41 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Category
 {
+    #[Groups(['category', 'product'])]
     /**
-     * @Groups({"category", "product"})
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
      */
     private $id;
+    #[Groups(['category'])]
     /**
-     * @Groups({"category"})
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
+    #[Groups(['category'])]
     /**
-     * @Groups({"category"})
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
+    #[Groups(['category'])]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     /**
-     * @Assert\NotBlank
-     * @Assert\Length(min=3, max=255)
-     * @Groups({"category"})
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $name;
     /**
+     * @var Collection<Product>
      * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="category_id", nullable=true)
      */
-    private $products;
+    private Collection $products;
 
     public function __construct()
     {
-        $this->setProducts(new ArrayCollection());
-        $this->setDateCreate(new \DateTime());
+        $this->products = new ArrayCollection();
+        $this->dateCreate = new \DateTime();
     }
 
     /**
@@ -91,7 +92,7 @@ class Category
     }
 
     /**
-     * @return Collection
+     * @return Collection<Product>
      */
     public function getProducts()
     {
@@ -99,6 +100,8 @@ class Category
     }
 
     /**
+     * @param Collection<Product> $products
+     *
      * @return $this
      */
     public function setProducts(Collection $products): self

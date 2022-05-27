@@ -14,10 +14,11 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route(path: '/api/public')]
 class PublicController extends AbstractController
 {
+    #[Route(path: '/categories', defaults: ['_format' => 'json'], methods: ['GET'])]
     /**
-     * @Route("/api/public/categories", methods={"GET"}, defaults={"_format": "json"})
      * @OA\Response(
      *     response=200,
      *     description="Список категорий",
@@ -36,8 +37,8 @@ class PublicController extends AbstractController
         return $this->json($categories, 200, [], ['groups' => ['category']]);
     }
 
+    #[Route(path: '/categories/{categoryId}/products', requirements: ['categoryId' => '\d+'], defaults: ['_format' => 'json'], methods: ['GET'])]
     /**
-     * @Route("/api/public/categories/{categoryId}/products", methods={"GET"}, defaults={"_format": "json"}, requirements={"categoryId": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="Товары в категории",
@@ -65,8 +66,8 @@ class PublicController extends AbstractController
         return $this->json($products, 200, [], ['groups' => ['product']]);
     }
 
+    #[Route(path: '/products/{productId}', requirements: ['productId' => '\d+'], defaults: ['_format' => 'json'], methods: ['GET'])]
     /**
-     * @Route("/api/public/products/{productId}", methods={"GET"}, defaults={"_format": "json"}, requirements={"productId": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="Товар",
@@ -90,8 +91,8 @@ class PublicController extends AbstractController
         return $this->json($product, 200, [], ['groups' => ['product']]);
     }
 
+    #[Route(path: '/photos/{photoId}', requirements: ['photoId' => '\d+'], defaults: ['_format' => 'image'], methods: ['GET'])]
     /**
-     * @Route("/api/public/photos/{photoId}", methods={"GET"}, defaults={"_format": "image"}, requirements={"photoId": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="Фото"

@@ -23,10 +23,11 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+#[Route(path: '/api/private')]
 class PrivateController extends AbstractController
 {
+    #[Route(path: '/login', defaults: ['_format' => 'json'], methods: ['POST'])]
     /**
-     * @Route("/api/private/login", methods={"POST"}, defaults={"_format": "json"})
      * @OA\Response(
      *     @OA\Header(header="Authorization", description="Bearer токен", @OA\Schema(type="string")),
      *     response=200,
@@ -81,8 +82,9 @@ class PrivateController extends AbstractController
         }
     }
 
+    #[Route(path: '/categories', defaults: ['_format' => 'json'], methods: ['POST'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/categories", methods={"POST"}, defaults={"_format": "json"})
      * @OA\Response(
      *     response=201,
      *     description="OK",
@@ -106,7 +108,6 @@ class PrivateController extends AbstractController
      *         )
      *     )
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="category")
      */
     public function addCategoryAction(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
@@ -127,8 +128,9 @@ class PrivateController extends AbstractController
         return $this->json($category, 201, [], ['groups' => ['category']]);
     }
 
+    #[Route(path: '/categories/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['PUT'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/categories/{id}", methods={"PUT"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="OK",
@@ -157,7 +159,6 @@ class PrivateController extends AbstractController
      *         )
      *     )
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="category")
      */
     public function updateCategoryAction(int $id, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
@@ -184,8 +185,9 @@ class PrivateController extends AbstractController
         return $this->json($category, 200, [], ['groups' => ['category']]);
     }
 
+    #[Route(path: '/products/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['DELETE'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/products/{id}", methods={"DELETE"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="OK"
@@ -194,7 +196,6 @@ class PrivateController extends AbstractController
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="product")
      */
     public function deleteProductAction(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
@@ -216,8 +217,9 @@ class PrivateController extends AbstractController
         return $this->json(null);
     }
 
+    #[Route(path: '/categories/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['DELETE'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/categories/{id}", methods={"DELETE"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="OK"
@@ -226,7 +228,6 @@ class PrivateController extends AbstractController
      *     response=400,
      *     description="Ошибка валидации"
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="category")
      */
     public function deleteCategoryAction(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
@@ -253,8 +254,9 @@ class PrivateController extends AbstractController
         return $this->json(null);
     }
 
+    #[Route(path: '/photo', defaults: ['_format' => 'json'], methods: ['POST'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/photo", methods={"POST"}, defaults={"_format": "json"})
      * @OA\Response(
      *     response=201,
      *     description="OK",
@@ -279,7 +281,6 @@ class PrivateController extends AbstractController
      *         )
      *     )
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="photo")
      */
     public function addPhotoAction(Request $request, Filesystem $filesystem): JsonResponse
@@ -315,8 +316,9 @@ class PrivateController extends AbstractController
         ], 201);
     }
 
+    #[Route(path: '/products/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['PUT'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/products/{id}", methods={"PUT"}, defaults={"_format": "json"}, requirements={"id": "\d+"})
      * @OA\Response(
      *     response=200,
      *     description="OK",
@@ -371,7 +373,6 @@ class PrivateController extends AbstractController
      *         )
      *     )
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="product")
      */
     public function updateProductAction(int $id, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
@@ -431,8 +432,9 @@ class PrivateController extends AbstractController
         return $this->json($product, 200, [], ['groups' => ['product']]);
     }
 
+    #[Route(path: '/products', defaults: ['_format' => 'json'], methods: ['POST'])]
+    #[Security(name: 'Bearer')]
     /**
-     * @Route("/api/private/products", methods={"POST"}, defaults={"_format": "json"})
      * @OA\Response(
      *     response=201,
      *     description="OK",
@@ -492,7 +494,6 @@ class PrivateController extends AbstractController
      *         )
      *     )
      * )
-     * @Security(name="Bearer")
      * @OA\Tag(name="product")
      */
     public function addProductAction(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
