@@ -13,19 +13,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-#[AsCommand(name: 'app:photo-clean-orphaned')]
+#[AsCommand(
+    name: 'app:photo-clean-orphaned',
+    description: 'Удаляет осиротевшие фотографии из файловой системы',
+)]
 class PhotoCleanOrphanedCommand extends Command
 {
     public function __construct(private string $uploadDir, private Filesystem $fileSystem, private EntityManagerInterface $entityManager)
     {
         parent::__construct();
-    }
-
-    protected function configure(): void
-    {
-        $this
-            ->setDescription('Удаляет осиротевшие фотографии из файловой системы')
-        ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -67,6 +63,6 @@ class PhotoCleanOrphanedCommand extends Command
             $io->success('БД и файловая система синхронизированы, удалять нечего.');
         }
 
-        return 0;
+        return self::SUCCESS;
     }
 }
