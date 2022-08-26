@@ -4,6 +4,9 @@
     "description": "Небольшой магазинчик",
     "author": "Gemorroj",
     "license": "MIT",
+    "engines": {
+        "node": ">= 16"
+    },
     "main": "assets/app.js",
     "dependencies": {
         "@websanova/vue-auth": "^4.1.13",
