@@ -37,7 +37,7 @@
         "friendsofphp/php-cs-fixer": "^3.11",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/debug-bundle": "6.1.*",
-        "symfony/maker-bundle": "^1.46"
+        "symfony/maker-bundle": "^1.47"
     },
     "config": {
         "allow-plugins": {
