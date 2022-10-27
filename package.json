@@ -5,7 +5,7 @@
     "author": "Gemorroj",
     "license": "MIT",
     "engines": {
-        "node": ">= 16"
+        "node": ">= 18"
     },
     "main": "assets/app.js",
     "dependencies": {
