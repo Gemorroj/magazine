@@ -6,7 +6,7 @@ if ('OPTIONS' === $_SERVER['REQUEST_METHOD']) {
     \header('Access-Control-Allow-Headers: Authorization, Content-Type');
     \header('Access-Control-Max-Age: 1728000');
     \header('Content-Length: 0');
-    exit();
+    exit;
 }
 
 use App\Kernel;

@@ -18,6 +18,8 @@ class Product
 {
     #[Groups(['product'])]
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
@@ -25,11 +27,15 @@ class Product
     private $id;
     #[Groups(['product'])]
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     #[Groups(['product'])]
     /**
+     * @var \DateTime|null
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
@@ -37,6 +43,8 @@ class Product
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $name;
@@ -44,6 +52,8 @@ class Product
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 5000)]
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="string", length=5000, nullable=false)
      */
     private $description;
@@ -51,39 +61,49 @@ class Product
     #[Assert\NotBlank]
     #[Assert\Type(type: 'numeric')]
     /**
+     * @var float
+     *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false, options={"unsigned": true})
      */
     private $price;
     #[Groups(['product'])]
     #[Assert\Length(max: 255)]
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $size;
     #[Groups(['product'])]
     #[Assert\Length(max: 255)]
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $composition;
     #[Groups(['product'])]
     #[Assert\Length(max: 255)]
     /**
+     * @var string|null
+     *
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $manufacturer;
     #[Groups(['product'])]
     #[Assert\Count(min: 1, max: 255)]
     /**
+     * @var Collection<Photo>
+     *
      * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
      * @OA\Property(type="array", @OA\Items(ref=@Model(type=Photo::class, groups={"product"})))
-     *
-     * @var Collection<Photo>
      */
     private Collection $photos;
     #[Groups(['product'])]
     /**
+     * @var Category
+     *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
      */
@@ -136,7 +156,7 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDescription()
     {
@@ -144,7 +164,7 @@ class Product
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      *
      * @return $this
      */
@@ -176,7 +196,7 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getSize()
     {
@@ -184,7 +204,7 @@ class Product
     }
 
     /**
-     * @param string $size
+     * @param string|null $size
      *
      * @return $this
      */
@@ -196,7 +216,7 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getComposition()
     {
@@ -204,7 +224,7 @@ class Product
     }
 
     /**
-     * @param string $composition
+     * @param string|null $composition
      *
      * @return $this
      */
@@ -216,7 +236,7 @@ class Product
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getManufacturer()
     {
@@ -224,7 +244,7 @@ class Product
     }
 
     /**
-     * @param string $manufacturer
+     * @param string|null $manufacturer
      *
      * @return $this
      */
@@ -238,7 +258,7 @@ class Product
     /**
      * @return Collection<Photo>
      */
-    public function getPhotos()
+    public function getPhotos(): Collection
     {
         return $this->photos;
     }

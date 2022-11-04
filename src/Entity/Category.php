@@ -16,6 +16,8 @@ class Category
 {
     #[Groups(['category', 'product'])]
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
@@ -23,11 +25,15 @@ class Category
     private $id;
     #[Groups(['category'])]
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     #[Groups(['category'])]
     /**
+     * @var \DateTime|null
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
@@ -35,11 +41,14 @@ class Category
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $name;
     /**
      * @var Collection<Product>
+     *
      * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
      * @ORM\JoinColumn(name="id", referencedColumnName="category_id", nullable=true)
      */
@@ -52,7 +61,7 @@ class Category
     }
 
     /**
-     * @return string
+     * @return int
      */
     public function getId()
     {
@@ -60,7 +69,7 @@ class Category
     }
 
     /**
-     * @param string $id
+     * @param int $id
      *
      * @return $this
      */
@@ -94,7 +103,7 @@ class Category
     /**
      * @return Collection<Product>
      */
-    public function getProducts()
+    public function getProducts(): Collection
     {
         return $this->products;
     }

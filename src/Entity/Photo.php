@@ -14,6 +14,8 @@ class Photo
 {
     #[Groups(['product'])]
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
@@ -21,11 +23,15 @@ class Photo
     private $id;
     #[Groups(['product'])]
     /**
+     * @var \DateTime
+     *
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreate;
     #[Groups(['product'])]
     /**
+     * @var \DateTime|null
+     *
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateUpdate;
@@ -34,10 +40,14 @@ class Photo
     #[Assert\Url]
     #[Assert\Length(max: 255)]
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false, unique=true)
      */
     private $path;
     /**
+     * @var Product
+     *
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="photos")
      * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
      */
