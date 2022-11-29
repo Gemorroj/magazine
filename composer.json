@@ -34,10 +34,10 @@
         "nelmio/api-doc-bundle": "^4.10"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.11",
+        "friendsofphp/php-cs-fixer": "^3.13",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/debug-bundle": "6.1.*",
-        "symfony/maker-bundle": "^1.47"
+        "symfony/maker-bundle": "^1.48"
     },
     "config": {
         "allow-plugins": {
