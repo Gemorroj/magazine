@@ -29,8 +29,3 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-
-    # https://symfony.com/doc/current/serializer#adding-normalizers-and-encoders
-    Symfony\Component\Serializer\Normalizer\PropertyNormalizer:
-        public: false
-        tags: [serializer.normalizer]
