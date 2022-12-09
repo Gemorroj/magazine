@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Category;
-use App\Entity\Photo;
 use App\Entity\Product;
-use Doctrine\ORM\EntityManagerInterface;
-use Imagine\Image\ImageInterface;
+use App\Repository\CategoryRepository;
+use App\Repository\PhotoRepository;
+use App\Repository\ProductRepository;
+use Imagine\Image\ManipulatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,11 +29,9 @@ class PublicController extends AbstractController
      *     )
      * )
      */
-    public function getCategoriesAction(EntityManagerInterface $entityManager): JsonResponse
+    public function getCategoriesAction(CategoryRepository $categoryRepository): JsonResponse
     {
-        $repository = $entityManager->getRepository(Category::class);
-        /** @var Category[] $categories */
-        $categories = $repository->findAll();
+        $categories = $categoryRepository->findAll();
 
         return $this->json($categories, 200, [], ['groups' => ['category']]);
     }
@@ -54,10 +53,9 @@ class PublicController extends AbstractController
      *     description="ID категории"
      * )
      */
-    public function getCategoryProductsAction(int $categoryId, EntityManagerInterface $entityManager): JsonResponse
+    public function getCategoryProductsAction(int $categoryId, CategoryRepository $categoryRepository): JsonResponse
     {
-        /** @var Category|null $category */
-        $category = $entityManager->find(Category::class, $categoryId);
+        $category = $categoryRepository->find($categoryId);
         if (!$category) {
             throw $this->createNotFoundException();
         }
@@ -80,10 +78,9 @@ class PublicController extends AbstractController
      *     description="ID товара"
      * )
      */
-    public function getProductAction(int $productId, EntityManagerInterface $entityManager): JsonResponse
+    public function getProductAction(int $productId, ProductRepository $productRepository): JsonResponse
     {
-        /** @var Product|null $product */
-        $product = $entityManager->find(Product::class, $productId);
+        $product = $productRepository->find($productId);
         if (!$product) {
             throw $this->createNotFoundException();
         }
@@ -104,17 +101,16 @@ class PublicController extends AbstractController
      *     description="ID фото"
      * )
      */
-    public function getPhotoPreviewAction(int $photoId, EntityManagerInterface $entityManager): StreamedResponse
+    public function getPhotoPreviewAction(int $photoId, PhotoRepository $photoRepository): StreamedResponse
     {
-        /** @var Photo|null $photo */
-        $photo = $entityManager->find(Photo::class, $photoId);
+        $photo = $photoRepository->find($photoId);
         if (!$photo) {
             throw $this->createNotFoundException();
         }
 
         $image = (new \Imagine\Gd\Imagine())
             ->open($this->getParameter('kernel.upload_dir').'/..'.$photo->getPath())
-            ->thumbnail(new \Imagine\Image\Box(350, 260), ImageInterface::THUMBNAIL_OUTBOUND)
+            ->thumbnail(new \Imagine\Image\Box(350, 260), ManipulatorInterface::THUMBNAIL_OUTBOUND)
         ;
 
         $response = new StreamedResponse();

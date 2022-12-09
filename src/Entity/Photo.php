@@ -2,88 +2,56 @@
 
 namespace App\Entity;
 
+use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="photo")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: PhotoRepository::class)]
 class Photo
 {
     #[Groups(['product'])]
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
-     */
-    private $id;
+    #[ORM\Id, ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: 'integer', nullable: false, options: ['unsigned' => true])]
+    private ?int $id = null;
+
     #[Groups(['product'])]
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $dateCreate;
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private ?\DateTime $dateCreate = null;
+
     #[Groups(['product'])]
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateUpdate;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $dateUpdate = null;
+
     #[Groups(['product'])]
     #[Assert\NotBlank]
     #[Assert\Url]
     #[Assert\Length(max: 255)]
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
-     */
-    private $path;
-    /**
-     * @var Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="photos")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", nullable=false)
-     */
-    private $product;
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    private string $path = '';
 
-    /**
-     * @return int
-     */
-    public function getId()
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'photos')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
+    private ?Product $product = null;
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setId($id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreate()
+    public function getDateCreate(): ?\DateTime
     {
         return $this->dateCreate;
     }
 
-    /**
-     * @return $this
-     */
     public function setDateCreate(\DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
@@ -91,55 +59,35 @@ class Photo
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateUpdate()
+    public function getDateUpdate(): ?\DateTime
     {
         return $this->dateUpdate;
     }
 
-    /**
-     * @return $this
-     */
-    public function setDateUpdate(\DateTime $dateUpdate): self
+    public function setDateUpdate(?\DateTime $dateUpdate): self
     {
         $this->dateUpdate = $dateUpdate;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return $this
-     */
-    public function setPath($path): self
+    public function setPath(string $path): self
     {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * @return Product
-     */
-    public function getProduct()
+    public function getProduct(): ?Product
     {
         return $this->product;
     }
 
-    /**
-     * @return $this
-     */
     public function setProduct(Product $product): self
     {
         $this->product = $product;

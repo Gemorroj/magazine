@@ -7,7 +7,6 @@ use App\Entity\Photo;
 use App\Entity\Product;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\PersistentCollection;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use OpenApi\Annotations as OA;
@@ -393,17 +392,18 @@ class PrivateController extends AbstractController
         $product->setPrice($request->request->get('price'));
         $product->setSize($request->request->get('size'));
 
-        /** @var PersistentCollection $photos */
         $photos = $product->getPhotos();
+
+        $requestPhotos = $request->request->all('photos');
 
         // оставляем только те фотографии, что пришли из формы
         foreach ($photos as $p) {
-            if (!\in_array($p->getPath(), $request->request->get('photos', []), true)) {
+            if (!\in_array($p->getPath(), $requestPhotos, true)) {
                 $photos->removeElement($p);
             }
         }
 
-        foreach ($request->request->get('photos', []) as $photoPath) {
+        foreach ($requestPhotos as $photoPath) {
             if (!$photos->exists(static function ($key, Photo $photo) use ($photoPath): bool {
                 return $photo->getPath() === $photoPath;
             })) {
@@ -520,7 +520,8 @@ class PrivateController extends AbstractController
         $product->setPrice($request->request->get('price'));
         $product->setSize($request->request->get('size'));
 
-        foreach ($request->request->get('photos', []) as $photoPath) {
+        $requestPhotos = $request->request->all('photos');
+        foreach ($requestPhotos as $photoPath) {
             $product->getPhotos()->add(
                 (new Photo())
                     ->setDateCreate(new \DateTime())

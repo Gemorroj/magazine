@@ -2,56 +2,40 @@
 
 namespace App\Entity;
 
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="category")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
 {
     #[Groups(['category', 'product'])]
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
-     */
-    private $id;
+    #[ORM\Id, ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: 'integer', nullable: false, options: ['unsigned' => true])]
+    private ?int $id = null;
+
     #[Groups(['category'])]
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $dateCreate;
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private ?\DateTime $dateCreate = null;
+
     #[Groups(['category'])]
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateUpdate;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $dateUpdate = null;
+
     #[Groups(['category'])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    private string $name = '';
+
     /**
      * @var Collection<Product>
-     *
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
-     * @ORM\JoinColumn(name="id", referencedColumnName="category_id", nullable=true)
      */
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class, cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'category_id', nullable: true, onDelete: 'CASCADE')]
     private Collection $products;
 
     public function __construct()
@@ -60,40 +44,24 @@ class Category
         $this->dateCreate = new \DateTime();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setId($id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -110,8 +78,6 @@ class Category
 
     /**
      * @param Collection<Product> $products
-     *
-     * @return $this
      */
     public function setProducts(Collection $products): self
     {
@@ -120,17 +86,11 @@ class Category
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreate()
+    public function getDateCreate(): ?\DateTime
     {
         return $this->dateCreate;
     }
 
-    /**
-     * @return $this
-     */
     public function setDateCreate(\DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
@@ -138,18 +98,12 @@ class Category
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateUpdate()
+    public function getDateUpdate(): ?\DateTime
     {
         return $this->dateUpdate;
     }
 
-    /**
-     * @return $this
-     */
-    public function setDateUpdate(\DateTime $dateUpdate): self
+    public function setDateUpdate(?\DateTime $dateUpdate): self
     {
         $this->dateUpdate = $dateUpdate;
 

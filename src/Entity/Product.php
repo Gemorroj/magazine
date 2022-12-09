@@ -2,112 +2,76 @@
 
 namespace App\Entity;
 
+use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use OpenApi\Annotations as OA;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Table(name="product")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
     #[Groups(['product'])]
-    /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer", nullable=false, options={"unsigned": true})
-     */
-    private $id;
+    #[ORM\Id, ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: 'integer', nullable: false, options: ['unsigned' => true])]
+    private ?int $id = null;
+
     #[Groups(['product'])]
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime", nullable=false)
-     */
-    private $dateCreate;
+    #[ORM\Column(type: 'datetime', nullable: false)]
+    private ?\DateTime $dateCreate = null;
+
     #[Groups(['product'])]
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $dateUpdate;
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTime $dateUpdate = null;
+
     #[Groups(['product'])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", length=255, nullable=false, unique=true)
-     */
-    private $name;
+    #[ORM\Column(type: 'string', length: 255, unique: true, nullable: false)]
+    private string $name = '';
+
     #[Groups(['product'])]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 5000)]
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=5000, nullable=false)
-     */
-    private $description;
+    #[ORM\Column(type: 'string', length: 5000, nullable: false)]
+    private string $description = '';
+
     #[Groups(['product'])]
     #[Assert\NotBlank]
-    #[Assert\Type(type: 'numeric')]
-    /**
-     * @var float
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=false, options={"unsigned": true})
-     */
-    private $price;
+    #[Assert\PositiveOrZero]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: false, options: ['unsigned' => true])]
+    private float $price = 0.0;
+
     #[Groups(['product'])]
     #[Assert\Length(max: 255)]
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $size;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $size = null;
+
     #[Groups(['product'])]
     #[Assert\Length(max: 255)]
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $composition;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $composition = null;
+
     #[Groups(['product'])]
     #[Assert\Length(max: 255)]
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $manufacturer;
-    #[Groups(['product'])]
-    #[Assert\Count(min: 1, max: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $manufacturer = null;
+
     /**
      * @var Collection<Photo>
-     *
-     * @ORM\OneToMany(targetEntity="Photo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true, fetch="LAZY")
-     * @ORM\JoinColumn(name="id", referencedColumnName="product_id", nullable=false)
-     * @OA\Property(type="array", @OA\Items(ref=@Model(type=Photo::class, groups={"product"})))
      */
-    private Collection $photos;
     #[Groups(['product'])]
-    /**
-     * @var Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false)
-     */
-    private $category;
+    #[Assert\Count(min: 1, max: 255)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photo::class, cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
+    #[ORM\JoinColumn(name: 'id', referencedColumnName: 'product_id', nullable: false, onDelete: 'CASCADE')]
+    private Collection $photos;
+
+    #[Groups(['product'])]
+    #[Assert\NotNull]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
+    private ?Category $category = null;
 
     public function __construct()
     {
@@ -115,140 +79,84 @@ class Product
         $this->photos = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return $this
-     */
-    public function setId($id): self
+    public function setId(int $id): self
     {
         $this->id = $id;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     *
-     * @return $this
-     */
-    public function setDescription($description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return float
-     */
-    public function getPrice()
+    public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @param float $price
-     *
-     * @return $this
-     */
-    public function setPrice($price): self
+    public function setPrice(float $price): self
     {
         $this->price = $price;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSize()
+    public function getSize(): ?string
     {
         return $this->size;
     }
 
-    /**
-     * @param string|null $size
-     *
-     * @return $this
-     */
-    public function setSize($size): self
+    public function setSize(?string $size): self
     {
         $this->size = $size;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComposition()
+    public function getComposition(): ?string
     {
         return $this->composition;
     }
 
-    /**
-     * @param string|null $composition
-     *
-     * @return $this
-     */
-    public function setComposition($composition): self
+    public function setComposition(?string $composition): self
     {
         $this->composition = $composition;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getManufacturer()
+    public function getManufacturer(): ?string
     {
         return $this->manufacturer;
     }
 
-    /**
-     * @param string|null $manufacturer
-     *
-     * @return $this
-     */
-    public function setManufacturer($manufacturer): self
+    public function setManufacturer(?string $manufacturer): self
     {
         $this->manufacturer = $manufacturer;
 
@@ -265,8 +173,6 @@ class Product
 
     /**
      * @param Collection<Photo> $photos
-     *
-     * @return $this
      */
     public function setPhotos(Collection $photos): self
     {
@@ -275,17 +181,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Category
-     */
-    public function getCategory()
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * @return $this
-     */
     public function setCategory(Category $category): self
     {
         $this->category = $category;
@@ -293,17 +193,11 @@ class Product
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreate()
+    public function getDateCreate(): ?\DateTime
     {
         return $this->dateCreate;
     }
 
-    /**
-     * @return $this
-     */
     public function setDateCreate(\DateTime $dateCreate): self
     {
         $this->dateCreate = $dateCreate;
@@ -311,18 +205,12 @@ class Product
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateUpdate()
+    public function getDateUpdate(): ?\DateTime
     {
         return $this->dateUpdate;
     }
 
-    /**
-     * @return $this
-     */
-    public function setDateUpdate(\DateTime $dateUpdate): self
+    public function setDateUpdate(?\DateTime $dateUpdate): self
     {
         $this->dateUpdate = $dateUpdate;
 

@@ -19,8 +19,11 @@ use Symfony\Component\Finder\Finder;
 )]
 class PhotoCleanOrphanedCommand extends Command
 {
-    public function __construct(private string $uploadDir, private Filesystem $fileSystem, private EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        private string $uploadDir,
+        private Filesystem $fileSystem,
+        private EntityManagerInterface $entityManager
+    ) {
         parent::__construct();
     }
 
