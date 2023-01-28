@@ -38,9 +38,9 @@
 
 
 <script>
-    import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
-    export default {
+export default {
         data() {
             return {
                 categoryAddFormVisible: false,
@@ -61,8 +61,8 @@
 
                 categoryRules: {
                     name: [
-                        { required: true, message: 'Навазние категории обязательно', trigger: 'blur' },
-                        { min: 3, max: 255, message: 'Навазние категории должно быть от 3 до 255 символов', trigger: 'blur' }
+                        { required: true, message: 'Название категории обязательно', trigger: 'blur' },
+                        { min: 3, max: 255, message: 'Название категории должно быть от 3 до 255 символов', trigger: 'blur' }
                     ]
                 }
             };

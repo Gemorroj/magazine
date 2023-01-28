@@ -6,11 +6,11 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
-    import Categories from './Components/Categories.vue';
-    import Products from './Components/Products.vue';
+import {mapGetters} from 'vuex';
+import Categories from './Components/Categories.vue';
+import Products from './Components/Products.vue';
 
-    export default {
+export default {
         components: {
             Categories,
             Products,

@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
-    export default {
+export default {
         props: {
             categoryId: {
                 type: [String, Number],

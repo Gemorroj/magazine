@@ -7,6 +7,11 @@ module.exports = function (env, argv) {
     const isDevMode = argv.mode === 'development';
 
     return {
+        resolve: { // https://github.com/ElemeFE/element/issues/17093#issuecomment-1236950654
+            alias: {
+                'vue': path.resolve(__dirname, 'node_modules', 'vue'),
+            },
+        },
         devtool: isDevMode ? 'eval' : 'source-map',
         entry: path.resolve(__dirname + '/assets/app.js'),
         output: {

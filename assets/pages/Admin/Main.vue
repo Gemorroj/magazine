@@ -9,12 +9,12 @@
 </template>
 
 <script>
-    import AdminNavMenu from './Components/AdminNavMenu.vue';
-    import AdminCategories from './Components/AdminCategories.vue';
-    import AdminProducts from './Components/AdminProducts.vue';
-    import { mapGetters } from 'vuex';
+import AdminNavMenu from './Components/AdminNavMenu.vue';
+import AdminCategories from './Components/AdminCategories.vue';
+import AdminProducts from './Components/AdminProducts.vue';
+import {mapGetters} from 'vuex';
 
-    export default {
+export default {
         computed: mapGetters({
             activeCategory: 'private/activeCategory'
         }),

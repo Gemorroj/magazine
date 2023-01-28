@@ -15,9 +15,9 @@
 </template>
 
 <script>
-    import {yandexMap, ymapMarker} from 'vue-yandex-maps';
+import {yandexMap, ymapMarker} from 'vue-yandex-maps';
 
-    export default {
+export default {
         components: {
             yandexMap,
             ymapMarker

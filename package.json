@@ -1,6 +1,6 @@
 {
     "name": "magazine",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "Небольшой магазинчик",
     "author": "Gemorroj",
     "license": "MIT",
@@ -21,9 +21,9 @@
         "vuex": "^3.6.2"
     },
     "devDependencies": {
-        "@babel/core": "^7.20.7",
+        "@babel/core": "^7.20.12",
         "@babel/preset-env": "^7.20.2",
-        "babel-loader": "^9.1.0",
+        "babel-loader": "^9.1.2",
         "css-loader": "^6.7.3",
         "html-webpack-plugin": "^5.5.0",
         "mini-css-extract-plugin": "^2.7.2",

@@ -9,13 +9,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Nelmio\ApiDocBundle\Annotation\Security;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\UploadException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
@@ -26,46 +27,37 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PrivateController extends AbstractController
 {
     #[Route(path: '/login', defaults: ['_format' => 'json'], methods: ['POST'])]
-    /**
-     * @OA\Response(
-     *     @OA\Header(header="Authorization", description="Bearer токен", @OA\Schema(type="string")),
-     *     response=200,
-     *     description="OK"
-     * )
-     * @OA\Response(
-     *     response=401,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *         mediaType="multipart/form-data",
-     *         @OA\Schema(
-     *             required={"login", "password"},
-     *             @OA\Property(
-     *                 property="login",
-     *                 type="string",
-     *                 description="Логин"
-     *             ),
-     *             @OA\Property(
-     *                 property="password",
-     *                 type="string",
-     *                 format="password",
-     *                 description="Пароль"
-     *             )
-     *         )
-     *     )
-     * )
-     */
-    public function loginAction(Request $request): JsonResponse
+    #[OA\Response(
+        response: 204,
+        description: 'Success',
+        headers: [
+            new OA\Header(header: 'Authorization', description: 'Bearer токен', schema: new OA\Schema(type: 'string', nullable: false)),
+        ]
+    )]
+    #[OA\Response(
+        response: 401,
+        description: 'Error',
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'multipart/form-data',
+            schema: new OA\Schema(
+                required: ['login', 'password'],
+                properties: [
+                    new OA\Property(property: 'login', type: 'string', nullable: false),
+                    new OA\Property(property: 'password', type: 'string', format: 'password', nullable: false),
+                ]
+            )
+        )],
+    )]
+    public function loginAction(Request $request): Response
     {
         $login = $request->get('login');
         $password = $request->get('password');
 
         if ($login === $this->getParameter('login') && $password === $this->getParameter('password')) {
-            return $this->json([
-                'status' => 'success',
-            ], 200, ['Authorization' => 'Bearer '.\hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
+            return new Response(null, 204, ['Authorization' => 'Bearer '.\hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
         }
 
         throw new UnauthorizedHttpException('Bearer');
@@ -83,32 +75,36 @@ class PrivateController extends AbstractController
 
     #[Route(path: '/categories', defaults: ['_format' => 'json'], methods: ['POST'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=201,
-     *     description="OK",
-     *     @OA\JsonContent(ref=@Model(type=Category::class, groups={"category"}))
-     * )
-     * @OA\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *         mediaType="application/x-www-form-urlencoded",
-     *         @OA\Schema(
-     *             required={"categoryName"},
-     *             @OA\Property(
-     *                 property="categoryName",
-     *                 type="string",
-     *                 description="Имя категории"
-     *             )
-     *         )
-     *     )
-     * )
-     * @OA\Tag(name="category")
-     */
+    #[OA\Response(
+        response: 201,
+        description: 'Success',
+        content: new OA\JsonContent(
+            ref: new Model(type: Category::class, groups: ['category']),
+            nullable: false,
+        ),
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'application/x-www-form-urlencoded',
+            schema: new OA\Schema(
+                required: ['categoryName'],
+                properties: [
+                    new OA\Property(
+                        property: 'categoryName',
+                        description: 'Имя категории',
+                        type: 'string',
+                        nullable: false
+                    ),
+                ]
+            )
+        )],
+    )]
+    #[OA\Tag(name: 'category')]
     public function addCategoryAction(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
@@ -129,37 +125,42 @@ class PrivateController extends AbstractController
 
     #[Route(path: '/categories/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['PUT'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="OK",
-     *     @OA\JsonContent(ref=@Model(type=Category::class, groups={"category"}))
-     * )
-     * @OA\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *         mediaType="application/x-www-form-urlencoded",
-     *         @OA\Schema(
-     *             required={"categoryId", "categoryName"},
-     *             @OA\Property(
-     *                 property="categoryId",
-     *                 type="integer",
-     *                 description="ID категории"
-     *             ),
-     *             @OA\Property(
-     *                 property="categoryName",
-     *                 type="string",
-     *                 description="Имя категории"
-     *             )
-     *         )
-     *     )
-     * )
-     * @OA\Tag(name="category")
-     */
+    #[OA\Response(
+        response: 200,
+        description: 'Success',
+        content: new OA\JsonContent(
+            ref: new Model(type: Category::class, groups: ['category']),
+            nullable: false,
+        ),
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'application/x-www-form-urlencoded',
+            schema: new OA\Schema(
+                required: ['categoryId', 'categoryName'],
+                properties: [
+                    new OA\Property(
+                        property: 'categoryId',
+                        description: 'ID категории',
+                        type: 'integer',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'categoryName',
+                        description: 'Имя категории',
+                        type: 'string',
+                        nullable: false
+                    ),
+                ]
+            )
+        )],
+    )]
+    #[OA\Tag(name: 'category')]
     public function updateCategoryAction(int $id, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
@@ -186,18 +187,16 @@ class PrivateController extends AbstractController
 
     #[Route(path: '/products/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['DELETE'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="OK"
-     * )
-     * @OA\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\Tag(name="product")
-     */
-    public function deleteProductAction(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    #[OA\Response(
+        response: 204,
+        description: 'Success',
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\Tag(name: 'product')]
+    public function deleteProductAction(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->checkAuth($request);
 
@@ -213,23 +212,21 @@ class PrivateController extends AbstractController
         $entityManager->remove($product);
         $entityManager->flush();
 
-        return $this->json(null);
+        return new Response(null, 204);
     }
 
     #[Route(path: '/categories/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['DELETE'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="OK"
-     * )
-     * @OA\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\Tag(name="category")
-     */
-    public function deleteCategoryAction(int $id, Request $request, EntityManagerInterface $entityManager): JsonResponse
+    #[OA\Response(
+        response: 204,
+        description: 'Success',
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\Tag(name: 'category')]
+    public function deleteCategoryAction(int $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $this->checkAuth($request);
 
@@ -250,38 +247,56 @@ class PrivateController extends AbstractController
         $entityManager->remove($category);
         $entityManager->flush();
 
-        return $this->json(null);
+        return new Response(null, 204);
     }
 
     #[Route(path: '/photo', defaults: ['_format' => 'json'], methods: ['POST'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=201,
-     *     description="OK",
-     *     @OA\JsonContent(
-     *         type="object",
-     *         @OA\Property(property="name", type="string", description="Имя загруженного файла"),
-     *         @OA\Property(property="path", type="string", description="Публичный путь к загруженному файлу"),
-     *     )
-     * )
-     * @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *         mediaType="multipart/form-data",
-     *         @OA\Schema(
-     *             required={"file"},
-     *             @OA\Property(
-     *                 property="file",
-     *                 type="string",
-     *                 format="binary",
-     *                 description="Фотография"
-     *             )
-     *         )
-     *     )
-     * )
-     * @OA\Tag(name="photo")
-     */
+    #[OA\Response(
+        response: 201,
+        description: 'Success',
+        content: new OA\JsonContent(
+            properties: [
+                new OA\Property(
+                    property: 'name',
+                    description: 'Имя загруженного файла',
+                    type: 'string',
+                    nullable: false,
+                ),
+                new OA\Property(
+                    property: 'path',
+                    description: 'Публичный путь к загруженному файлу',
+                    type: 'string',
+                    nullable: false
+                ),
+            ],
+            type: 'object',
+            nullable: false,
+        ),
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'multipart/form-data',
+            schema: new OA\Schema(
+                required: ['file'],
+                properties: [
+                    new OA\Property(
+                        property: 'file',
+                        description: 'Фотография',
+                        type: 'string',
+                        format: 'binary',
+                        nullable: false,
+                    ),
+                ]
+            )
+        )],
+    )]
+    #[OA\Tag(name: 'photo')]
     public function addPhotoAction(Request $request, Filesystem $filesystem): JsonResponse
     {
         $this->checkAuth($request);
@@ -317,63 +332,66 @@ class PrivateController extends AbstractController
 
     #[Route(path: '/products/{id}', requirements: ['id' => '\d+'], defaults: ['_format' => 'json'], methods: ['PUT'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="OK",
-     *     @OA\JsonContent(ref=@Model(type=Product::class, groups={"product"}))
-     * )
-     * @OA\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *         mediaType="application/x-www-form-urlencoded",
-     *         @OA\Schema(
-     *             required={"name", "description", "price", "photos"},
-     *             @OA\Property(
-     *                 property="name",
-     *                 type="string",
-     *                 description="Имя товара"
-     *             ),
-     *             @OA\Property(
-     *                 property="description",
-     *                 type="string",
-     *                 description="Описание товара"
-     *             ),
-     *             @OA\Property(
-     *                 property="price",
-     *                 type="number",
-     *                 description="Цена"
-     *             ),
-     *             @OA\Property(
-     *                 property="size",
-     *                 type="string",
-     *                 description="Размер"
-     *             ),
-     *             @OA\Property(
-     *                 property="composition",
-     *                 type="string",
-     *                 description="Состав"
-     *             ),
-     *             @OA\Property(
-     *                 property="manufacturer",
-     *                 type="string",
-     *                 description="Производитель"
-     *             ),
-     *             @OA\Property(
-     *                 property="photos",
-     *                 type="array",
-     *                 @OA\Items(type="string"),
-     *                 description="Фотографии"
-     *             )
-     *         )
-     *     )
-     * )
-     * @OA\Tag(name="product")
-     */
+    #[OA\Response(
+        response: 200,
+        description: 'Success',
+        content: new OA\JsonContent(
+            ref: new Model(type: Product::class, groups: ['product']),
+            nullable: false,
+        ),
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'application/x-www-form-urlencoded',
+            schema: new OA\Schema(
+                required: ['name', 'description', 'price', 'photos'],
+                properties: [
+                    new OA\Property(
+                        property: 'name',
+                        type: 'string',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'description',
+                        type: 'string',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'price',
+                        type: 'number',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'size',
+                        type: 'string',
+                        nullable: true
+                    ),
+                    new OA\Property(
+                        property: 'composition',
+                        type: 'string',
+                        nullable: true
+                    ),
+                    new OA\Property(
+                        property: 'manufacturer',
+                        type: 'string',
+                        nullable: true
+                    ),
+                    new OA\Property(
+                        property: 'photos',
+                        type: 'array',
+                        items: new OA\Items(type: 'string', nullable: false),
+                        nullable: false
+                    ),
+                ]
+            )
+        )],
+    )]
+    #[OA\Tag(name: 'product')]
     public function updateProductAction(int $id, Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);
@@ -434,68 +452,71 @@ class PrivateController extends AbstractController
 
     #[Route(path: '/products', defaults: ['_format' => 'json'], methods: ['POST'])]
     #[Security(name: 'Bearer')]
-    /**
-     * @OA\Response(
-     *     response=201,
-     *     description="OK",
-     *     @OA\JsonContent(ref=@Model(type=Product::class, groups={"product"}))
-     * )
-     * @OA\Response(
-     *     response=400,
-     *     description="Ошибка валидации"
-     * )
-     * @OA\RequestBody(
-     *     required=true,
-     *     @OA\MediaType(
-     *         mediaType="application/x-www-form-urlencoded",
-     *         @OA\Schema(
-     *             required={"categoryId", "name", "description", "price", "photos"},
-     *             @OA\Property(
-     *                 property="categoryId",
-     *                 type="integer",
-     *                 description="ID категории"
-     *             ),
-     *             @OA\Property(
-     *                 property="name",
-     *                 type="string",
-     *                 description="Имя товара"
-     *             ),
-     *             @OA\Property(
-     *                 property="description",
-     *                 type="string",
-     *                 description="Описание товара"
-     *             ),
-     *             @OA\Property(
-     *                 property="price",
-     *                 type="number",
-     *                 description="Цена"
-     *             ),
-     *             @OA\Property(
-     *                 property="size",
-     *                 type="string",
-     *                 description="Размер"
-     *             ),
-     *             @OA\Property(
-     *                 property="composition",
-     *                 type="string",
-     *                 description="Состав"
-     *             ),
-     *             @OA\Property(
-     *                 property="manufacturer",
-     *                 type="string",
-     *                 description="Производитель"
-     *             ),
-     *             @OA\Property(
-     *                 property="photos",
-     *                 type="array",
-     *                 @OA\Items(type="string"),
-     *                 description="Фотографии"
-     *             )
-     *         )
-     *     )
-     * )
-     * @OA\Tag(name="product")
-     */
+    #[OA\Response(
+        response: 201,
+        description: 'Success',
+        content: new OA\JsonContent(
+            ref: new Model(type: Product::class, groups: ['product']),
+            nullable: false,
+        ),
+    )]
+    #[OA\Response(
+        response: 400,
+        description: 'Error',
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: [new OA\MediaType(
+            mediaType: 'application/x-www-form-urlencoded',
+            schema: new OA\Schema(
+                required: ['categoryId', 'name', 'description', 'price', 'photos'],
+                properties: [
+                    new OA\Property(
+                        property: 'categoryId',
+                        type: 'integer',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'name',
+                        type: 'string',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'description',
+                        type: 'string',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'price',
+                        type: 'number',
+                        nullable: false
+                    ),
+                    new OA\Property(
+                        property: 'size',
+                        type: 'string',
+                        nullable: true
+                    ),
+                    new OA\Property(
+                        property: 'composition',
+                        type: 'string',
+                        nullable: true
+                    ),
+                    new OA\Property(
+                        property: 'manufacturer',
+                        type: 'string',
+                        nullable: true
+                    ),
+                    new OA\Property(
+                        property: 'photos',
+                        type: 'array',
+                        items: new OA\Items(type: 'string', nullable: false),
+                        nullable: false
+                    ),
+                ]
+            )
+        )],
+    )]
+    #[OA\Tag(name: 'product')]
     public function addProductAction(Request $request, ValidatorInterface $validator, EntityManagerInterface $entityManager): JsonResponse
     {
         $this->checkAuth($request);

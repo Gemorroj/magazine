@@ -9,7 +9,7 @@ use App\Repository\PhotoRepository;
 use App\Repository\ProductRepository;
 use Imagine\Image\ManipulatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -18,17 +18,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/api/public')]
 class PublicController extends AbstractController
 {
-    #[Route(path: '/categories', defaults: ['_format' => 'json'], methods: ['GET'])]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="Список категорий",
-     *     @OA\JsonContent(
-     *         type="array",
-     *         @OA\Items(ref=@Model(type=Category::class, groups={"category"}))
-     *     )
-     * )
-     */
+    #[Route(path: '/categories', defaults: ['_format' => 'json'], methods: ['GET'], stateless: true)]
+    #[OA\Response(
+        response: 200,
+        description: 'Список категорий',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Category::class, groups: ['category']), nullable: false),
+            nullable: false,
+        )
+    )]
+    #[OA\Tag(name: 'category')]
     public function getCategoriesAction(CategoryRepository $categoryRepository): JsonResponse
     {
         $categories = $categoryRepository->findAll();
@@ -36,23 +36,18 @@ class PublicController extends AbstractController
         return $this->json($categories, 200, [], ['groups' => ['category']]);
     }
 
-    #[Route(path: '/categories/{categoryId}/products', requirements: ['categoryId' => '\d+'], defaults: ['_format' => 'json'], methods: ['GET'])]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="Товары в категории",
-     *     @OA\JsonContent(
-     *         type="array",
-     *         @OA\Items(ref=@Model(type=Product::class, groups={"product"}))
-     *     )
-     * )
-     * @OA\Parameter(
-     *     name="categoryId",
-     *     in="path",
-     *     @OA\Schema(type="integer"),
-     *     description="ID категории"
-     * )
-     */
+    #[Route(path: '/categories/{categoryId}/products', requirements: ['categoryId' => '\d+'], defaults: ['_format' => 'json'], methods: ['GET'], stateless: true)]
+    #[OA\Response(
+        response: 200,
+        description: 'Товары в категории',
+        content: new OA\JsonContent(
+            type: 'array',
+            items: new OA\Items(ref: new Model(type: Product::class, groups: ['product']), nullable: false),
+            nullable: false,
+        )
+    )]
+    #[OA\Tag(name: 'product')]
+    #[OA\Parameter(name: 'categoryId', description: 'ID категории', in: 'path', required: true, schema: new OA\Schema(type: 'integer', nullable: false))]
     public function getCategoryProductsAction(int $categoryId, CategoryRepository $categoryRepository): JsonResponse
     {
         $category = $categoryRepository->find($categoryId);
@@ -64,20 +59,17 @@ class PublicController extends AbstractController
         return $this->json($products, 200, [], ['groups' => ['product']]);
     }
 
-    #[Route(path: '/products/{productId}', requirements: ['productId' => '\d+'], defaults: ['_format' => 'json'], methods: ['GET'])]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="Товар",
-     *     @OA\JsonContent(ref=@Model(type=Product::class, groups={"product"}))
-     * )
-     * @OA\Parameter(
-     *     name="productId",
-     *     in="path",
-     *     @OA\Schema(type="integer"),
-     *     description="ID товара"
-     * )
-     */
+    #[Route(path: '/products/{productId}', requirements: ['productId' => '\d+'], defaults: ['_format' => 'json'], methods: ['GET'], stateless: true)]
+    #[OA\Response(
+        response: 200,
+        description: 'Товар',
+        content: new OA\JsonContent(
+            ref: new Model(type: Product::class, groups: ['product']),
+            nullable: false,
+        ),
+    )]
+    #[OA\Tag(name: 'product')]
+    #[OA\Parameter(name: 'productId', description: 'ID товара', in: 'path', required: true, schema: new OA\Schema(type: 'integer', nullable: false))]
     public function getProductAction(int $productId, ProductRepository $productRepository): JsonResponse
     {
         $product = $productRepository->find($productId);
@@ -88,19 +80,17 @@ class PublicController extends AbstractController
         return $this->json($product, 200, [], ['groups' => ['product']]);
     }
 
-    #[Route(path: '/photos/{photoId}', requirements: ['photoId' => '\d+'], defaults: ['_format' => 'image'], methods: ['GET'])]
-    /**
-     * @OA\Response(
-     *     response=200,
-     *     description="Фото"
-     * )
-     * @OA\Parameter(
-     *     name="photoId",
-     *     in="path",
-     *     @OA\Schema(type="integer"),
-     *     description="ID фото"
-     * )
-     */
+    #[Route(path: '/photos/{photoId}', requirements: ['photoId' => '\d+'], defaults: ['_format' => 'image'], methods: ['GET'], stateless: true)]
+    #[OA\Response(
+        response: 200,
+        description: 'Фото',
+        content: new OA\MediaType(
+            mediaType: 'image/jpeg',
+            schema: new OA\Schema(type: 'string', format: 'binary')
+        ),
+    )]
+    #[OA\Tag(name: 'photo')]
+    #[OA\Parameter(name: 'photoId', description: 'ID фото', in: 'path', required: true, schema: new OA\Schema(type: 'integer', nullable: false))]
     public function getPhotoPreviewAction(int $photoId, PhotoRepository $photoRepository): StreamedResponse
     {
         $photo = $photoRepository->find($photoId);

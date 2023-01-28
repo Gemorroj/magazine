@@ -5,7 +5,7 @@
         <el-table :data="products" border show-summary>
             <el-table-column prop="id" label="ID" width="100" sortable></el-table-column>
             <el-table-column label="Название" sortable>
-                <template slot-scope="scope">
+                <template v-slot="scope">
                     <el-popover trigger="hover" placement="top">
                         <p>Дата создания: {{ (new Date(scope.row.dateCreate)).toLocaleString() }}</p>
                         <p>Дата обновления: {{ scope.row.dateUpdate ? (new Date(scope.row.dateUpdate)).toLocaleString() : '' }}</p>
@@ -17,7 +17,7 @@
             </el-table-column>
             <el-table-column prop="price" label="Цена" width="150" sortable></el-table-column>
             <el-table-column label="Действия" fixed="right" width="250">
-                <template slot-scope="scope">
+                <template v-slot="scope">
                     <el-button-group>
                         <el-button size="mini" @click="productEdit(scope.row)" icon="el-icon-edit">Редактировать</el-button>
                         <el-button size="mini" type="danger" @click="productDelete(scope.row)" icon="el-icon-delete">Удалить</el-button>
@@ -81,9 +81,9 @@
 
 
 <script>
-    import { mapGetters } from 'vuex';
+import {mapGetters} from 'vuex';
 
-    export default {
+export default {
         data() {
             return {
                 fileList: [],
@@ -104,12 +104,12 @@
 
                 productRules: {
                     name: [
-                        { required: true, message: 'Навазние товара обязательно', trigger: 'blur' },
-                        { min: 3, max: 255, message: 'Навазние товара должно быть от 3 до 255 символов', trigger: 'blur' }
+                        { required: true, message: 'Название товара обязательно', trigger: 'blur' },
+                        { min: 3, max: 255, message: 'Название товара должно быть от 3 до 255 символов', trigger: 'blur' }
                     ],
                     description: [
                         { required: true, message: 'Описание товара обязательно', trigger: 'blur' },
-                        { min: 3, max: 5000, message: 'Навазние товара должно быть от 3 до 5000 символов', trigger: 'blur' }
+                        { min: 3, max: 5000, message: 'Название товара должно быть от 3 до 5000 символов', trigger: 'blur' }
                     ],
                     price: [
                         { type: 'number', required: true, message: 'Цена обязательна'}

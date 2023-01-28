@@ -6,8 +6,9 @@
 </template>
 
 <script>
-    import AdminNavMenu from './Components/AdminNavMenu.vue';
-    export default {
+import AdminNavMenu from './Components/AdminNavMenu.vue';
+
+export default {
         components: {
             AdminNavMenu
         }

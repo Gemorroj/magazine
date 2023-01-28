@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 export default {
     categories: state => state.categories,
     activeCategory: state => state.activeCategory,
