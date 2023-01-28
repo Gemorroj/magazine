@@ -77,7 +77,7 @@ class PrivateController extends AbstractController
         \preg_match('/Bearer\s+(?P<token>\S+)/', $request->headers->get('Authorization'), $matches);
 
         if (!$matches || $matches['token'] !== $expectedHash) {
-            throw new HttpException(403, 'Ны не авторизованы');
+            throw new HttpException(403, 'Вы не авторизованы');
         }
     }
 
