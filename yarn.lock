@@ -2703,9 +2703,9 @@ vue-template-es2015-compiler@^1.9.0:
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
 vue-yandex-maps@^0.11.13:
-  version "0.11.13"
-  resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-0.11.13.tgz#09a8a21de86d135e25430e545ac36e91675242ec"
-  integrity sha512-MyIBkKU2rX1vcypy6VEckdhL0NFVlRGTFmYItsqzcb0a43yhHbnAshcLI3FDRbByMsOp6kWFAuDMBJffg6W7jw==
+  version "0.11.14"
+  resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-0.11.14.tgz#523717004e160854f199527d370600ac201ed23e"
+  integrity sha512-8qZVwFZ9d5PR2UDAFQnNuF73C0+8jpQjWTFvyHjJb+TzrI0bedwwi0UCopVLPy8tB3y8ZVfbKkPa5GeiiaB75Q==
 
 vue@^2.7.14:
   version "2.7.14"
