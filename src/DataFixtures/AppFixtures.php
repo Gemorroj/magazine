@@ -56,7 +56,7 @@ class AppFixtures extends Fixture
         $photoSourcePath = $this->getRandomPhotoPath();
         $photoDestPath = \mt_rand(1000, 999999).'_'.$this->getRandomPhotoPath();
 
-        @\mkdir(__DIR__.'/../../public/upload/2018-01-01', 0777);
+        @\mkdir(__DIR__.'/../../public/upload/2018-01-01', 0o777);
         \copy(__DIR__.'/images/'.$photoSourcePath, __DIR__.'/../../public/upload/2018-01-01/'.$photoDestPath);
 
         return (new Photo())
