@@ -4,7 +4,7 @@ FROM php:8.2-fpm-alpine
 RUN set -xe \
     && apk update \
     && apk upgrade \
-    && apk --no-cache add htop unzip gzip
+    && apk --no-cache add htop unzip gzip linux-headers
 
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
