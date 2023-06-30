@@ -26,7 +26,7 @@
         "symfony/validator": "6.2.*",
         "symfony/yaml": "6.2.*",
 
-        "doctrine/doctrine-bundle": "^2.9",
+        "doctrine/doctrine-bundle": "^2.10",
         "doctrine/doctrine-migrations-bundle": "^3.2",
         "doctrine/orm": "^2.15",
 
@@ -34,10 +34,10 @@
         "nelmio/api-doc-bundle": "^4.12"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.16",
+        "friendsofphp/php-cs-fixer": "^3.20",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "symfony/debug-bundle": "6.2.*",
-        "symfony/maker-bundle": "^1.48"
+        "symfony/maker-bundle": "^1.49"
     },
     "config": {
         "allow-plugins": {
