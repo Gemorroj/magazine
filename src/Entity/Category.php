@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-final class Category
+class Category
 {
     #[Groups(['category', 'product'])]
     #[ORM\Id, ORM\GeneratedValue(strategy: 'IDENTITY')]
