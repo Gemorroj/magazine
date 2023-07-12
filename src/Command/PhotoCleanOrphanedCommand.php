@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Command;
 
 use Doctrine\ORM\AbstractQuery;
@@ -17,12 +19,12 @@ use Symfony\Component\Finder\Finder;
     name: 'app:photo-clean-orphaned',
     description: 'Удаляет осиротевшие фотографии из файловой системы',
 )]
-class PhotoCleanOrphanedCommand extends Command
+final class PhotoCleanOrphanedCommand extends Command
 {
     public function __construct(
-        private string $uploadDir,
-        private Filesystem $fileSystem,
-        private EntityManagerInterface $entityManager
+        private readonly string $uploadDir,
+        private readonly Filesystem $fileSystem,
+        private readonly EntityManagerInterface $entityManager
     ) {
         parent::__construct();
     }

@@ -9,7 +9,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
 
-class AppFixtures extends Fixture
+final class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {

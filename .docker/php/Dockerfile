@@ -12,26 +12,26 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 # PHP
 RUN set -xe \
     && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
-
+\
     # Opcache
     && docker-php-ext-install opcache \
     && docker-php-ext-enable opcache \
-
+\
     # Xdebug, APCU
     && pecl install apcu \
     && pecl install xdebug \
     && docker-php-ext-enable apcu xdebug \
-
+\
     # Sodium
     && apk add --no-cache libsodium-dev \
     && docker-php-ext-install sodium \
     && docker-php-ext-enable sodium \
-
+\
     # INTL
     && apk add --no-cache icu-dev icu-libs \
     && docker-php-ext-install intl \
     && docker-php-ext-enable intl \
-
+\
     # GD
     && apk add --no-cache freetype libpng libwebp libjpeg-turbo freetype-dev libpng-dev libjpeg-turbo-dev libwebp-dev \
     && docker-php-ext-configure gd \

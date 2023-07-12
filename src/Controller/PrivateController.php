@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route(path: '/api/private')]
-class PrivateController extends AbstractController
+final class PrivateController extends AbstractController
 {
     #[Route(path: '/login', defaults: ['_format' => 'json'], methods: ['POST'])]
     #[OA\Response(

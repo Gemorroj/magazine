@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route(path: '/api/public')]
-class PublicController extends AbstractController
+final class PublicController extends AbstractController
 {
     #[Route(path: '/categories', defaults: ['_format' => 'json'], methods: ['GET'], stateless: true)]
     #[OA\Response(

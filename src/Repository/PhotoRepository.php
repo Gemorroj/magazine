@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Photo;
@@ -14,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Photo[]    findAll()
  * @method Photo[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PhotoRepository extends ServiceEntityRepository
+final class PhotoRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
