@@ -8,5 +8,5 @@ return [
     Nelmio\ApiDocBundle\NelmioApiDocBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
-    Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true, 'test' => true],
+    Symfony\Bundle\DebugBundle\DebugBundle::class => ['dev' => true],
 ];
