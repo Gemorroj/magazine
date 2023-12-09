@@ -1006,16 +1006,16 @@
         },
         {
             "name": "doctrine/migrations",
-            "version": "3.7.1",
+            "version": "3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/migrations.git",
-                "reference": "e4e0855ea993d169c8adb50e19b014e64bbdda46"
+                "reference": "47af29eef49f29ebee545947e8b2a4b3be318c8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/migrations/zipball/e4e0855ea993d169c8adb50e19b014e64bbdda46",
-                "reference": "e4e0855ea993d169c8adb50e19b014e64bbdda46",
+                "url": "https://api.github.com/repos/doctrine/migrations/zipball/47af29eef49f29ebee545947e8b2a4b3be318c8a",
+                "reference": "47af29eef49f29ebee545947e8b2a4b3be318c8a",
                 "shasum": ""
             },
             "require": {
@@ -1100,7 +1100,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-11-19T06:55:22+00:00"
+            "time": "2023-12-05T11:35:05+00:00"
         },
         {
             "name": "doctrine/orm",
@@ -2980,16 +2980,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v2.4.1",
+            "version": "v2.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "ae6dea68771c5fca9d172e0c0910bdd06199f6f4"
+                "reference": "67ee785f1aedada76461de7a7ec10cd7f8ff8d36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/ae6dea68771c5fca9d172e0c0910bdd06199f6f4",
-                "reference": "ae6dea68771c5fca9d172e0c0910bdd06199f6f4",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/67ee785f1aedada76461de7a7ec10cd7f8ff8d36",
+                "reference": "67ee785f1aedada76461de7a7ec10cd7f8ff8d36",
                 "shasum": ""
             },
             "require": {
@@ -3037,7 +3037,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-10-30T18:35:17+00:00"
+            "time": "2023-12-05T14:09:35+00:00"
         },
         {
             "name": "symfony/framework-bundle",
@@ -4805,20 +4805,19 @@
         },
         {
             "name": "zircote/swagger-php",
-            "version": "4.7.16",
+            "version": "4.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zircote/swagger-php.git",
-                "reference": "21366a8c43819457d458e772a4e86d0df9233b5e"
+                "reference": "8ea52e3542133faf364bd9295d1a69406b465220"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/21366a8c43819457d458e772a4e86d0df9233b5e",
-                "reference": "21366a8c43819457d458e772a4e86d0df9233b5e",
+                "url": "https://api.github.com/repos/zircote/swagger-php/zipball/8ea52e3542133faf364bd9295d1a69406b465220",
+                "reference": "8ea52e3542133faf364bd9295d1a69406b465220",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.7 || ^2.0",
                 "ext-json": "*",
                 "php": ">=7.2",
                 "psr/log": "^1.1 || ^2.0 || ^3.0",
@@ -4828,10 +4827,14 @@
             },
             "require-dev": {
                 "composer/package-versions-deprecated": "^1.11",
+                "doctrine/annotations": "^1.7 || ^2.0",
                 "friendsofphp/php-cs-fixer": "^2.17 || ^3.0",
                 "phpstan/phpstan": "^1.6",
                 "phpunit/phpunit": ">=8",
                 "vimeo/psalm": "^4.23"
+            },
+            "suggest": {
+                "doctrine/annotations": "^1.7 || ^2.0"
             },
             "bin": [
                 "bin/openapi"
@@ -4875,7 +4878,7 @@
                 "rest",
                 "service discovery"
             ],
-            "time": "2023-11-30T21:47:39+00:00"
+            "time": "2023-12-04T19:43:43+00:00"
         }
     ],
     "packages-dev": [
@@ -5248,16 +5251,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.40.2",
+            "version": "v3.41.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "4344562a516b76afe8f2d64b2e52214c30d64ed8"
+                "reference": "7d8d18e19095a939b8a3b8046f57108feaad6134"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/4344562a516b76afe8f2d64b2e52214c30d64ed8",
-                "reference": "4344562a516b76afe8f2d64b2e52214c30d64ed8",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/7d8d18e19095a939b8a3b8046f57108feaad6134",
+                "reference": "7d8d18e19095a939b8a3b8046f57108feaad6134",
                 "shasum": ""
             },
             "require": {
@@ -5287,8 +5290,6 @@
                 "php-cs-fixer/accessible-object": "^1.1",
                 "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.4",
                 "php-cs-fixer/phpunit-constraint-xmlmatchesxsd": "^1.4",
-                "phpspec/prophecy": "^1.17",
-                "phpspec/prophecy-phpunit": "^2.0",
                 "phpunit/phpunit": "^9.6",
                 "symfony/phpunit-bridge": "^6.3.8 || ^7.0",
                 "symfony/yaml": "^5.4 || ^6.0 || ^7.0"
@@ -5333,7 +5334,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-12-03T09:21:33+00:00"
+            "time": "2023-12-08T22:54:33+00:00"
         },
         {
             "name": "nikic/php-parser",
