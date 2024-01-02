@@ -2,7 +2,7 @@
 framework:
     secret: '%env(APP_SECRET)%'
     csrf_protection: false
-    annotations: true # see https://github.com/nelmio/nelmioapidocbundle/issues/2064
+    annotations: false
     http_method_override: false
     handle_all_throwables: true
 
