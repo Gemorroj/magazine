@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2ca5c4db6609e530c4723544ca022ef9",
+    "content-hash": "4a58f56ec12b7eaa4bb2d9be1ae316b8",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -326,16 +326,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.11.2",
+            "version": "2.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "fb22c9320383caa2829c32dc3b84c1b5e0f1ceaf"
+                "reference": "492725310ae9a1b5b20d6ae09fb5ae6404616e68"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/fb22c9320383caa2829c32dc3b84c1b5e0f1ceaf",
-                "reference": "fb22c9320383caa2829c32dc3b84c1b5e0f1ceaf",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/492725310ae9a1b5b20d6ae09fb5ae6404616e68",
+                "reference": "492725310ae9a1b5b20d6ae09fb5ae6404616e68",
                 "shasum": ""
             },
             "require": {
@@ -437,7 +437,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-02-06T15:41:25+00:00"
+            "time": "2024-02-10T20:56:20+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -1320,16 +1320,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.19.3",
+            "version": "v4.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "daadb0b567c637d737f58fd25da0b4db2321560d"
+                "reference": "61c08f139e104db21b12832173b08fa37c22e619"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/daadb0b567c637d737f58fd25da0b4db2321560d",
-                "reference": "daadb0b567c637d737f58fd25da0b4db2321560d",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/61c08f139e104db21b12832173b08fa37c22e619",
+                "reference": "61c08f139e104db21b12832173b08fa37c22e619",
                 "shasum": ""
             },
             "require": {
@@ -1422,7 +1422,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2024-02-07T13:21:48+00:00"
+            "time": "2024-02-13T14:15:29+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
