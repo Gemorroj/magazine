@@ -34,7 +34,7 @@ class Category
     /**
      * @var Collection<Product>
      */
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class, cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'category', cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'category_id', nullable: true, onDelete: 'CASCADE')]
     private Collection $products;
 

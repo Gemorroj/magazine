@@ -63,7 +63,7 @@ class Product
      */
     #[Groups(['product'])]
     #[Assert\Count(min: 1, max: 255)]
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Photo::class, cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'product', cascade: ['persist'], fetch: 'LAZY', orphanRemoval: true)]
     #[ORM\JoinColumn(name: 'id', referencedColumnName: 'product_id', nullable: false, onDelete: 'CASCADE')]
     private Collection $photos;
 
