@@ -1,4 +1,7 @@
 nelmio_api_doc:
+    cache:
+        pool: cache.app
+        item_id: nelmio_api_doc.docs
     models: { use_jms: false }
     documentation:
         servers:

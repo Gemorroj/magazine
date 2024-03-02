@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a2209c9a57de82d2fc2cfb9f3f06a92",
+    "content-hash": "5b9e5f3fc104a6f3663837abe71721ba",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1320,16 +1320,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v4.21.0",
+            "version": "v4.22.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "9ccd8b02a7efbdb2403e17aff84a480063144b02"
+                "reference": "b306289e2127b723c7e0ceaed4d233a21b9001d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/9ccd8b02a7efbdb2403e17aff84a480063144b02",
-                "reference": "9ccd8b02a7efbdb2403e17aff84a480063144b02",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/b306289e2127b723c7e0ceaed4d233a21b9001d4",
+                "reference": "b306289e2127b723c7e0ceaed4d233a21b9001d4",
                 "shasum": ""
             },
             "require": {
@@ -1399,11 +1399,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Nelmio\\ApiDocBundle\\": ""
-                },
-                "exclude-from-classmap": [
-                    "Tests/"
-                ]
+                    "Nelmio\\ApiDocBundle\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1422,7 +1419,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2024-03-02T13:27:03+00:00"
+            "time": "2024-03-02T17:04:42+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
