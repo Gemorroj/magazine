@@ -35,8 +35,8 @@
         "nelmio/api-doc-bundle": "^4.26"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.54",
-        "doctrine/doctrine-fixtures-bundle": "^3.5",
+        "friendsofphp/php-cs-fixer": "^3.57",
+        "doctrine/doctrine-fixtures-bundle": "^3.6",
         "symfony/debug-bundle": "7.0.*",
         "symfony/maker-bundle": "^1.59"
     },
