@@ -8,7 +8,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\PhotoRepository;
 use App\Repository\ProductRepository;
 use Imagine\Image\ManipulatorInterface;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Nelmio\ApiDocBundle\Attribute\Model;
 use OpenApi\Attributes as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
