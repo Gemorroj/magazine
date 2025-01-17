@@ -28,17 +28,17 @@
         "symfony/yaml": "7.2.*",
 
         "doctrine/doctrine-bundle": "^2.13",
-        "doctrine/doctrine-migrations-bundle": "^3.3",
+        "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
 
         "imagine/imagine": "^1.5",
-        "nelmio/api-doc-bundle": "^4.33"
+        "nelmio/api-doc-bundle": "^4.34"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.65",
+        "friendsofphp/php-cs-fixer": "^3.68",
         "doctrine/doctrine-fixtures-bundle": "^3.7",
         "symfony/debug-bundle": "7.2.*",
-        "symfony/maker-bundle": "^1.61"
+        "symfony/maker-bundle": "^1.62"
     },
     "config": {
         "allow-plugins": {
