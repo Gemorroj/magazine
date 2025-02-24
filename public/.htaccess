@@ -1,3 +1,5 @@
+# https://github.com/symfony/recipes-contrib/blob/main/symfony/apache-pack/1.0/public/.htaccess
+
 # Use the front controller as index file. It serves as a fallback solution when
 # every other rewrite/redirect fails (e.g. in an aliased environment without
 # mod_rewrite). Additionally, this reduces the matching process for the
@@ -9,7 +11,7 @@ DirectoryIndex index.html
 # feature in your server configuration. Uncomment the following line if you
 # install assets as symlinks or if you experience problems related to symlinks
 # when compiling LESS/Sass/CoffeScript assets.
-# Options FollowSymlinks
+# Options +SymLinksIfOwnerMatch
 
 # Disabling MultiViews prevents unwanted negotiation, e.g. "/index" should not resolve
 # to the front controller "/index.php" but be rewritten to "/index.php/index".
@@ -17,8 +19,11 @@ DirectoryIndex index.html
     Options -MultiViews
 </IfModule>
 
-
 <IfModule mod_rewrite.c>
+    # This Option needs to be enabled for RewriteRule, otherwise it will show an error like
+    # 'Options FollowSymLinks or SymLinksIfOwnerMatch is off which implies that RewriteRule directive is forbidden'
+    Options +SymLinksIfOwnerMatch
+
     RewriteEngine On
 
     # Determine the RewriteBase automatically and set it as environment variable.
@@ -28,21 +33,19 @@ DirectoryIndex index.html
     # work in environments without path prefix as well, providing a safe, one-size
     # fits all solution. But as you do not need it in this case, you can comment
     # the following 2 lines to eliminate the overhead.
-    RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
-    RewriteRule ^(.*) - [E=BASE:%1]
+    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+    RewriteRule .* - [E=BASE:%1]
 
     # Sets the HTTP_AUTHORIZATION header removed by Apache
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%0]
+
+    RewriteRule ^api/(?:public|private)/(.*)$ %{ENV:BASE}/api.php [END]
 
     # If the requested filename exists, simply serve it.
     # We only want to let Apache serve files and not directories.
-    RewriteCond %{REQUEST_FILENAME} -f
-    RewriteRule ^ - [END]
-
-    RewriteRule ^api/(public|private)/(.*)$ %{ENV:BASE}/api.php?$0 [END]
-
     # Rewrite all other queries to the front controller.
+    RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ %{ENV:BASE}/index.html [END]
 </IfModule>
 
@@ -51,7 +54,7 @@ DirectoryIndex index.html
         # When mod_rewrite is not available, we instruct a temporary redirect of
         # the start page to the front controller explicitly so that the website
         # and the generated links can still be used.
-        RedirectMatch 302 ^/$ /index.html/
+        RedirectMatch 307 ^/$ /index.html/
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
@@ -59,7 +62,7 @@ DirectoryIndex index.html
 
 # Compression
 # https://github.com/h5bp/html5-boilerplate/issues/1012#issuecomment-7910513
-# https://github.com/h5bp/html5-boilerplate/blob/master/dist/.htaccess#L798
+# https://github.com/h5bp/html5-boilerplate/blob/v8.0.0/dist/.htaccess#L815
 <IfModule mod_deflate.c>
     <IfModule mod_filter.c>
         AddOutputFilterByType DEFLATE "application/atom+xml" \
