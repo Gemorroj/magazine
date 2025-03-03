@@ -42,6 +42,7 @@
   tab-size: 4; /* 4 */
   -webkit-tap-highlight-color: transparent; /* 5 */
   -webkit-text-size-adjust: 100%; /* 6 */
+  text-size-adjust: 100%; /* 6 */
 }
 
 /* Sections
@@ -186,13 +187,13 @@
 
 /**
  * 1. Collapse border spacing in all browsers (opinionated).
- * 2. Correct table border color inheritance in all Chrome, Edge, and Safari.
+ * 2. Correct table border color in Chrome, Edge, and Safari.
  * 3. Remove text indentation from table contents in Chrome, Edge, and Safari.
  */
 
 :where(table) {
   border-collapse: collapse; /* 1 */
-  border-color: inherit; /* 2 */
+  border-color: currentColor; /* 2 */
   text-indent: 0; /* 3 */
 }
 
@@ -330,14 +331,6 @@
 
 :where([aria-busy="true" i]) {
   cursor: progress;
-}
-
-/*
- * Change the cursor on control elements in all browsers (opinionated).
- */
-
-:where([aria-controls]) {
-  cursor: pointer;
 }
 
 /*
