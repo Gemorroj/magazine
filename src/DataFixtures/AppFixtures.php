@@ -54,7 +54,7 @@ final class AppFixtures extends Fixture
     private function makePhoto(Product $product): Photo
     {
         $photoSourcePath = $this->getRandomPhotoPath();
-        $photoDestPath = \mt_rand(1000, 999999).'_'.$this->getRandomPhotoPath();
+        $photoDestPath = \random_int(1000, 999999).'_'.$this->getRandomPhotoPath();
 
         @\mkdir(__DIR__.'/../../public/upload/2018-01-01', 0o777);
         \copy(__DIR__.'/images/'.$photoSourcePath, __DIR__.'/../../public/upload/2018-01-01/'.$photoDestPath);
@@ -72,7 +72,7 @@ final class AppFixtures extends Fixture
             ->setName('Продукт '.\uniqid('', true))
             ->setDateCreate(new \DateTime())
             ->setDescription('Описание товара '.\uniqid('', true))
-            ->setPrice(\round(\mt_rand(10, 1000) / \mt_rand(1, 10), 2))
+            ->setPrice(\round(\random_int(10, 1000) / \random_int(1, 10), 2))
             ->setComposition('composition')
             ->setManufacturer('manufacturer')
             ->setSize('size');
