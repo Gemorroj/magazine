@@ -27,7 +27,7 @@
         "symfony/validator": "7.2.*",
         "symfony/yaml": "7.2.*",
 
-        "doctrine/doctrine-bundle": "^2.13",
+        "doctrine/doctrine-bundle": "^2.14",
         "doctrine/doctrine-migrations-bundle": "^3.4",
         "doctrine/orm": "^3.3",
 
