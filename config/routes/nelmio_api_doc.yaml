@@ -1,18 +1,23 @@
 # Expose your documentation as JSON swagger compliant
-#app.swagger:
-#    path: /api/public/doc.json
-#    methods: GET
-#    defaults: { _controller: nelmio_api_doc.controller.swagger }
-
-app.swagger.areas:
-    path: /api/{area}/doc.json
+app.openapi_api_public:
+    path: /api/public/doc.json
     methods: GET
-    defaults: { _controller: nelmio_api_doc.controller.swagger }
+    defaults: { _controller: nelmio_api_doc.controller.swagger, area: default }
 
+app.openapi_api_private:
+    path: /api/private/doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger, area: private }
 
 ## Requires the Asset component and the Twig bundle
 ## $ composer require twig asset
-#app.swagger_ui:
-#    path: /api/doc
-#    methods: GET
-#    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+app.openapi_ui_api_public:
+    path: /api/public/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.stoplight, area: default }
+
+app.openapi_ui_api_private:
+    path: /api/private/doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.stoplight, area: private }
+

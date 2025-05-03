@@ -8,6 +8,8 @@
 
 - Сервер должен перенаправлять все запросы на `public/index.html`
 - Если запрос начинается с `/api/public/` или `/api/private/`, то направлять на `api.php`
+- OpenAPI документация по адресам http://example.com/api/public/doc и http://example.com/api/private/doc
+
 
 ### Базовая установка (актуально для Ubuntu 24.04)
 ```bash
@@ -61,11 +63,12 @@ php bin/console doctrine:fixtures:load
 
 
 ### Конфигурация nginx:
+Заменить example.com на актуальный домен
 ```bash
 echo 'server {
     listen 80;
 
-    server_name magazine.wapinet.ru www.magazine.wapinet.ru;
+    server_name example.com www.example.com;
 	return 301 https://$server_name$request_uri;
 }
 
@@ -81,13 +84,13 @@ server {
     }
 
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_certificate /root/.acme.sh/magazine.wapinet.ru/fullchain.cer;
-    ssl_certificate_key /root/.acme.sh/magazine.wapinet.ru/magazine.wapinet.ru.key;
+    ssl_certificate /root/.acme.sh/example.com/fullchain.cer;
+    ssl_certificate_key /root/.acme.sh/example.com/example.com.key;
 
     charset utf-8;
     listen 443 ssl http2;
 
-    server_name magazine.wapinet.ru www.magazine.wapinet.ru;
+    server_name example.com www.example.com;
     root /var/www/magazine/public;
 
     error_log /var/log/nginx/magazine.error.log;
@@ -139,6 +142,6 @@ server {
         # try to serve file directly, fallback to index.html
         try_files $uri /index.html;
     }
-}' > /etc/nginx/sites-available/magazine.wapinet.ru.conf
-ln -s /etc/nginx/sites-available/magazine.wapinet.ru.conf /etc/nginx/sites-enabled/magazine.wapinet.ru.conf
+}' > /etc/nginx/sites-available/example.com.conf
+ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/example.com.conf
 ```

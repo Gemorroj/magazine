@@ -1,4 +1,6 @@
 nelmio_api_doc:
+    html_config:
+        assets_mode: 'bundle' # 'cdn', 'bundle', 'offline'
     cache:
         pool: cache.app
         item_id: nelmio_api_doc.docs
@@ -6,27 +8,21 @@ nelmio_api_doc:
         use_jms: false
     documentation:
         servers:
-            - url: http://localhost
-              description: Staging API
             - url: https://magazine.wapinet.ru
               description: Production API
         info:
             title: Magazine
             description: Simple magazine
-            version: 0.2.0
+            version: 1.0.0
         components:
             securitySchemes:
                 Bearer:
                     type: http
                     scheme: bearer
                     bearerFormat: JWT
-    areas: # to filter documented areas
+
+    areas:
         default:
-            path_patterns:
-                - ^/api/public/
-        public:
-            path_patterns:
-                - ^/api/public/
+            path_patterns: [ ^/api/public/(?!doc) ]
         private:
-            path_patterns:
-                - ^/api/private/
+            path_patterns: [ ^/api/private/(?!doc) ]
