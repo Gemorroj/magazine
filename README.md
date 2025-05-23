@@ -66,17 +66,27 @@ php bin/console doctrine:fixtures:load
 ### Конфигурация angie:
 Заменить example.com на актуальный домен
 ```bash
+# edit /etc/angie/angie.conf
+# user  www-data;
+# server_tokens off;
+# gzip  on;
+# gzip_comp_level 2;
+# gzip_min_length 40;
+# gzip_types text/css text/plain application/json text/javascript application/javascript text/xml application/xml application/xml+rss application/x-font-ttf application/x-font-opentype application/vnd.ms-fontobject image/svg+xml image/x-icon font/ttf font/opentype;
+# resolver 127.0.0.53;
+# acme_client magazine_acme_client https://acme-v02.api.letsencrypt.org/directory;
+```
+
+```bash
 echo 'server {
     listen 80;
+    listen [::]:80;
 
     server_name example.com www.example.com;
 	return 301 https://$server_name$request_uri;
 }
 
 server {
-    location ~ /\.well-known\/acme-challenge {
-        allow all;
-    }
     location ~ /\. {
         deny all;
     }
@@ -85,11 +95,16 @@ server {
     }
 
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_certificate /root/.acme.sh/example.com/fullchain.cer;
-    ssl_certificate_key /root/.acme.sh/example.com/example.com.key;
+    acme magazine_acme_client;
+    ssl_certificate $acme_cert_magazine_acme_client;
+    ssl_certificate_key $acme_cert_key_magazine_acme_client;
+    ssl_session_timeout 1h;
+    ssl_session_cache shared:SSL:10m;
 
     charset utf-8;
-    listen 443 ssl http2;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    http2 on;
 
     server_name example.com www.example.com;
     root /var/www/magazine/public;
