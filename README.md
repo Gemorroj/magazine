@@ -158,6 +158,5 @@ server {
         # try to serve file directly, fallback to index.html
         try_files $uri /index.html;
     }
-}' > /etc/angie/sites-available/example.com.conf
-ln -s /etc/angie/sites-available/example.com.conf /etc/angie/sites-enabled/example.com.conf
+}' > /etc/angie/http.d/example.com.conf
 ```
