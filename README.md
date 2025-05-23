@@ -16,7 +16,8 @@
 apt update && sudo apt dist-upgrade && sudo apt autoremove --purge
 apt install software-properties-common
 add-apt-repository ppa:ondrej/php
-add-apt-repository ppa:ondrej/nginx
+curl -o /etc/apt/trusted.gpg.d/angie-signing.gpg https://angie.software/keys/angie-signing.gpg
+echo "deb https://download.angie.software/angie/$(. /etc/os-release && echo "$ID/$VERSION_ID $VERSION_CODENAME") main" | sudo tee /etc/apt/sources.list.d/angie.list > /dev/null
 apt update && apt dist-upgrade
 hostnamectl set-hostname magazine
 timedatectl set-timezone UTC
@@ -29,8 +30,8 @@ reboot
 
 ```bash
 apt install htop mc git unzip
-apt install nginx
-systemctl enable nginx
+apt install angie
+systemctl enable angie
 apt install php8.4-fpm php8.4-curl php8.4-gd php8.4-intl php8.4-mbstring php8.4-xml php8.4-zip php8.4-apcu php8.4-sqlite3
 ```
 
@@ -62,9 +63,10 @@ php bin/console doctrine:fixtures:load
 ```
 
 
-### Конфигурация nginx:
+### Конфигурация angie:
 Заменить example.com на актуальный домен
 ```bash
+# edit /etc/angie/angie.conf user must be www-data
 echo 'server {
     listen 80;
 
@@ -93,8 +95,8 @@ server {
     server_name example.com www.example.com;
     root /var/www/magazine/public;
 
-    error_log /var/log/nginx/magazine.error.log;
-    access_log /var/log/nginx/magazine.access.log;
+    error_log /var/log/angie/magazine.error.log;
+    access_log /var/log/angie/magazine.access.log;
 
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains";
     add_header X-Frame-Options "DENY";
@@ -142,6 +144,6 @@ server {
         # try to serve file directly, fallback to index.html
         try_files $uri /index.html;
     }
-}' > /etc/nginx/sites-available/example.com.conf
-ln -s /etc/nginx/sites-available/example.com.conf /etc/nginx/sites-enabled/example.com.conf
+}' > /etc/angie/sites-available/example.com.conf
+ln -s /etc/angie/sites-available/example.com.conf /etc/angie/sites-enabled/example.com.conf
 ```
