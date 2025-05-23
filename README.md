@@ -66,7 +66,6 @@ php bin/console doctrine:fixtures:load
 ### Конфигурация angie:
 Заменить example.com на актуальный домен
 ```bash
-# edit /etc/angie/angie.conf user must be www-data
 echo 'server {
     listen 80;
 
