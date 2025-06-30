@@ -1,0 +1,3 @@
+# Enable stateless CSRF protection for forms and logins/logouts
+framework:
+    csrf_protection: false
