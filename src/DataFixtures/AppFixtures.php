@@ -59,7 +59,7 @@ final class AppFixtures extends Fixture
         @\mkdir(__DIR__.'/../../public/upload/2018-01-01', 0o777);
         \copy(__DIR__.'/images/'.$photoSourcePath, __DIR__.'/../../public/upload/2018-01-01/'.$photoDestPath);
 
-        return (new Photo())
+        return new Photo()
             ->setProduct($product)
             ->setDateCreate(new \DateTime())
             ->setPath('/upload/2018-01-01/'.$photoDestPath);
@@ -67,7 +67,7 @@ final class AppFixtures extends Fixture
 
     private function makeProduct(Category $category): Product
     {
-        return (new Product())
+        return new Product()
             ->setCategory($category)
             ->setName('Продукт '.\uniqid('', true))
             ->setDateCreate(new \DateTime())

@@ -427,7 +427,7 @@ final class PrivateController extends AbstractController
             })) {
                 // добавляем новые, если их раньше не было
                 $photos->add(
-                    (new Photo())
+                    new Photo()
                         ->setDateCreate(new \DateTime())
                         ->setProduct($product)
                         ->setPath($photoPath)
@@ -544,7 +544,7 @@ final class PrivateController extends AbstractController
         $requestPhotos = $request->request->all('photos');
         foreach ($requestPhotos as $photoPath) {
             $product->getPhotos()->add(
-                (new Photo())
+                new Photo()
                     ->setDateCreate(new \DateTime())
                     ->setProduct($product)
                     ->setPath($photoPath)

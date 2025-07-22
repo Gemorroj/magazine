@@ -98,7 +98,7 @@ final class PublicController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $image = (new \Imagine\Gd\Imagine())
+        $image = new \Imagine\Gd\Imagine()
             ->open($this->getParameter('kernel.upload_dir').'/..'.$photo->getPath())
             ->thumbnail(new \Imagine\Image\Box(350, 260), ManipulatorInterface::THUMBNAIL_OUTBOUND)
         ;
