@@ -12,13 +12,13 @@
         "@websanova/vue-auth": "^4.2.1",
         "element-ui": "^2.15.14",
         "sanitize.css": "https://github.com/csstools/sanitize.css#61c85b6961f684d0124093d97475073bb08f557e",
-        "vue": "^2.7.16",
+        "vue": "^3.5.18",
         "vue-image-lightbox": "^7.2.0",
-        "vue-lazyload": "^1.3.5",
+        "vue-lazyload": "^3.0.0",
         "vue-resource": "^1.5.3",
-        "vue-router": "^3.6.5",
-        "vue-yandex-maps": "^0.11.18",
-        "vuex": "^3.6.2"
+        "vue-router": "^4.5.1",
+        "vue-yandex-maps": "^2.1.9",
+        "vuex": "^4.1.0"
     },
     "devDependencies": {
         "@babel/core": "^7.27.7",
@@ -26,8 +26,8 @@
         "babel-loader": "^10.0.0",
         "css-loader": "^7.1.2",
         "html-webpack-plugin": "^5.6.3",
-        "mini-css-extract-plugin": "^2.9.2",
-        "vue-loader": "^15.11.1",
+        "mini-css-extract-plugin": "^2.9.3",
+        "vue-loader": "^17.4.2",
         "vue-template-compiler": "^2.7.16",
         "webpack": "^5.99.9",
         "webpack-cli": "^6.0.1"
