@@ -5,18 +5,22 @@
  */
 
 /*!
- * Vue-Lazyload.js v3.0.0
+ * Vue-Lazyload.js v1.3.5
  * (c) 2023 Awe <hilongjw@gmail.com>
  * Released under the MIT License.
  */
 
 /*!
- * vuex v4.1.0
- * (c) 2022 Evan You
- * @license MIT
+ * Vue.js v2.7.16
+ * (c) 2014-2023 Evan You
+ * Released under the MIT License.
  */
 
-/*! #__NO_SIDE_EFFECTS__ */
+/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
+ * @license MIT
+ */
 
 /*! For license information please see vue-image-lightbox.min.js.LICENSE.txt */
 
@@ -43,27 +47,3 @@
  * @internal
  * @license Modernizr 3.0.0pre (Custom Build) | MIT
  */
-
-/**
-* @vue/reactivity v3.5.18
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
-
-/**
-* @vue/runtime-core v3.5.18
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
-
-/**
-* @vue/runtime-dom v3.5.18
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
-
-/**
-* @vue/shared v3.5.18
-* (c) 2018-present Yuxi (Evan) You and Vue contributors
-* @license MIT
-**/
