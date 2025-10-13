@@ -31,8 +31,8 @@
         "twig/extra-bundle": "^3.21",
         "twig/twig": "^3.21",
 
-        "doctrine/doctrine-bundle": "^2.17",
-        "doctrine/doctrine-migrations-bundle": "^3.4",
+        "doctrine/doctrine-bundle": "^2.18",
+        "doctrine/doctrine-migrations-bundle": "^3.5",
         "doctrine/orm": "^3.5",
 
         "imagine/imagine": "^1.5",
@@ -40,7 +40,7 @@
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.88",
-        "doctrine/doctrine-fixtures-bundle": "^4.1",
+        "doctrine/doctrine-fixtures-bundle": "^4.2",
         "symfony/debug-bundle": "7.3.*",
         "symfony/maker-bundle": "^1.64"
     },
