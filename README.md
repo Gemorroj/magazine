@@ -62,6 +62,14 @@ chmod 666 ./var/data.db
 php bin/console doctrine:fixtures:load
 ```
 
+### Конфигурация php-fpm:
+```
+# edit /etc/php/8.4/fpm/pool.d/www.conf
+# listen.allowed_clients = 127.0.0.1
+# pm.status_path = /statusfpm
+# listen = /run/php/php8.4-fpm.sock
+# edit pm.* settings for performance
+```
 
 ### Конфигурация angie:
 Заменить example.com на актуальный домен
@@ -75,6 +83,25 @@ php bin/console doctrine:fixtures:load
 # gzip_types text/css text/plain application/json text/javascript application/javascript text/xml application/xml application/xml+rss application/x-font-ttf application/x-font-opentype application/vnd.ms-fontobject image/svg+xml image/x-icon font/ttf font/opentype;
 # resolver 127.0.0.53;
 # acme_client magazine_acme_client https://acme-v02.api.letsencrypt.org/directory;
+# server {
+#     charset utf-8;
+#     listen 80;
+#     server_name  localhost;
+#     access_log off;
+# 
+# 	location = /statusfpm {
+# 		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+# 		include fastcgi_params;
+# 		fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+# 		allow 127.0.0.1;
+# 		deny  all;
+#     }
+#     location /status/ {
+#         api /status/;
+#         allow 127.0.0.1;
+#         deny  all;
+# 	}
+# }
 ```
 
 ```bash
