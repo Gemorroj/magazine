@@ -53,8 +53,8 @@ final class PrivateController extends AbstractController
     )]
     public function loginAction(Request $request): Response
     {
-        $login = $request->get('login');
-        $password = $request->get('password');
+        $login = $request->request->get('login');
+        $password = $request->request->get('password');
 
         if ($login === $this->getParameter('login') && $password === $this->getParameter('password')) {
             return new Response(null, 204, ['Authorization' => 'Bearer '.\hash_hmac('sha256', $login.':'.$password, $this->getParameter('kernel.secret'))]);
