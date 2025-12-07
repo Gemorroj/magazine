@@ -1186,9 +1186,9 @@ babel-runtime@6.x:
     regenerator-runtime "^0.11.0"
 
 baseline-browser-mapping@^2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.9.0.tgz#b4b91c7ec4deac14527bc5495b914fb9db1a251a"
-  integrity sha512-Mh++g+2LPfzZToywfE1BUzvZbfOY52Nil0rn9H1CPC5DJ7fX+Vir7nToBeoiSbB1zTNeGYbELEvJESujgGrzXw==
+  version "2.9.4"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.9.4.tgz#a010e50ea6da48fba78179aef9b6e771d00fff42"
+  integrity sha512-ZCQ9GEWl73BVm8bu5Fts8nt7MHdbt5vY9bP6WGnUh+r3l8M7CgfyTlwsgCbMC66BNxPr6Xoce3j66Ms5YUQTNA==
 
 big.js@^5.2.2:
   version "5.2.2"
@@ -1448,9 +1448,9 @@ dot-case@^3.0.4:
     tslib "^2.0.3"
 
 electron-to-chromium@^1.5.263:
-  version "1.5.264"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.264.tgz#38d2262e290bf5b424ba1488e072c7b0163400be"
-  integrity sha512-1tEf0nLgltC3iy9wtlYDlQDc5Rg9lEKVjEmIHJ21rI9OcqkvD45K1oyNIRA4rR1z3LgJ7KeGzEBojVcV6m4qjA==
+  version "1.5.266"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.266.tgz#41ed029b3cf641c4ee071de42954b36dca8f5f4e"
+  integrity sha512-kgWEglXvkEfMH7rxP5OSZZwnaDWT7J9EoZCujhnpLbfi0bbNtRkgdX2E3gt0Uer11c61qCYktB3hwkAS325sJg==
 
 element-ui@^2.15.14:
   version "2.15.14"
@@ -2357,9 +2357,9 @@ tapable@^2.0.0, tapable@^2.2.0, tapable@^2.2.1, tapable@^2.3.0:
   integrity sha512-g9ljZiwki/LfxmQADO3dEY1CbpmXT5Hm2fJ+QaGKwSXUylMybePR7/67YW7jOrrvjEgL1Fmz5kzyAjWVWLlucg==
 
 terser-webpack-plugin@^5.3.11:
-  version "5.3.14"
-  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.14.tgz#9031d48e57ab27567f02ace85c7d690db66c3e06"
-  integrity sha512-vkZjpUjb6OMS7dhV+tILUW6BhpDR7P2L/aQSAv+Uwk+m8KATX9EccViHTJR2qDtACKPIYndLGCyl3FMo+r2LMw==
+  version "5.3.15"
+  resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-5.3.15.tgz#0a26860b765eaffa8e840170aabc5b3a3f6f6bb9"
+  integrity sha512-PGkOdpRFK+rb1TzVz+msVhw4YMRT9txLF4kRqvJhGhCM324xuR3REBSHALN+l+sAhKUmz0aotnjp5D+P83mLhQ==
   dependencies:
     "@jridgewell/trace-mapping" "^0.3.25"
     jest-worker "^27.4.5"
@@ -2416,9 +2416,9 @@ unicode-property-aliases-ecmascript@^2.0.0:
   integrity sha512-hpbDzxUY9BFwX+UeBnxv3Sh1q7HFxj48DTmXchNgRa46lO8uj3/1iEn3MiNUYTg1g9ctIqXCCERn8gYZhHC5lQ==
 
 update-browserslist-db@^1.2.0:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.2.1.tgz#9270a09eb224c4c77468622e4bfeaefb553b944a"
-  integrity sha512-R9NcHbbZ45RoWfTdhn1J9SS7zxNvlddv4YRrHTUaFdtjbmfncfedB45EC9IaqJQ97iAR1GZgOfyRQO+ExIF6EQ==
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.2.2.tgz#cfb4358afa08b3d5731a2ecd95eebf4ddef8033e"
+  integrity sha512-E85pfNzMQ9jpKkA7+TJAi4TJN+tBCuWh5rUcS/sv6cFi+1q9LYDwDI5dpUL0u/73EElyQ8d3TEaeW4sPedBqYA==
   dependencies:
     escalade "^3.2.0"
     picocolors "^1.1.1"
