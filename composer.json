@@ -36,7 +36,7 @@
         "doctrine/orm": "^3.6",
 
         "imagine/imagine": "^1.5",
-        "nelmio/api-doc-bundle": "^5.8"
+        "nelmio/api-doc-bundle": "^5.9"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.92",
