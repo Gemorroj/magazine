@@ -12,8 +12,8 @@ return (new PhpCsFixer\Config())
         '@Symfony' => true,
         '@Symfony:risky' => true,
         '@DoctrineAnnotation' => true,
-        '@PHP8x4Migration:risky' => true,
-        '@PHP8x4Migration' => true,
+        '@PHP8x5Migration:risky' => true,
+        '@PHP8x5Migration' => true,
 
         'combine_consecutive_issets' => true,
         'combine_consecutive_unsets' => true,

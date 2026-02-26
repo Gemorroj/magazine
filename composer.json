@@ -6,7 +6,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.5",
         "ext-apcu": "*",
         "ext-ctype": "*",
         "ext-gd": "*",
@@ -71,6 +71,7 @@
         "symfony/polyfill-intl-grapheme": "*",
         "symfony/polyfill-intl-idn": "*",
         "symfony/polyfill-intl-normalizer": "*",
+        "symfony/polyfill-php85": "*",
         "symfony/polyfill-php84": "*",
         "symfony/polyfill-php83": "*",
         "symfony/polyfill-php82": "*",

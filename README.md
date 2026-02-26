@@ -1,6 +1,6 @@
 # Магазин
 
-- Использует PHP 8.4 как бэкенд (Symfony 8.0)
+- Использует PHP 8.5 как бэкенд (Symfony 8.0)
 - БД Sqlite
 - И Vue.js + element-ui как фронтенд
 
@@ -32,7 +32,7 @@ reboot
 apt install htop mc git unzip
 apt install angie
 systemctl enable angie
-apt install php8.4-fpm php8.4-curl php8.4-gd php8.4-intl php8.4-mbstring php8.4-xml php8.4-zip php8.4-apcu php8.4-sqlite3
+apt install php8.5-fpm php8.5-curl php8.5-gd php8.5-intl php8.5-mbstring php8.5-xml php8.5-zip php8.5-apcu php8.5-sqlite3
 ```
 
 ### Установка
@@ -64,10 +64,10 @@ php bin/console doctrine:fixtures:load
 
 ### Конфигурация php-fpm:
 ```
-# edit /etc/php/8.4/fpm/pool.d/www.conf
+# edit /etc/php/8.5/fpm/pool.d/www.conf
 # listen.allowed_clients = 127.0.0.1
 # pm.status_path = /statusfpm
-# listen = /run/php/php8.4-fpm.sock
+# listen = /run/php/php8.5-fpm.sock
 # edit pm.* settings for performance
 ```
 
@@ -92,7 +92,7 @@ php bin/console doctrine:fixtures:load
 # 	location = /statusfpm {
 # 		fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
 # 		include fastcgi_params;
-# 		fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+# 		fastcgi_pass unix:/run/php/php8.5-fpm.sock;
 # 		allow 127.0.0.1;
 # 		deny  all;
 #     }
@@ -171,7 +171,7 @@ server {
 
     # JSON api
     location ~ ^/api/(public|private)/ {
-        fastcgi_pass unix:/run/php/php8.4-fpm.sock;
+        fastcgi_pass unix:/run/php/php8.5-fpm.sock;
         include fastcgi_params;
 
         fastcgi_param SCRIPT_FILENAME $realpath_root/api.php;
