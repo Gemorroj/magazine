@@ -38,22 +38,18 @@ final class PhotoCleanOrphanedCommand extends Command
         /** @var \AppendIterator $files */
         $files = Finder::create()->files()->in($this->uploadDir)->notName('index.html')->getIterator();
 
-        // считаем кол-во файлов в БД, для красивого прогрессбара
         $countFiles = $this->entityManager->createQuery('SELECT COUNT(p) FROM App\Entity\Photo p')->execute([], AbstractQuery::HYDRATE_SINGLE_SCALAR);
         $progressBar = $io->createProgressBar($countFiles);
+        $progressBar->start();
 
         /** @var \SplFileInfo $fileInfo */
         foreach ($files as $fileInfo) {
-            // поиск файла по path
-            $path = '/upload/'.\str_replace('\\', '/', \basename($fileInfo->getPath())).'/'.$fileInfo->getFilename();
-
             $progressBar->advance();
 
             try {
+                $path = '/upload/'.\str_replace('\\', '/', \basename($fileInfo->getPath())).'/'.$fileInfo->getFilename();
                 $query->execute(['path' => $path], AbstractQuery::HYDRATE_SINGLE_SCALAR);
             } catch (NoResultException $e) {
-                // если файла нету в БД
-
                 $this->fileSystem->remove($fileInfo->getPathname());
                 $removedFiles[] = $path;
             }

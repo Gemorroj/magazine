@@ -14,20 +14,20 @@
         "ext-intl": "*",
         "ext-pdo_sqlite": "*",
 
-        "symfony/console": "7.4.*",
-        "symfony/dotenv": "7.4.*",
+        "symfony/console": "8.0.*",
+        "symfony/dotenv": "8.0.*",
         "symfony/flex": "^2",
-        "symfony/framework-bundle": "7.4.*",
-        "symfony/mime": "7.4.*",
-        "symfony/monolog-bundle": "^3.11",
-        "symfony/property-access": "7.4.*",
-        "symfony/property-info": "7.4.*",
-        "symfony/runtime": "7.4.*",
-        "symfony/serializer": "7.4.*",
-        "symfony/validator": "7.4.*",
-        "symfony/yaml": "7.4.*",
-        "symfony/asset": "7.4.*",
-        "symfony/twig-bundle": "7.4.*",
+        "symfony/framework-bundle": "8.0.*",
+        "symfony/mime": "8.0.*",
+        "symfony/monolog-bundle": "^4.0",
+        "symfony/property-access": "8.0.*",
+        "symfony/property-info": "8.0.*",
+        "symfony/runtime": "8.0.*",
+        "symfony/serializer": "8.0.*",
+        "symfony/validator": "8.0.*",
+        "symfony/yaml": "8.0.*",
+        "symfony/asset": "8.0.*",
+        "symfony/twig-bundle": "8.0.*",
         "twig/extra-bundle": "^3.23",
         "twig/twig": "^3.23",
 
@@ -39,9 +39,9 @@
         "nelmio/api-doc-bundle": "^5.9"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.93",
+        "friendsofphp/php-cs-fixer": "^3.94",
         "doctrine/doctrine-fixtures-bundle": "^4.3",
-        "symfony/debug-bundle": "7.4.*",
+        "symfony/debug-bundle": "8.0.*",
         "symfony/maker-bundle": "^1.66"
     },
     "config": {
@@ -98,7 +98,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "7.4.*"
+            "require": "8.0.*"
         }
     }
 }
