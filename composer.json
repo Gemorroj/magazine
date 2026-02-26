@@ -32,7 +32,7 @@
         "twig/twig": "^3.23",
 
         "doctrine/doctrine-bundle": "^3.2",
-        "doctrine/doctrine-migrations-bundle": "^3.7",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
         "doctrine/orm": "^3.6",
 
         "imagine/imagine": "^1.5",

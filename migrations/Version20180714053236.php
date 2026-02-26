@@ -14,9 +14,6 @@ final class Version20180714053236 extends AbstractMigration
 {
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->abortIf('sqlite' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'sqlite\'.');
-
         $this->addSql('CREATE TABLE category (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, date_create DATETIME NOT NULL, date_update DATETIME DEFAULT NULL, name VARCHAR(255) NOT NULL)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_64C19C15E237E06 ON category (name)');
         $this->addSql('CREATE TABLE photo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, product_id INTEGER UNSIGNED NOT NULL, date_create DATETIME NOT NULL, date_update DATETIME DEFAULT NULL, path VARCHAR(255) NOT NULL)');
@@ -29,9 +26,6 @@ final class Version20180714053236 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->abortIf('sqlite' !== $this->connection->getDatabasePlatform()->getName(), 'Migration can only be executed safely on \'sqlite\'.');
-
         $this->addSql('DROP TABLE category');
         $this->addSql('DROP TABLE photo');
         $this->addSql('DROP TABLE product');
