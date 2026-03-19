@@ -28,8 +28,8 @@
         "symfony/yaml": "8.0.*",
         "symfony/asset": "8.0.*",
         "symfony/twig-bundle": "8.0.*",
-        "twig/extra-bundle": "^3.23",
-        "twig/twig": "^3.23",
+        "twig/extra-bundle": "^3.24",
+        "twig/twig": "^3.24",
 
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
@@ -42,7 +42,7 @@
         "friendsofphp/php-cs-fixer": "^3.94",
         "doctrine/doctrine-fixtures-bundle": "^4.3",
         "symfony/debug-bundle": "8.0.*",
-        "symfony/maker-bundle": "^1.66"
+        "symfony/maker-bundle": "^1.67"
     },
     "config": {
         "allow-plugins": {
