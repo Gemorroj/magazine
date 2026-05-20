@@ -29,7 +29,7 @@
         "symfony/asset": "8.0.*",
         "symfony/twig-bundle": "8.0.*",
         "twig/extra-bundle": "^3.24",
-        "twig/twig": "^3.24",
+        "twig/twig": "^3.26",
 
         "doctrine/doctrine-bundle": "^3.2",
         "doctrine/doctrine-migrations-bundle": "^4.0",
