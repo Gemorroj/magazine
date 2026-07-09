@@ -7,7 +7,7 @@ namespace App;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 
-final class Kernel extends BaseKernel
+class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
@@ -17,5 +17,13 @@ final class Kernel extends BaseKernel
         $parameters['kernel.upload_dir'] = $this->getProjectDir().'/public/upload';
 
         return $parameters;
+    }
+
+    /**
+     * @return list<string> An array of allowed values for APP_ENV
+     */
+    private function getAllowedEnvs(): array
+    {
+        return ['prod', 'dev', 'test'];
     }
 }
