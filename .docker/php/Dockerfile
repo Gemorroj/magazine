@@ -22,7 +22,6 @@ RUN set -eux; \
         gd \
 		apcu \
 		intl \
-		opcache \
 		zip \
         xdebug \
         pcntl \
