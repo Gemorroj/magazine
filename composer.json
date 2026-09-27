@@ -19,7 +19,7 @@
         "symfony/flex": "^2",
         "symfony/framework-bundle": "8.1.*",
         "symfony/mime": "8.1.*",
-        "symfony/monolog-bundle": "^4.0",
+        "symfony/monolog-bundle": "^4.1",
         "symfony/property-access": "8.1.*",
         "symfony/property-info": "8.1.*",
         "symfony/runtime": "8.1.*",
@@ -29,7 +29,7 @@
         "symfony/asset": "8.1.*",
         "symfony/twig-bundle": "8.1.*",
         "twig/extra-bundle": "^3.29",
-        "twig/twig": "^3.29",
+        "twig/twig": "^3.30",
 
         "doctrine/doctrine-bundle": "^3.3",
         "doctrine/doctrine-migrations-bundle": "^4.0",
