@@ -16,3 +16,7 @@ php bin/console           # Symfony CLI
 yarn dev-build            # сборка фронтенда (development)
 yarn prod-build           # сборка фронтенда (production)
 ```
+
+## Соглашения
+
+- Сообщения коммитов следуют [Conventional Commits](https://www.conventionalcommits.org/).
